@@ -1,96 +1,40 @@
 import * as React from "react";
-import { useState } from "react";
-import { Box, InputLabel, MenuItem, FormControl, Select } from "@mui/material";
-import PropTypes from "prop-types";
-import { useTheme } from "@mui/material/styles";
-// import Box from "@mui/material/Box";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableFooter from "@mui/material/TableFooter";
-import TablePagination from "@mui/material/TablePagination";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import IconButton from "@mui/material/IconButton";
-import FirstPageIcon from "@mui/icons-material/FirstPage";
-import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
-import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
-import LastPageIcon from "@mui/icons-material/LastPage";
-
+import {
+  Box,
+  Stack,
+  Table,
+  TableHead,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableRow,
+  TableSortLabel,
+  Pagination,
+} from "@mui/material";
 import CustomButton from "../component/CustomButton";
-import StoreInput from "../component/StoreInput";
-import BarcodePhoneInput from "../component/BarcodePhoneInput";
+// Table Input
+import TableDateInput from "../component/TableInput/TableDateInput";
+import TableStoreInput from "../component/TableInput/TableStoreInput";
+import TableBarcodeInput from "../component/TableInput/TableBarcodeInput";
+import TableProductInput from "../component/TableInput/TableProductInput";
+import TableRisStateInput from "../component/TableInput/TableRisStateInput";
+import Chip from "../component/Chips";
+import { styled } from "@mui/system";
+
+import { visuallyHidden } from "@mui/utils";
+
+const InputWrap = styled("div")({
+  width: "100%",
+  display: "flex",
+  alignItems: "flex-end",
+  justifyContent: "center",
+  marginTop: "20px",
+  "@media(minWidth: 780px)": {
+    bgcolor: "red",
+  },
+});
 
 // ---------- table ----------
-function TablePaginationActions(props) {
-  const theme = useTheme();
-  const { count, page, rowsPerPage, onPageChange } = props;
-
-  const handleFirstPageButtonClick = (event) => {
-    onPageChange(event, 0);
-  };
-
-  const handleBackButtonClick = (event) => {
-    onPageChange(event, page - 1);
-  };
-
-  const handleNextButtonClick = (event) => {
-    onPageChange(event, page + 1);
-  };
-
-  const handleLastPageButtonClick = (event) => {
-    onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
-  };
-
-  return (
-    <Box sx={{ flexShrink: 0, ml: 2.5 }}>
-      <IconButton
-        onClick={handleFirstPageButtonClick}
-        disabled={page === 0}
-        aria-label="first page"
-      >
-        {theme.direction === "rtl" ? <LastPageIcon /> : <FirstPageIcon />}
-      </IconButton>
-      <IconButton
-        onClick={handleBackButtonClick}
-        disabled={page === 0}
-        aria-label="previous page"
-      >
-        {theme.direction === "rtl" ? (
-          <KeyboardArrowRight />
-        ) : (
-          <KeyboardArrowLeft />
-        )}
-      </IconButton>
-      <IconButton
-        onClick={handleNextButtonClick}
-        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-        aria-label="next page"
-      >
-        {theme.direction === "rtl" ? (
-          <KeyboardArrowLeft />
-        ) : (
-          <KeyboardArrowRight />
-        )}
-      </IconButton>
-      <IconButton
-        onClick={handleLastPageButtonClick}
-        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-        aria-label="last page"
-      >
-        {theme.direction === "rtl" ? <FirstPageIcon /> : <LastPageIcon />}
-      </IconButton>
-    </Box>
-  );
-}
-
-TablePaginationActions.propTypes = {
-  count: PropTypes.number.isRequired,
-  onPageChange: PropTypes.func.isRequired,
-  page: PropTypes.number.isRequired,
-  rowsPerPage: PropTypes.number.isRequired,
-};
 
 function createData(
   date,
@@ -121,295 +65,239 @@ const rows = [
     "충천 대행",
     "5246910054",
     "01068274007",
-    "825SIM 330",
-    "완료",
-    "미완"
+    "(2개월)825SIM 330",
+    <Chip status="cancel">취소</Chip>,
+    "완료"
   ),
   createData(
     "2022-02-15 20:51:49",
     "오피피에이",
-    "충천 대행",
+    "충천",
     "5246910054",
     "01068274007",
-    "825SIM 330",
-    "완료",
+    "(2개월)825SIM 330",
+    <Chip>접수</Chip>,
     "미완"
   ),
   createData(
     "2022-02-15 20:51:49",
-    "오피피에이",
+    "앙상아시아마트",
     "충천 대행",
     "5246910054",
     "01068274007",
     "825SIM 330",
-    "완료",
-    "미완"
-  ),
-  createData(
-    "2022-02-15 20:51:49",
-    "오피피에이",
-    "충천 대행",
-    "5246910054",
-    "01068274007",
-    "825SIM 330",
-    "완료",
-    "미완"
-  ),
-  createData(
-    "2022-02-15 20:51:49",
-    "오피피에이",
-    "충천 대행",
-    "5246910054",
-    "01068274007",
-    "825SIM 330",
-    "완료",
-    "미완"
-  ),
-  createData(
-    "2022-02-15 20:51:49",
-    "오피피에이",
-    "충천 대행",
-    "5246910054",
-    "01068274007",
-    "825SIM 330",
-    "완료",
-    "미완"
-  ),
-  createData(
-    "2022-02-15 20:51:49",
-    "오피피에이",
-    "충천 대행",
-    "5246910054",
-    "01068274007",
-    "825SIM 330",
-    "완료",
-    "미완"
-  ),
-  createData(
-    "2022-02-15 20:51:49",
-    "오피피에이",
-    "충천 대행",
-    "5246910054",
-    "01068274007",
-    "825SIM 330",
-    "완료",
-    "미완"
-  ),
-  createData(
-    "2022-02-15 20:51:49",
-    "오피피에이",
-    "충천 대행",
-    "5246910054",
-    "01068274007",
-    "825SIM 330",
-    "완료",
-    "미완"
-  ),
-  createData(
-    "2022-02-15 20:51:49",
-    "오피피에이",
-    "충천 대행",
-    "5246910054",
-    "01068274007",
-    "825SIM 330",
-    "완료",
-    "미완"
-  ),
-  createData(
-    "2022-02-15 20:51:49",
-    "오피피에이",
-    "충천 대행",
-    "5246910054",
-    "01068274007",
-    "825SIM 330",
-    "완료",
-    "미완"
-  ),
-  createData(
-    "2022-02-15 20:51:49",
-    "오피피에이",
-    "충천 대행",
-    "5246910054",
-    "01068274007",
-    "825SIM 330",
-    "완료",
-    "미완"
-  ),
-  createData(
-    "2022-02-15 20:51:49",
-    "오피피에이",
-    "충천 대행",
-    "5246910054",
-    "01068274007",
-    "825SIM 330",
-    "완료",
-    "미완"
+    <Chip status="complete">완료</Chip>,
+    "완료"
   ),
 ];
+
+function descendingComparator(a, b, orderBy) {
+  if (b[orderBy] < a[orderBy]) {
+    return -1;
+  }
+  if (b[orderBy] > a[orderBy]) {
+    return 1;
+  }
+  return 0;
+}
+
+function getComparator(order, orderBy) {
+  return order === "desc"
+    ? (a, b) => descendingComparator(a, b, orderBy)
+    : (a, b) => -descendingComparator(a, b, orderBy);
+}
+
+function stableSort(array, comparator) {
+  const stabilizedThis = array.map((el, index) => [el, index]);
+  stabilizedThis.sort((a, b) => {
+    const order = comparator(a[0], b[0]);
+    if (order !== 0) {
+      return order;
+    }
+    return a[1] - b[1];
+  });
+  return stabilizedThis.map((el) => el[0]);
+}
+
+const headCells = [
+  {
+    id: "data",
+    label: "날짜",
+  },
+  {
+    id: "store",
+    label: "대리점 명",
+  },
+  {
+    id: "division",
+    label: "구분",
+  },
+  {
+    id: "barcode",
+    label: "바코드 번호",
+  },
+  {
+    id: "phoneNumber",
+    label: "핸드폰 번호",
+  },
+  {
+    id: "product",
+    label: "상품",
+  },
+  {
+    id: "state",
+    label: "상태",
+  },
+  {
+    id: "risState",
+    label: "RIS 상태",
+  },
+];
+
+function EnhancedTableHead(props) {
+  const { order, orderBy, onRequestSort } = props;
+  const createSortHandler = (property) => (event) => {
+    onRequestSort(event, property);
+  };
+
+  return (
+    <TableHead
+      sx={{
+        bgcolor: "#0000000a",
+        "& .MuiTableCell-head": {
+          border: "1px solid #dbdbdb",
+          textAlign: "center",
+          height: "45px",
+          padding: "0 10px",
+        },
+        "& .MuiTableSortLabel-root": {
+          marginLeft: "25px",
+        },
+      }}
+    >
+      <TableRow>
+        {headCells.map((headCell) => (
+          <TableCell
+            key={headCell.id}
+            sortDirection={orderBy === headCell.id ? order : false}
+          >
+            <TableSortLabel
+              active={orderBy === headCell.id}
+              direction={orderBy === headCell.id ? order : "asc"}
+              onClick={createSortHandler(headCell.id)}
+            >
+              {headCell.label}
+              {orderBy === headCell.id ? (
+                <Box component="span" sx={visuallyHidden}>
+                  {order === "desc" ? "sorted descending" : "sorted ascending"}
+                </Box>
+              ) : null}
+            </TableSortLabel>
+          </TableCell>
+        ))}
+      </TableRow>
+    </TableHead>
+  );
+}
 // ---------- table ----------
 
 export default function ChargeList() {
-  const [value, setValue] = useState("");
-  const handleChange = (event) => {
-    setValue(event.target.value);
-  };
-  // ---------- table ----------
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
-  // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
+  const [order, setOrder] = React.useState("asc");
+  const [orderBy, setOrderBy] = React.useState();
+  const handleRequestSort = (event, property) => {
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
+    setOrderBy(property);
   };
 
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-  // ---------- table ----------
   return (
     <>
       <div className="tableInner">
-        <h2>개통 및 충전 처리</h2>
-        <Box>
+        <h2>개통 및 충전 검증</h2>
+        <InputWrap>
+          <TableDateInput />
+          <TableStoreInput />
+          <TableBarcodeInput />
+          <TableProductInput />
+          <TableRisStateInput />
           <CustomButton
             variant="contained"
-            fullWidth
             type="submit"
             // disabled={isSubmitting}
+            sx={{
+              width: "30%",
+              height: "40px",
+            }}
           >
             검색
           </CustomButton>
-        </Box>
+        </InputWrap>
 
-        <TableContainer component={Paper} sx={{ marginTop: 2 }}>
+        <TableContainer sx={{ margin: "20px 0" }}>
           <Table
-            sx={{ minWidth: 500, verticalAlign: "bottonm" }}
+            sx={{
+              minWidth: 500,
+              verticalAlign: "bottom",
+              "& .MuiTableRow-hover:hover": {
+                bgcolor: "#f1f1f1",
+              },
+              borderRadius: "5px",
+              overflow: "hidden",
+            }}
             aria-label="custom pagination table"
           >
-            <TableBody>
-              <TableRow key="filter">
-                <TableCell>
-                  {/* 날짜 */}
-                  <StoreInput />
-                </TableCell>
-                <TableCell>
-                  {/* 대리점 명 */}
-                  <StoreInput />
-                </TableCell>
-                <TableCell>
-                  {/* 구분 */}
-                  <StoreInput />
-                </TableCell>
-                <TableCell>
-                  {/* 바코드 번호 */}
-                  <BarcodePhoneInput></BarcodePhoneInput>
-                </TableCell>
-                <TableCell>
-                  {/* 핸드폰 번호 */}
-                  <BarcodePhoneInput></BarcodePhoneInput>
-                </TableCell>
-                <TableCell>
-                  {/* 상품 */}
-                  <FormControl sx={{ width: "100%" }}>
-                    <InputLabel id="product">상품</InputLabel>
-                    <Select
-                      labelId="product"
-                      id="product"
-                      value={value}
-                      label="상품"
-                      onChange={handleChange}
-                    >
-                      <MenuItem value={10}>825SIM 330</MenuItem>
-                    </Select>
-                  </FormControl>
-                </TableCell>
-                <TableCell>
-                  {/* 상태 */}
-                  <FormControl sx={{ width: "100%" }}>
-                    <InputLabel id="product">상태</InputLabel>
-                    <Select
-                      labelId="product"
-                      id="product"
-                      value={value}
-                      label="상태"
-                      onChange={handleChange}
-                    >
-                      <MenuItem value={10}>완료</MenuItem>
-                      <MenuItem value={20}>진행</MenuItem>
-                      <MenuItem value={30}>거절</MenuItem>
-                    </Select>
-                  </FormControl>
-                </TableCell>
-                <TableCell>
-                  {/* RIS 처리 여부 */}
-                  <FormControl sx={{ width: "100%" }}>
-                    <InputLabel id="product">RIS 처리 여부</InputLabel>
-                    <Select
-                      labelId="product"
-                      id="product"
-                      value={value}
-                      label="RIS 처리 여부"
-                      onChange={handleChange}
-                    >
-                      <MenuItem value={10}>완료</MenuItem>
-                      <MenuItem value={20}>미완</MenuItem>
-                    </Select>
-                  </FormControl>
-                </TableCell>
-              </TableRow>
-              {(rowsPerPage > 0
-                ? rows.slice(
-                    page * rowsPerPage,
-                    page * rowsPerPage + rowsPerPage
-                  )
-                : rows
-              ).map((row) => (
-                <TableRow key={row.date}>
-                  <TableCell style={{ width: 160 }}>{row.date}</TableCell>
-                  <TableCell style={{ width: 160 }}>{row.store}</TableCell>
-                  <TableCell style={{ width: 160 }}>{row.division}</TableCell>
-                  <TableCell style={{ width: 160 }}>{row.barcode}</TableCell>
-                  <TableCell style={{ width: 160 }}>
-                    {row.phoneNumber}
-                  </TableCell>
-                  <TableCell style={{ width: 160 }}>{row.product}</TableCell>
-                  <TableCell style={{ width: 160 }}>{row.state}</TableCell>
-                  <TableCell style={{ width: 160 }}>{row.risState}</TableCell>
-                </TableRow>
-              ))}
-
-              {emptyRows > 0 && (
-                <TableRow style={{ height: 53 * emptyRows }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
+            <EnhancedTableHead
+              order={order}
+              orderBy={orderBy}
+              onRequestSort={handleRequestSort}
+              rowCount={rows.length}
+              align="center"
+            />
+            <TableBody
+              sx={{
+                "& .MuiTableCell-root": {
+                  border: "1px solid #e5e5e5",
+                  height: "45px",
+                  padding: "0 10px",
+                },
+              }}
+            >
+              {stableSort(rows, getComparator(order, orderBy)).map(
+                (row, index) => {
+                  return (
+                    <TableRow hover key={row.data}>
+                      <TableCell align="center" sx={{ minWidth: "155px" }}>
+                        {row.date}
+                      </TableCell>
+                      <TableCell sx={{ minWidth: "170px" }}>
+                        {row.store}
+                      </TableCell>
+                      <TableCell align="center" sx={{ minWidth: "100px" }}>
+                        {row.division}
+                      </TableCell>
+                      <TableCell align="center" sx={{ minWidth: "140px" }}>
+                        {row.barcode}
+                      </TableCell>
+                      <TableCell align="center" sx={{ minWidth: "140px" }}>
+                        {row.phoneNumber}
+                      </TableCell>
+                      <TableCell sx={{ minWidth: "170px" }}>
+                        {row.product}
+                      </TableCell>
+                      <TableCell align="center">{row.state}</TableCell>
+                      <TableCell align="center" sx={{ minWidth: "125px" }}>
+                        {row.risState}
+                      </TableCell>
+                    </TableRow>
+                  );
+                }
               )}
             </TableBody>
-            <TableFooter>
-              <TableRow>
-                <TablePagination
-                  rowsPerPageOptions={[10, 25, { label: "All", value: -1 }]}
-                  colSpan={3}
-                  count={rows.length}
-                  rowsPerPage={rowsPerPage}
-                  page={page}
-                  SelectProps={{
-                    inputProps: {
-                      "aria-label": "rows per page",
-                    },
-                    native: true,
-                  }}
-                  onPageChange={handleChangePage}
-                  onRowsPerPageChange={handleChangeRowsPerPage}
-                  ActionsComponent={TablePaginationActions}
-                />
-              </TableRow>
-            </TableFooter>
           </Table>
         </TableContainer>
+        <Stack spacing={2}>
+          <Pagination count={10} variant="outlined" shape="rounded" />
+        </Stack>
       </div>
     </>
   );

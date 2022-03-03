@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Autocomplete, TextField, createFilterOptions } from "@mui/material";
+import axios from "axios";
 
 const filter = createFilterOptions();
 const option = [
@@ -14,6 +15,7 @@ const option = [
 
 export default function BarcodePhoneInput() {
   const [value, setValue] = React.useState(null);
+
   return (
     <>
       <Autocomplete
@@ -42,7 +44,7 @@ export default function BarcodePhoneInput() {
           if (inputValue !== "" && !isExisting) {
             filtered.push({
               inputValue,
-              label: `"${inputValue}"`,
+              label: `${inputValue}`,
             });
           }
 

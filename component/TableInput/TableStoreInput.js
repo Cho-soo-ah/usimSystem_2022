@@ -1,4 +1,3 @@
-import * as React from "react";
 import { Autocomplete, TextField } from "@mui/material";
 
 const option = [
@@ -19,7 +18,7 @@ const option = [
   { label: "(경산)글로벌abc" },
   { label: "(광양매천) 중국식품" },
 ];
-export default function StoreInput() {
+export default function TableStoreInput() {
   return (
     <>
       <Autocomplete
@@ -27,8 +26,18 @@ export default function StoreInput() {
         id="combo-box-demo"
         options={option}
         fullWidth
-        sx={{ marginTop: "16px" }}
-        renderInput={(params) => <TextField {...params} label="대리점 대행" />}
+        sx={{
+          margin: "0 16px 0 0",
+          "& .MuiInputLabel-root": { fontSize: "14px", textIndent: "10px" },
+        }}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label="대리점 명"
+            variant="standard"
+            sx={{ "& .MuiInput-input": { textIndent: "10px" } }}
+          />
+        )}
       />
     </>
   );

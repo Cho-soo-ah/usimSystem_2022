@@ -8,6 +8,9 @@ const theme = createTheme({
       main: mainColor,
     },
   },
+  typography: {
+    fontFamily: '"Noto Sans KR", sans-serif',
+  },
   components: {
     MuiListItemText: {
       styleOverrides: {

@@ -6,7 +6,7 @@ import { Box, InputLabel, MenuItem, FormControl, Select } from "@mui/material";
 
 import CustomButton from "../component/CustomButton";
 import CustomInput from "../component/CustomInput";
-import FileUpload from "../component/FileUpload";
+import ImgUpload from "../component/ImgUpload";
 import StoreInput from "../component/StoreInput";
 import BarcodePhoneInput from "../component/BarcodePhoneInput";
 
@@ -53,7 +53,7 @@ export default function ChargeIn() {
                       <MenuItem value={10}>825SIM 330</MenuItem>
                     </Select>
                   </FormControl>
-                  <FileUpload />
+                  <ImgUpload />
                   <CustomButton
                     variant="contained"
                     fullWidth

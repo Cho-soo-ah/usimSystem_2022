@@ -48,11 +48,18 @@ const modalStyle = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
+  p: 4,
   width: 600,
+  minHeight: "50vh",
+  maxHeight: "70vh",
   bgcolor: "background.paper",
   borderRadius: 1,
   boxShadow: 24,
-  p: 4,
+  overflowY: "scroll",
+};
+const modalImg = {
+  width: "500px",
+  height: "100px",
 };
 
 export default function FileUpload() {
@@ -157,7 +164,14 @@ export default function FileUpload() {
 
       <Modal open={open} onClose={handleClose}>
         <Box sx={modalStyle}>
-          <Image src={imgSrc} alt="/" width={300} height={300} />
+          <Image
+            src={imgSrc}
+            alt="/"
+            objectFit="contain"
+            width="600px"
+            height="550px"
+            maxheight="1000px"
+          />
         </Box>
       </Modal>
     </>

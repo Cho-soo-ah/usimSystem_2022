@@ -3,7 +3,7 @@ import * as yup from "yup";
 import { Field } from "formik";
 import { useState } from "react";
 import TextField from "@mui/material/TextField";
-import CustomButton from "../component/CustomButton";
+import CustomButton from "./CustomButton";
 import CustomInput from "./CustomInput";
 
 let validationSchema2 = {
@@ -18,7 +18,7 @@ let validationSchema2 = {
 };
 
 export default function PhoneCertify(props) {
-  props.callback(validationSchema2);
+  // props.callback(validationSchema2);
 
   const [click, setClick] = useState(false);
   const handleClick = () => {

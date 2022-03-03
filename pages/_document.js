@@ -9,10 +9,7 @@ export default class MyDocument extends Document {
       <Html lang="en">
         <Head>
           <link rel="shortcut icon" href="/static/favicon.ico" />
-          <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500&display=swap"
-          />
+
           {this.props.emotionStyleTags}
         </Head>
         <body>
