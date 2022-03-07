@@ -1,0 +1,134 @@
+import * as React from "react";
+import axios from "axios";
+import { useState, useEffect } from "react";
+import { Box, FormLabel, InputAdornment, TextField } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
+import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import { useRouter } from "next/router";
+export default function AgencyID() {
+  const router = useRouter();
+  const [loading, setLoading] = useState();
+  // ----- axios -----
+  const [type, setType] = useState("");
+  const [name, setName] = useState("");
+  const [regNumber, setRegNumber] = useState(0);
+
+  const handleType = (e, newType) => {
+    if (newType !== null) {
+      setType(newType);
+    }
+  };
+  const handleName = (e) => {
+    setName(e.target.value);
+  };
+  const handleRegNumber = (e) => {
+    setRegNumber(e.target.value);
+  };
+
+  useEffect(() => {
+    axios
+      .get(`http://192.168.0.52:8080/agencies/${router.query.id}`)
+      .then((res) => {
+        setType(res.data.type);
+        setName(res.data.name);
+        setRegNumber(res.data.corporateRegistrationNumber);
+        console.log(res);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  function handleSave() {
+    setLoading(true);
+    axios
+      .patch(`http://192.168.0.52:8080/agencies/${router.query.id}`, {
+        type: type,
+        name: name,
+        corporateRegistrationNumber: regNumber,
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+        alert("error");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }
+  // ----- axios -----
+
+  return (
+    <div className="inner">
+      <h2>대리점 수정</h2>
+      <Box sx={{ marginBottom: "16px" }}>
+        <FormLabel
+          id="demo-controlled-radio-buttons-group"
+          sx={{ fontSize: "13px", top: "-5px" }}
+        >
+          대리점 타입
+        </FormLabel>
+        <br />
+        <ToggleButtonGroup
+          exclusive
+          value={type}
+          onChange={handleType}
+          aria-label="text formatting"
+          sx={{
+            display: "flex",
+            "& .MuiButtonBase-root": {
+              width: "50%",
+              height: 56,
+              border: "1px solid #85858585",
+              fontSize: "16px",
+            },
+          }}
+        >
+          <ToggleButton value="GENERAL" aria-label="GENERAL">
+            일반
+          </ToggleButton>
+          <ToggleButton value="SPECIAL" aria-label="SPECIAL">
+            스페셜
+          </ToggleButton>
+        </ToggleButtonGroup>
+      </Box>
+
+      <TextField
+        id="productInput"
+        variant="outlined"
+        label=" 상품명"
+        value={name}
+        fullWidth
+        sx={{
+          marginBottom: "16px",
+        }}
+        onChange={handleName}
+      ></TextField>
+      <TextField
+        id="outlined-basic"
+        label="사업자등록번호"
+        value={regNumber}
+        variant="outlined"
+        fullWidth
+        sx={{
+          marginBottom: "16px",
+          "& .MuiOutlinedInput-root": { paddingLeft: "6px" },
+        }}
+        onChange={handleRegNumber}
+        InputProps={{
+          startAdornment: <InputAdornment position="start"></InputAdornment>,
+        }}
+      ></TextField>
+      <LoadingButton
+        color="primary"
+        loading={loading}
+        onClick={handleSave}
+        sx={{ height: "56px", color: "#fff", fontSize: "16px" }}
+        fullWidth
+      >
+        수정하기
+      </LoadingButton>
+    </div>
+  );
+}

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { Box, IconButton, Modal } from "@mui/material";
+import { Box, IconButton, Link, Modal } from "@mui/material";
 import { HighlightOff, ErrorOutline } from "@mui/icons-material";
 
 const thumbsContainer = {
@@ -57,10 +57,6 @@ const modalStyle = {
   boxShadow: 24,
   overflowY: "scroll",
 };
-const modalImg = {
-  width: "500px",
-  height: "100px",
-};
 
 export default function FileUpload() {
   const [files, setFiles] = useState([]);
@@ -95,7 +91,7 @@ export default function FileUpload() {
   const [open, setOpen] = React.useState(false);
   const [imgSrc, setImgSrc] = React.useState();
   const handleOpen = (e) => {
-    console.log("e.target.src : ", e.target.src);
+    console.log("e.target.src : ", e.target);
     setImgSrc(e.target.src);
     setOpen(true);
   };
@@ -129,12 +125,6 @@ export default function FileUpload() {
       </>
     );
   });
-
-  // useEffect(() => {
-  //   console.log("useEffect!!!!!", files);
-  //   // Make sure to revoke the data uris to avoid memory leaks
-
-  // }, [files]);
 
   return (
     <>

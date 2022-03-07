@@ -2,11 +2,10 @@ import * as React from "react";
 import axios from "axios";
 import { styled } from "@mui/system";
 import { useState } from "react";
-import CustomButton from "../component/CustomButton";
 import { UploadFile } from "@mui/icons-material";
 import { Box, Modal } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
-import SaveIcon from "@mui/icons-material/Save";
+
 const UploadWrap = styled("div")({
   display: "flex",
   flexDirection: "column",
@@ -45,9 +44,6 @@ export default function FileUploadModal() {
   // --------- file upload ---------
   const [file, setFile] = useState();
   const [loading, setLoading] = useState();
-  function handleLoading() {
-    setLoading;
-  }
 
   function handleAxios() {
     const url = "http://192.168.0.52:8080/sims/upload";

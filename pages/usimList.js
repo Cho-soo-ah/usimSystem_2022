@@ -217,7 +217,7 @@ export default function UsimList() {
           display: "flex",
           width: "100%",
           justifyContent: "space-between",
-          alignItems: "flex-end",
+          alignItems: "center",
         }}
       >
         <Box
@@ -231,9 +231,6 @@ export default function UsimList() {
             이관
           </CustomButton>
         </Box>
-        <Stack spacing={2}>
-          <Pagination count={10} variant="outlined" shape="rounded" />
-        </Stack>
         <Box
           sx={{
             display: "flex",
@@ -314,6 +311,9 @@ export default function UsimList() {
         </Table>
       </TableContainer>
       <UsimListBottom />
+      <Stack spacing={2}>
+        <Pagination count={10} variant="outlined" shape="rounded" />
+      </Stack>
     </div>
   );
 }

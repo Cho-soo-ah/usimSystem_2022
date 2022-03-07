@@ -181,6 +181,23 @@ EnhancedTableHead.propTypes = {
 };
 // ---------- table ----------
 
+// <Box
+//       sx={{ width: 250 }}
+//       role="presentation"
+//       onClick={toggleDrawer(anchor, false)}
+//       onKeyDown={toggleDrawer(anchor, false)}
+//     ></Box>
+// const toggleDrawer = (anchor, open) => (event) => {
+//   if (
+//     event.type === "keydown" &&
+//     (event.key === "Tab" || event.key === "Shift")
+//   ) {
+//     return;
+//   }
+
+//   setState({ ...state, [anchor]: open });
+// };
+
 export default function Member() {
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
@@ -252,7 +269,7 @@ export default function Member() {
         </InputWrap>
         <TableContainer>
           <Table
-            sx={{ minWidth: 750, marginTop: "16px" }}
+            sx={{ minWidth: 750, margin: "16px 0" }}
             aria-labelledby="tableTitle"
           >
             <EnhancedTableHead
@@ -315,19 +332,6 @@ export default function Member() {
             </TableBody>
           </Table>
         </TableContainer>
-        <Box sx={{ width: "100%", marginBottom: "16px" }}>
-          <Box
-            sx={{
-              display: "flex",
-              width: "20%",
-            }}
-          >
-            <StoreInput />
-            <CustomButton sx={{ marginLeft: "16px", width: "40%" }}>
-              이관
-            </CustomButton>
-          </Box>
-        </Box>
         <Stack spacing={2}>
           <Pagination count={10} variant="outlined" shape="rounded" />
         </Stack>

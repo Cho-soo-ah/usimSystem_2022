@@ -27,32 +27,28 @@ import {
 
 const menuObjTop = [
   {
-    name: "개통 및 충전 처리",
-    icon: <PhoneIphone />,
-    link: "/chargeIn",
-  },
-  {
-    name: "개통 및 충전 검증",
-    icon: <PhoneIphone />,
-    link: "/chargeList",
-  },
-  {
     name: "예치금 내역",
     icon: <PaidOutlined />,
     link: "/deposit",
   },
   {
+    name: "개통 및 충전 처리",
+    icon: <PhoneIphone />,
+    link: "/chargeIn",
+  },
+  {
+    name: "개통 및 충전 내역",
+    icon: <PhoneIphone />,
+    link: "/chargeList",
+  },
+
+  {
     name: "대리점 개통 및 충전 현황",
     icon: <Store />,
-    link: "/store",
+    link: "/agencies/agencieState",
   },
 ];
 const menuObjBot = [
-  {
-    name: "유심 리스트",
-    icon: <PhoneIphone />,
-    link: "/usimList",
-  },
   {
     name: "입금 내역",
     icon: <PaidOutlined />,
@@ -60,9 +56,15 @@ const menuObjBot = [
   },
 
   {
-    name: "대리점 등록",
-    icon: <AddBusiness />,
-    link: "/storeUpload",
+    name: "유심 관리",
+    icon: <PhoneIphone />,
+    link: "/usimList",
+  },
+
+  {
+    name: "상품 관리",
+    icon: <PhoneIphone />,
+    link: "/products/productList",
   },
   {
     name: "회원 관리",
@@ -70,9 +72,9 @@ const menuObjBot = [
     link: "/member",
   },
   {
-    name: "상품 관리",
-    icon: <PhoneIphone />,
-    link: "/product",
+    name: "대리점 관리",
+    icon: <AddBusiness />,
+    link: "/agencies/agencyList",
   },
   {
     name: "Install App",
@@ -156,7 +158,7 @@ const PcToolBar = () => {
               </MenuItem>
             </Link>
             <Divider sx={{ margin: "4px 0" }} />
-            <Link href="/mypage" underline="none" color="#000">
+            <Link href="/myUsimList" underline="none" color="#000">
               <MenuItem>
                 <PhoneIphone
                   fontSize="medium"
@@ -165,7 +167,7 @@ const PcToolBar = () => {
                 내 유심리스트
               </MenuItem>
             </Link>
-            <Link href="/mypage" underline="none" color="#000">
+            <Link href="/myStoreInfo" underline="none" color="#000">
               <MenuItem>
                 <Store
                   fontSize="medium"

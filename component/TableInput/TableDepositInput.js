@@ -1,18 +1,18 @@
 import * as React from "react";
 import { Autocomplete, TextField, createFilterOptions } from "@mui/material";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 export default function TableDepositInput() {
   const filter = createFilterOptions();
 
-  const [value, setValue] = React.useState(null);
-  const [data, setData] = React.useState(null);
+  const [value, setValue] = useState(null);
+  const [data, setData] = useState(null);
   useEffect(() => {
     axios
       .get("http://192.168.0.52:8080/sims")
       .then((res) => {
-        console.log(res.data);
+        console.log(res);
         setData(res.data);
       })
       .catch((err) => {

@@ -1,25 +1,25 @@
 import * as React from "react";
 import { Autocomplete, TextField, createFilterOptions } from "@mui/material";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
+import parse from "autosuggest-highlight/parse";
+import match from "autosuggest-highlight/match";
 
 export default function TableBarcodeInput() {
   const filter = createFilterOptions();
 
-  const [value, setValue] = React.useState(null);
-  const [data, setData] = React.useState(null);
+  const [value, setValue] = useState(null);
+  const [data, setData] = useState(null);
   useEffect(() => {
     axios
       .get("http://192.168.0.52:8080/sims")
       .then((res) => {
-        console.log("res.data", res.data);
-        setData(res.data);
+        setData(res.data.content);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
-
   return (
     <>
       {data === null ? (
@@ -27,7 +27,7 @@ export default function TableBarcodeInput() {
       ) : (
         <Autocomplete
           value={value}
-          onChange={(event, newValue) => {
+          onChange={(e, newValue) => {
             if (typeof newValue === "string") {
               setValue({
                 label: newValue,
@@ -42,11 +42,6 @@ export default function TableBarcodeInput() {
           }}
           filterOptions={(options, params) => {
             const filtered = filter(options, params);
-            const { inputValue } = params;
-            const isExisting = options.some(
-              (option) => inputValue === option.label
-            );
-
             return filtered;
           }}
           selectOnFocus
@@ -54,27 +49,6 @@ export default function TableBarcodeInput() {
           handleHomeEndKeys
           id="free-solo-with-text-demo"
           options={data}
-          getOptionLabel={(option) => {
-            console.log("option", option);
-            if (typeof option === "string") {
-              return option;
-            }
-            if (option.inputValue) {
-              return option.inputValue;
-            }
-            return `${option.barcodeNumber} / ${option.serviceNumber}`;
-          }}
-          renderOption={(props, option) => (
-            <li {...props}>
-              {option.barcodeNumber} / {option.serviceNumber}
-            </li>
-          )}
-          sx={{
-            margin: "0 16px 0 0",
-            "& .MuiInputLabel-root": { fontSize: "14px", textIndent: "10px" },
-          }}
-          fullWidth
-          freeSolo
           renderInput={(params) => (
             <TextField
               {...params}
@@ -83,6 +57,43 @@ export default function TableBarcodeInput() {
               sx={{ "& .MuiInput-input": { textIndent: "10px" } }}
             />
           )}
+          getOptionLabel={(option) =>
+            `${option.barcodeNumber} / ${option.serviceNumber}`
+          }
+          renderOption={(props, option, { inputValue }) => {
+            const matches = match(
+              `${option.barcodeNumber} / ${option.serviceNumber}`,
+              inputValue,
+              {
+                insideWords: true,
+              }
+            );
+            const parts = parse(
+              `${option.barcodeNumber} / ${option.serviceNumber}`,
+              matches
+            );
+            return (
+              <li {...props}>
+                <div>
+                  {parts.map((part, index) => (
+                    <span
+                      key={index}
+                      style={{
+                        fontWeight: part.highlight ? 700 : 400,
+                      }}
+                    >
+                      {part.text}
+                    </span>
+                  ))}
+                </div>
+              </li>
+            );
+          }}
+          sx={{
+            margin: "0 16px 0 0",
+            "& .MuiInputLabel-root": { fontSize: "14px", textIndent: "10px" },
+          }}
+          fullWidth
         />
       )}
     </>

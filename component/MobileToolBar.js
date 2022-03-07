@@ -57,12 +57,12 @@ const menuObjTop = [
   {
     name: "대리점 개통 및 충전 현황",
     icon: <Store />,
-    link: "/store",
+    link: "/storeList",
   },
 ];
 const menuObjBot = [
   {
-    name: "유심 리스트/업로드",
+    name: "유심 리스트",
     icon: <PhoneIphone />,
     link: "/usimList",
   },
@@ -71,20 +71,11 @@ const menuObjBot = [
     icon: <PaidOutlined />,
     link: "/payList",
   },
+
   {
-    name: "대리점/직원 목록",
-    icon: <ListAltOutlined />,
-    link: "/employeeList",
-  },
-  {
-    name: "대리점/직원 등록",
+    name: "대리점 등록",
     icon: <AddBusiness />,
-    link: "/employeeUpload",
-  },
-  {
-    name: "딜러 등록",
-    icon: <PersonAddAltOutlined />,
-    link: "/dealer",
+    link: "/storeUpload",
   },
   {
     name: "회원 관리",
@@ -94,36 +85,15 @@ const menuObjBot = [
   {
     name: "상품 관리",
     icon: <PhoneIphone />,
-    link: "/product",
-  },
-  {
-    name: "비밀번호 변경",
-    icon: <LockOutlined />,
-    link: "/changeAccount",
+    link: "/productList",
   },
   {
     name: "Install App",
     icon: <MoveToInbox />,
     link: "/",
   },
-  {
-    name: "로그아웃",
-    icon: <Logout />,
-    link: "/",
-  },
 ];
 export default function MobileToolBar() {
-  const [auth, setAuth] = React.useState(true);
-  const [anchorEl, setAnchorEl] = React.useState(null);
-
-  const handleChange = (event) => {
-    setAuth(event.target.checked);
-  };
-
-  const handleMenu = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
   // ----------- menu list -----------
   const [state, setState] = React.useState({
     right: false,
@@ -180,17 +150,6 @@ export default function MobileToolBar() {
     <Box sx={{ width: "100%", position: "absolute", top: 0, left: 0 }}>
       <AppBar position="static">
         <Toolbar>
-          {auth && (
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              sx={{ mr: 2 }}
-            >
-              <AccountCircle />
-            </IconButton>
-          )}
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             825 SIM
           </Typography>
@@ -204,7 +163,6 @@ export default function MobileToolBar() {
                     aria-label="account of current user"
                     aria-controls="menu-appbar"
                     aria-haspopup="true"
-                    onClick={handleMenu}
                     sx={{ color: "#fff" }}
                   >
                     <MenuIcon>{anchor}</MenuIcon>
@@ -223,21 +181,6 @@ export default function MobileToolBar() {
           <Divider />
         </Toolbar>
       </AppBar>
-
-      {/* 로그인버전 확인 후 삭제 */}
-      <FormGroup>
-        <FormControlLabel
-          control={
-            <Switch
-              checked={auth}
-              onChange={handleChange}
-              aria-label="login switch"
-            />
-          }
-          label={auth ? "Logout" : "Login"}
-        />
-      </FormGroup>
-      {/* 로그인버전 확인 후 삭제 */}
     </Box>
   );
 }

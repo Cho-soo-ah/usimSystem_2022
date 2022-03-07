@@ -31,12 +31,12 @@ const UsimNext = () => {
             입금 내역
           </Button>
         </Link>
-        <Link href="/store">
+        <Link href="/storeList">
           <Button variant="outlined" sx={{ color: "#fff" }}>
             대리점 개통 및 충전 현황
           </Button>
         </Link>
-        <Link href="/product">
+        <Link href="/productList">
           <Button variant="outlined" sx={{ color: "#fff" }}>
             상품 관리
           </Button>

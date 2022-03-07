@@ -15,9 +15,9 @@ export default function App(props) {
   const PcInner = styled("div")({
     width: "calc(100% - 270px)",
     minHeight: "75vh",
-    margin: "100px 0",
+    margin: "150px 0",
     display: "flex",
-    alignItems: "center",
+    alignItems: "flex-start",
     justifyContent: "center",
     "& .inner": {
       width: "500px",
