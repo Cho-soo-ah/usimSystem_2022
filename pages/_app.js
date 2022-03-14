@@ -4,7 +4,7 @@ import { ThemeProvider, CssBaseline, useMediaQuery, Link } from "@mui/material";
 import { styled } from "@mui/system";
 import createEmotionCache from "../src/createEmotionCache";
 import theme from "../src/theme";
-import PcToolBar from "../component/PcToolBar";
+import UsimToolBar from "../component/UsimToolBar";
 import MobileToolBar from "../component/MobileToolBar";
 import "../public/style.css";
 
@@ -53,7 +53,7 @@ export default function App(props) {
           </>
         ) : (
           <>
-            <PcToolBar />
+            <UsimToolBar />
             <PcInner>
               <Component {...pageProps} />
             </PcInner>

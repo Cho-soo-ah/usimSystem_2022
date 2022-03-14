@@ -1,4 +1,6 @@
 import * as React from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import {
   Box,
   Checkbox,
@@ -11,81 +13,31 @@ import {
   Pagination,
   Stack,
 } from "@mui/material";
-import StoreInput from "../component/TextInput/StoreInput";
-import BarcodeInput from "../component/TextInput/BarcodeInput";
-import UsimInput from "../component/TextInput/UsimInput";
-import CustomButton from "../component/CustomButton";
-import ExcelDownloadButton from "../component/ExcelDownloadButton";
-import UsimListHeader from "./UsimListHeader";
-import FileUploadModal from "../component/FileUploadModal";
-import axios from "axios";
-import { useState, useEffect } from "react";
-import { TurnedIn, UsbOff } from "@mui/icons-material";
+import StoreInput from "../../component/TextInput/StoreInput";
+import BarcodeInput from "../../component/TextInput/BarcodeInput";
+import UsimInput from "../../component/TextInput/UsimInput";
+import CustomButton from "../../component/CustomButton";
+import ExcelDownloadButton from "../../component/ExcelDownloadButton";
+import UsimListHeader from "../UsimListHeader";
+import FileUploadModal from "../../component/FileUploadModal";
 
-export default function UsimList() {
+export default function AgencyState() {
   // ----- axios -----
-  const [data, setData] = useState([
-    {
-      barcodeNumber: 1111111,
-      id: 13265,
-      serviceNumber: 1212,
-      usimNumber: 12121,
-    },
-    { barcodeNumber: 2222, id: 29894, serviceNumber: 1212, usimNumber: 12121 },
-    {
-      barcodeNumber: 3333333,
-      id: 3541,
-      serviceNumber: 1212,
-      usimNumber: 12121,
-    },
-    {
-      barcodeNumber: 444444,
-      id: 45453,
-      serviceNumber: 1212,
-      usimNumber: 12121,
-    },
-    {
-      barcodeNumber: 555555,
-      id: 55354,
-      serviceNumber: 1212,
-      usimNumber: 12121,
-    },
-    { barcodeNumber: 66666, id: 61111, serviceNumber: 1212, usimNumber: 12121 },
-    {
-      barcodeNumber: 77777,
-      id: 7234243,
-      serviceNumber: 1212,
-      usimNumber: 12121,
-    },
-    { barcodeNumber: 88888, id: 84243, serviceNumber: 1212, usimNumber: 12121 },
-    {
-      barcodeNumber: 999999,
-      id: 942424,
-      serviceNumber: 1212,
-      usimNumber: 12121,
-    },
-    {
-      barcodeNumber: 10101010,
-      id: 104444,
-      serviceNumber: 1212,
-      usimNumber: 12121,
-    },
-  ]);
+  const [data, setData] = useState();
   const [totalPages, setTotalPages] = useState();
   const [page, setPage] = useState(1);
   const handlePagination = (e, value) => {
     setPage(value);
   };
-  // useEffect(() => {
-  //   axios
-  //     .get(`http://192.168.0.52:8080/sims?page=${page}&size=10`)
-  //     .then((res) => {
-  //       console.log(res);
-  //       setData(res.data.content);
-  //       setTotalPages(res.data.totalPages);
-  //     })
-  //     .catch((err) => console.log(err));
-  // }, [page]);
+  useEffect(() => {
+    axios
+      .get(`http://192.168.0.52:8080/sims?page=${page}&size=10`)
+      .then((res) => {
+        setData(res.data.content);
+        setTotalPages(res.data.totalPages);
+      })
+      .catch((err) => console.log(err));
+  }, [page]);
   // ----- axios -----
   const tableHead = [
     <Checkbox key="usimCheckAll" color="primary"></Checkbox>,
@@ -94,6 +46,7 @@ export default function UsimList() {
     "서비스 번호",
     "유심 번호",
     "적용일",
+    "상태",
   ];
   // ----- CLICK -----
   const [selectedArr, setSelectedArr] = useState([]);
@@ -140,9 +93,7 @@ export default function UsimList() {
 
   return (
     <div className="tableInner">
-      <h2>유심 리스트</h2>
-      {/* <br /> */}
-      {/* 선택된 ID : {selectedArr.map((a) => a + " ")} */}
+      <h2>대리점 개통 및 충전 내역</h2>
       <UsimListHeader></UsimListHeader>
       <Box
         sx={{
@@ -153,13 +104,13 @@ export default function UsimList() {
           mb: "16px",
         }}
       >
-        <StoreInput variant="standard" />
-        <BarcodeInput variant="standard" />
-        <UsimInput variant="standard" />
+        <StoreInput />
+        <BarcodeInput />
+        <UsimInput />
         <CustomButton
           sx={{
             width: "30%",
-            height: "40px",
+            mb: "16px",
           }}
         >
           검색
@@ -215,19 +166,14 @@ export default function UsimList() {
                         checked={isSelected(index)}
                       />
                     </TableCell>
-                    <TableCell
-                      component="th"
-                      // id={labelId}
-                      scope="row"
-                      padding="none"
-                      align="center"
-                    >
+                    <TableCell scope="row" padding="none" align="center">
                       {obj.store}
                     </TableCell>
                     <TableCell align="center">{obj.barcodeNumber}</TableCell>
                     <TableCell align="center">{obj.serviceNumber}</TableCell>
                     <TableCell align="center">{obj.usimNumber}</TableCell>
                     <TableCell align="center">{obj.date}</TableCell>
+                    <TableCell align="center">{obj.state}</TableCell>
                   </TableRow>
                 );
               })}

@@ -4,13 +4,10 @@ import { Form, Formik } from "formik";
 import {
   Box,
   TextField,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   FormLabel,
   ToggleButtonGroup,
   ToggleButton,
+  InputAdornment,
 } from "@mui/material";
 import CustomButton from "../../component/CustomButton";
 import axios from "axios";
@@ -23,20 +20,22 @@ const validationSchema = yup.object({
     .string("대리점 명을 입력하세요")
     .required("대리점 명을 입력하세요"),
 });
-const option = [{ label: "일반 대리점" }, { label: "스페셜 대리점" }];
 
 export default function AgencyUpload() {
   const [name, setName] = useState("");
   const [type, setType] = useState("");
-  const [regNumber, setRegNumber] = useState(0);
+  const [regNumber, setRegNumber] = useState("");
   const handleName = (e) => {
     setName(e.target.value);
   };
   const handleType = (e) => {
     setType(e.target.value);
   };
+  const deleteRegex = /[\.]*[^\d]/g;
+  const regex = (value) => value.toString().replace(deleteRegex, "");
   const handleNumber = (e) => {
-    setRegNumber(e.target.value);
+    if (e.target.value.length > 10) return false;
+    setRegNumber(regex(e.target.value));
   };
   function handleAxios() {
     axios
@@ -111,6 +110,16 @@ export default function AgencyUpload() {
                 variant="outlined"
                 fullWidth
                 onChange={handleNumber}
+                sx={{
+                  "& input::-webkit-outer-spin-button": {
+                    appearance: " none",
+                    margin: 0,
+                  },
+                  "& input::-webkit-inner-spin-button": {
+                    appearance: " none",
+                    margin: 0,
+                  },
+                }}
               ></TextField>
               <CustomButton
                 color="primary"

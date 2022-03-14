@@ -1,15 +1,12 @@
 import * as React from "react";
-import { Autocomplete, TextField, createFilterOptions } from "@mui/material";
+import { Autocomplete, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import parse from "autosuggest-highlight/parse";
 import match from "autosuggest-highlight/match";
 
-export default function TableBarcodeInput() {
-  const filter = createFilterOptions();
-
-  const [value, setValue] = useState(null);
-  const [data, setData] = useState(null);
+export default function BarcodeInput(props) {
+  const [data, setData] = useState("");
   useEffect(() => {
     axios
       .get("http://192.168.0.52:8080/sims")
@@ -22,39 +19,19 @@ export default function TableBarcodeInput() {
   }, []);
   return (
     <>
-      {data === null ? (
+      {data === "" ? (
         "loading"
       ) : (
         <Autocomplete
-          value={value}
-          onChange={(e, newValue) => {
-            if (typeof newValue === "string") {
-              setValue({
-                label: newValue,
-              });
-            } else if (newValue && newValue.inputValue) {
-              setValue({
-                label: newValue.inputValue,
-              });
-            } else {
-              setValue(newValue);
-            }
-          }}
-          filterOptions={(options, params) => {
-            const filtered = filter(options, params);
-            return filtered;
-          }}
-          selectOnFocus
-          clearOnBlur
-          handleHomeEndKeys
-          id="free-solo-with-text-demo"
+          fullWidth
           options={data}
+          noOptionsText="검색 결과가 없습니다."
           renderInput={(params) => (
             <TextField
               {...params}
               label="바코드 번호 / 핸드폰 번호"
-              variant="standard"
-              sx={{ "& .MuiInput-input": { textIndent: "10px" } }}
+              variant={props.variant}
+              sx={{ mb: "16px", minHeight: "35px" }}
             />
           )}
           getOptionLabel={(option) =>
@@ -91,9 +68,8 @@ export default function TableBarcodeInput() {
           }}
           sx={{
             margin: "0 16px 0 0",
-            "& .MuiInputLabel-root": { fontSize: "14px", textIndent: "10px" },
+            // "& .MuiInputLabel-root": { fontSize: "14px", textIndent: "10px" },
           }}
-          fullWidth
         />
       )}
     </>

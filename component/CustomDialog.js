@@ -6,8 +6,6 @@ export default function CustomDialog(e) {
   const handleClose = () => {
     e.setOpen(false);
   };
-
-  console.log(e);
   return (
     <>
       <Dialog

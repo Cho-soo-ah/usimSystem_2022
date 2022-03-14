@@ -1,4 +1,7 @@
 import * as React from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import theme from "../src/theme";
 import {
   Box,
   Stack,
@@ -8,254 +11,75 @@ import {
   TableCell,
   TableContainer,
   TableRow,
-  TableSortLabel,
   Pagination,
 } from "@mui/material";
+import InputWrap from "../component/InputWrap";
+import DateInput from "../component/TextInput/DateInput";
+import StoreInput from "../component/TextInput/StoreInput";
+import BarcodeInput from "../component/TextInput/BarcodeInput";
+import ReasonInput from "../component/TextInput/ReasonInput";
 import CustomButton from "../component/CustomButton";
-// Table Input
-import TableDateInput from "../component/TableInput/TableDateInput";
-import TableStoreInput from "../component/TableInput/TableStoreInput";
-import TableBarcodeInput from "../component/TableInput/TableBarcodeInput";
 import ExcelDownloadButton from "../component/ExcelDownloadButton";
 import Chip from "../component/Chips";
-
-import { styled } from "@mui/system";
-
-import { visuallyHidden } from "@mui/utils";
-import TableReasonInput from "../component/TableInput/TableReasonInput";
-
-const InputWrap = styled("div")({
-  width: "100%",
-  display: "flex",
-  alignItems: "flex-end",
-  justifyContent: "center",
-  marginTop: "20px",
-  "@media(minWidth: 780px)": {
-    bgcolor: "red",
-  },
-});
-
-// ---------- table ----------
-
-function createData(
-  date,
-  phoneNumber,
-  barcodeNumber,
-  store,
-  account,
-  deposit,
-  deduction,
-  balance,
-  note,
-  state
-) {
-  return {
-    date,
-    phoneNumber,
-    barcodeNumber,
-    store,
-    account,
-    deposit,
-    deduction,
-    balance,
-    note,
-    state,
-  };
-}
-// table Cell
-const rows = [
-  createData(
-    "2022-02-15 20:51:49",
-    "01068274007",
-    "5246910054",
-    "오피피에이",
-    "60438085518952 (우리은행)",
-    "\uFFE6200,000",
-    "\uFFE626,000",
-    "\uFFE646,000",
-    "충전(1차)",
-    <Chip status="cancel">취소</Chip>
-  ),
-  createData(
-    "2022-02-15 20:51:49",
-    "01068274007",
-    "5246910054",
-    "오피피에이",
-    "60438085518952 (우리은행)",
-    "\uFFE6200,000",
-    "\uFFE626,000",
-    "\uFFE646,000",
-    "충전(1차)",
-    <Chip>접수</Chip>
-  ),
-  createData(
-    "2022-02-15 20:51:49",
-    "01068274007",
-    "5246910054",
-    "오피피에이",
-    "60438085518952 (우리은행)",
-    "\uFFE6200,000",
-    "\uFFE626,000",
-    "\uFFE646,000",
-    "충전(1차)",
-    <Chip status="complete">완료</Chip>
-  ),
+const tableHead = [
+  "날짜",
+  "핸드폰 번호",
+  "바코드 번호",
+  "대리점 명",
+  "가상계좌",
+  "입금",
+  "차감",
+  "잔액",
+  "비고",
+  "상태",
 ];
-
-function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
-}
-
-function getComparator(order, orderBy) {
-  return order === "desc"
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
-}
-
-function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) {
-      return order;
-    }
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
-}
-
-const headCells = [
-  {
-    id: "data",
-    label: "날짜",
-  },
-  {
-    id: "phoneNumber",
-    label: "핸드폰 번호",
-  },
-  {
-    id: "barcodeNumber",
-    label: "바코드 번호",
-  },
-  {
-    id: "store",
-    label: "대리점 명",
-  },
-  {
-    id: "account",
-    label: "가상계좌",
-  },
-  {
-    id: "deposit",
-    label: "입금",
-  },
-  {
-    id: "deduction",
-    label: "차감",
-  },
-  {
-    id: "balance",
-    label: "잔액",
-  },
-  {
-    id: "note",
-    label: "비고",
-  },
-  {
-    id: "state",
-    label: "상태",
-  },
-];
-
-function EnhancedTableHead(props) {
-  const { order, orderBy, onRequestSort } = props;
-  const createSortHandler = (property) => (event) => {
-    onRequestSort(event, property);
-  };
-
-  return (
-    <TableHead
-      sx={{
-        bgcolor: "#0000000a",
-        "& .MuiTableCell-head": {
-          border: "1px solid #dbdbdb",
-          textAlign: "center",
-          height: "45px",
-          padding: "0 10px",
-        },
-        "& .MuiTableSortLabel-root": {
-          marginLeft: "25px",
-        },
-      }}
-    >
-      <TableRow>
-        {headCells.map((headCell) => (
-          <TableCell
-            key={headCell.id}
-            sortDirection={orderBy === headCell.id ? order : false}
-          >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : "asc"}
-              onClick={createSortHandler(headCell.id)}
-            >
-              {headCell.label}
-              {orderBy === headCell.id ? (
-                <Box component="span" sx={visuallyHidden}>
-                  {order === "desc" ? "sorted descending" : "sorted ascending"}
-                </Box>
-              ) : null}
-            </TableSortLabel>
-          </TableCell>
-        ))}
-      </TableRow>
-    </TableHead>
-  );
-}
-// ---------- table ----------
 
 export default function Deposit() {
-  const [order, setOrder] = React.useState("asc");
-  const [orderBy, setOrderBy] = React.useState();
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
-    setOrderBy(property);
+  // ----- axios -----
+  const [data, setData] = useState();
+  const [totalPages, setTotalPages] = useState();
+  const [page, setPage] = useState(1);
+  const handlePagination = (e, value) => {
+    setPage(value);
   };
+  useEffect(() => {
+    axios
+      .get(`http://192.168.0.52:8080/sims?page=${page}&size=10`)
+      .then((res) => {
+        console.log(res);
+        setData(res.data.content);
+        setTotalPages(res.data.totalPages);
+      })
+      .catch((err) => console.log(err));
+  }, [page]);
+  // ----- axios -----
+  const replaceRegex = /\B(?=(\d{3})+(?!\d))/g;
+  const regex = (value) => value.toString().replace(replaceRegex, ",");
 
   return (
     <>
       <div className="tableInner">
         <h2>예치금 내역</h2>
         <InputWrap>
-          <TableDateInput />
-          <TableBarcodeInput />
-          <TableStoreInput />
-          <TableReasonInput />
+          <DateInput />
+          <BarcodeInput />
+          <StoreInput />
+          <ReasonInput />
           <CustomButton
             variant="contained"
             type="submit"
-            // disabled={isSubmitting}
             sx={{
-              width: "30%",
-              height: "40px",
-              marginRight: "16px",
+              [theme.breakpoints.only("laptop")]: {
+                width: "30%",
+                mb: "16px",
+              },
             }}
           >
             검색
           </CustomButton>
-          <Box sx={{ width: "35px", height: "35px" }}>
-            <ExcelDownloadButton />
-          </Box>
         </InputWrap>
 
-        <TableContainer sx={{ margin: "20px 0" }}>
+        <TableContainer sx={{ mb: "16px" }}>
           <Table
             sx={{
               minWidth: 500,
@@ -268,13 +92,29 @@ export default function Deposit() {
             }}
             aria-label="custom pagination table"
           >
-            <EnhancedTableHead
-              order={order}
-              orderBy={orderBy}
-              onRequestSort={handleRequestSort}
-              rowCount={rows.length}
-              align="center"
-            />
+            <TableHead
+              sx={{
+                bgcolor: "#0000000a",
+                width: "100%",
+                "& .MuiTableCell-head": {
+                  border: "1px solid #dbdbdb",
+                  textAlign: "center",
+                  height: "45px",
+                  padding: "0 10px",
+                },
+                "& .MuiTableSortLabel-root": {
+                  marginLeft: "25px",
+                },
+              }}
+            >
+              <TableRow>
+                {tableHead.map((e, index) => (
+                  <TableCell key={index} sx={{ padding: 0 }}>
+                    {e}
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
             <TableBody
               sx={{
                 "& .MuiTableCell-root": {
@@ -284,47 +124,54 @@ export default function Deposit() {
                 },
               }}
             >
-              {stableSort(rows, getComparator(order, orderBy)).map(
-                (row, index) => {
+              {data &&
+                data.map((obj, index) => {
                   return (
-                    <TableRow hover key={row.data}>
+                    <TableRow hover key={index}>
                       <TableCell align="center" sx={{ minWidth: "155px" }}>
-                        {row.date}
+                        {obj.date}
                       </TableCell>
                       <TableCell align="center" sx={{ minWidth: "120px" }}>
-                        {row.phoneNumber}
+                        {obj.serviceNumber}
                       </TableCell>
                       <TableCell align="center" sx={{ minWidth: "100px" }}>
-                        {row.barcodeNumber}
+                        {obj.barcodeNumber}
                       </TableCell>
                       <TableCell align="left" sx={{ minWidth: "140px" }}>
-                        {row.store}
+                        {obj.store}
                       </TableCell>
                       <TableCell align="center" sx={{ minWidth: "140px" }}>
-                        {row.account}
+                        {obj.account}
                       </TableCell>
-                      <TableCell align="right" sx={{ minWidth: "100px" }}>
-                        {row.deposit}
+                      <TableCell align="right" sx={{ minWidth: "120px" }}>
+                        {/* &#65510; {regex(123456)} */}
                       </TableCell>
-                      <TableCell align="right" sx={{ minWidth: "100px" }}>
-                        {row.deduction}
+                      <TableCell align="right" sx={{ minWidth: "120px" }}>
+                        {/* &#65510; {regex(obj.deduction)} */}
                       </TableCell>
-                      <TableCell align="right" sx={{ minWidth: "100px" }}>
-                        {row.balance}
+                      <TableCell align="right" sx={{ minWidth: "120px" }}>
+                        {/* &#65510; {regex(obj.balance)} */}
                       </TableCell>
                       <TableCell align="center" sx={{ minWidth: "125px" }}>
-                        {row.note}
+                        {obj.note}
                       </TableCell>
-                      <TableCell align="center">{row.state}</TableCell>
+                      <TableCell align="center">{obj.state}</TableCell>
                     </TableRow>
                   );
-                }
-              )}
+                })}
             </TableBody>
           </Table>
         </TableContainer>
+        <Box sx={{ width: "100%", textAlign: "right" }}>
+          <ExcelDownloadButton />
+        </Box>
         <Stack spacing={2}>
-          <Pagination count={10} variant="outlined" shape="rounded" />
+          <Pagination
+            count={page}
+            onChange={handlePagination}
+            variant="outlined"
+            shape="rounded"
+          />
         </Stack>
       </div>
     </>

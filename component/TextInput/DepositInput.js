@@ -1,47 +1,51 @@
+import * as React from "react";
 import { Autocomplete, TextField } from "@mui/material";
-import axios from "axios";
 import { useEffect, useState } from "react";
+import axios from "axios";
 import parse from "autosuggest-highlight/parse";
 import match from "autosuggest-highlight/match";
 
-export default function TableStoreInput() {
-  const [agencies, setAgencies] = useState();
+export default function DepositInput(props) {
+  const [data, setData] = useState("");
   useEffect(() => {
     axios
-      .get("http://192.168.0.52:8080/agencies")
+      //
+      //
+      //  데이터 링크 변경해야함
+      //
+      //
+      .get("http://192.168.0.52:8080/sims")
       .then((res) => {
-        setAgencies(res.data.content);
+        setData(res.data.content);
+        console.log(res.data.content);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
   return (
     <>
-      {agencies === null ? (
+      {data === "" ? (
         "loading"
       ) : (
         <Autocomplete
           disablePortal
           id="combo-box-demo"
-          options={agencies}
+          options={data}
           fullWidth
+          noOptionsText="검색 결과가 없습니다."
           sx={{
             margin: "0 16px 0 0",
-            "& .MuiInputLabel-root": { fontSize: "14px", textIndent: "10px" },
           }}
           renderInput={(params) => (
-            <TextField
-              {...params}
-              label="대리점 명"
-              variant="standard"
-              sx={{ "& .MuiInput-input": { textIndent: "10px" } }}
-            />
+            <TextField {...params} label="입금자" variant={props.variant} />
           )}
-          getOptionLabel={(option) => option.name}
+          getOptionLabel={(option) => option.usimNumber}
           renderOption={(props, option, { inputValue }) => {
-            const matches = match(option.name, inputValue, {
+            const matches = match(option.usimNumber, inputValue, {
               insideWords: true,
             });
-            const parts = parse(option.name, matches);
+            const parts = parse(option.usimNumber, matches);
             return (
               <li {...props}>
                 <div>

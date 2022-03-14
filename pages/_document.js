@@ -9,7 +9,7 @@ export default class MyDocument extends Document {
       <Html lang="en">
         <Head>
           <link rel="shortcut icon" href="/static/favicon.ico" />
-
+          {/* <meta name="description" content="_document pate" /> */}
           {this.props.emotionStyleTags}
         </Head>
         <body>

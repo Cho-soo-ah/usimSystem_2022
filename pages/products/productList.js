@@ -1,6 +1,9 @@
 import * as React from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import {
   Box,
+  Link,
   Table,
   TableHead,
   TableBody,
@@ -12,11 +15,9 @@ import {
   IconButton,
   Button,
 } from "@mui/material";
+import { Delete, Edit } from "@mui/icons-material";
+import AddBtn from "../../component/AddBtn";
 import CustomDialog from "../../component/CustomDialog";
-import axios from "axios";
-import { useState, useEffect } from "react";
-import { Add, BorderColor, Delete } from "@mui/icons-material";
-import Link from "next/link";
 
 export default function ProductList() {
   const tableHead = [
@@ -37,19 +38,6 @@ export default function ProductList() {
     setPage(value);
   };
 
-  useEffect(() => {
-    console.log("useEffect!!!!!!");
-    axios
-      .get(`http://192.168.0.52:8080/products?page=${page}`)
-      .then((res) => {
-        setProductArr(res.data.content);
-        setTotalPages(res.data.totalPages);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [page]);
-
   // ------ axios -------
 
   const [open, setOpen] = useState(false);
@@ -65,19 +53,9 @@ export default function ProductList() {
   return (
     <div className="tableInner">
       <h2>상품 관리</h2>
-
       <Box sx={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>
-        <Link href="/products/productAdd/" passHref>
-          <Add
-            fontSize="large"
-            sx={{
-              cursor: "pointer",
-              border: "1px solid #0000003b",
-              borderRadius: "4px",
-              padding: "5px",
-              color: "#5a5a5a",
-            }}
-          ></Add>
+        <Link href="/products/productUpload/" passHref>
+          <AddBtn />
         </Link>
       </Box>
       <TableContainer>
@@ -117,6 +95,9 @@ export default function ProductList() {
           >
             {productArr &&
               productArr.map((obj, index) => {
+                const replaceRegex = /\B(?=(\d{3})+(?!\d))/g;
+                const regex = (value) => value.replace(replaceRegex, ",");
+                console.log(regex(obj.assignCost.toString()));
                 return (
                   <TableRow
                     hover
@@ -134,19 +115,19 @@ export default function ProductList() {
                     ></TableCell>
                     <TableCell>{obj.name}</TableCell>
                     <TableCell align="right">
-                      &#65510; {obj.assignCost}
+                      &#65510; {regex(obj.assignCost.toString())}
                     </TableCell>
                     <TableCell align="right">
-                      &#65510; {obj.rentalCost}
+                      &#65510; {regex(obj.rentalCost.toString())}
                     </TableCell>
                     <TableCell align="right">
-                      &#65510; {obj.chargeCost}
+                      &#65510; {regex(obj.chargeCost.toString())}
                     </TableCell>
                     <TableCell align="center">{obj.freeChargeMonths}</TableCell>
-                    <TableCell align="center">
+                    <TableCell align="center" width="130px">
                       <Link href={`/products/${obj.id}`}>
                         <IconButton aria-label="Example">
-                          <BorderColor
+                          <Edit
                             sx={{
                               cursor: "pointer",
                               color: "#5a5a5a",

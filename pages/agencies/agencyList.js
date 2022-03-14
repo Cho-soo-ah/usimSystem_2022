@@ -1,6 +1,7 @@
 import * as React from "react";
 import {
   Box,
+  Link,
   Table,
   TableHead,
   TableBody,
@@ -13,16 +14,10 @@ import {
   Button,
 } from "@mui/material";
 import CustomDialog from "../../component/CustomDialog";
+import AddBtn from "../../component/AddBtn";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import {
-  Add,
-  BorderColor,
-  Delete,
-  Edit,
-  DeleteOutlineOutlined,
-} from "@mui/icons-material";
-import Link from "next/link";
+import { Delete, Edit } from "@mui/icons-material";
 
 export default function AgencyList() {
   const tableHead = [
@@ -74,16 +69,7 @@ export default function AgencyList() {
 
       <Box sx={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>
         <Link href="/agencies/agencyUpload" passHref>
-          <Add
-            fontSize="large"
-            sx={{
-              cursor: "pointer",
-              border: "1px solid #0000003b",
-              borderRadius: "4px",
-              padding: "5px",
-              color: "#5a5a5a",
-            }}
-          ></Add>
+          <AddBtn />
         </Link>
       </Box>
       <TableContainer>
@@ -159,7 +145,6 @@ export default function AgencyList() {
                             sx={{
                               cursor: "pointer",
                               color: "#5a5a5a",
-                              // fontSize: "18px",
                             }}
                           />
                         </IconButton>
@@ -172,7 +157,6 @@ export default function AgencyList() {
                           sx={{
                             cursor: "pointer",
                             color: "#5a5a5a",
-                            // fontSize: "20px",
                             padding: 0,
                           }}
                         />

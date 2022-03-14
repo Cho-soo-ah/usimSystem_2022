@@ -5,7 +5,6 @@ import {
   Box,
   FormControl,
   FormLabel,
-  InputAdornment,
   InputLabel,
   MenuItem,
   Select,
@@ -15,6 +14,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { useRouter } from "next/router";
+import PriceInput from "../../component/PriceInput";
 export default function ProductID() {
   const router = useRouter();
   const [type, setType] = useState();
@@ -23,6 +23,12 @@ export default function ProductID() {
   const [rentalCost, setRentalCost] = useState(0);
   const [chargeCost, setChargeCost] = useState(0);
   const [months, setMonths] = useState(0);
+
+  const replaceRegex = /\B(?=(\d{3})+(?!\d))/g;
+  const deleteRegex = /[^\d]/g;
+  const regex = (value) =>
+    Number(del(value)).toString().replace(replaceRegex, ",");
+  const del = (value) => value.toString().replace(deleteRegex, "");
 
   const handleType = (e, newType) => {
     if (newType !== null) {
@@ -33,13 +39,13 @@ export default function ProductID() {
     setName(e.target.value);
   };
   const handleAssignCost = (e) => {
-    setAssignCost(e.target.value);
+    setAssignCost(regex(e.target.value));
   };
   const handleRentalCost = (e) => {
-    setRentalCost(e.target.value);
+    setRentalCost(regex(e.target.value));
   };
   const handleChargeCost = (e) => {
-    setChargeCost(e.target.value);
+    setChargeCost(regex(e.target.value));
   };
   const handleMonth = (e) => {
     setMonths(e.target.value);
@@ -49,11 +55,10 @@ export default function ProductID() {
     axios
       .get(`http://192.168.0.52:8080/products/${router.query.id}`)
       .then((res) => {
-        console.log(res);
         setName(res.data.name);
-        setAssignCost(res.data.assignCost);
-        setRentalCost(res.data.rentalCost);
-        setChargeCost(res.data.chargeCost);
+        setAssignCost(regex(res.data.assignCost));
+        setRentalCost(regex(res.data.rentalCost));
+        setChargeCost(regex(res.data.chargeCost));
         setMonths(res.data.freeChargeMonths);
       })
       .catch((err) => console.log(err));
@@ -66,9 +71,9 @@ export default function ProductID() {
     axios
       .patch(`http://192.168.0.52:8080/products/${router.query.id}`, {
         name: name,
-        assignCost: assignCost,
-        rentalCost: rentalCost,
-        chargeCost: chargeCost,
+        assignCost: del(assignCost),
+        rentalCost: del(rentalCost),
+        chargeCost: del(chargeCost),
         freeChargeMonths: months,
       })
       .then((response) => {
@@ -86,7 +91,11 @@ export default function ProductID() {
   const loop = [];
 
   for (let i = 0; i < 13; i++) {
-    loop.push(<MenuItem value={i}>{i}</MenuItem>);
+    loop.push(
+      <MenuItem key={i} value={i}>
+        {i}
+      </MenuItem>
+    );
   }
 
   return (
@@ -135,52 +144,17 @@ export default function ProductID() {
         }}
         onChange={handleName}
       ></TextField>
-
-      <TextField
-        id="outlined-basic"
-        label="배정 비용"
-        value={assignCost}
-        variant="outlined"
-        fullWidth
-        sx={{ marginBottom: "16px" }}
-        onChange={handleAssignCost}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">&#65510;</InputAdornment>
-          ),
-        }}
-      ></TextField>
-      <TextField
-        id="outlined-basic"
-        label="개통 비용"
-        value={rentalCost}
-        variant="outlined"
-        fullWidth
-        sx={{ marginBottom: "16px" }}
-        onChange={handleRentalCost}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">&#65510;</InputAdornment>
-          ),
-        }}
-      ></TextField>
-      <TextField
-        id="outlined-basic"
-        label="충전 비용"
-        value={chargeCost}
-        variant="outlined"
-        fullWidth
-        sx={{ marginBottom: "16px" }}
-        onChange={handleChargeCost}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">&#65510;</InputAdornment>
-          ),
-        }}
-      ></TextField>
+      <PriceInput value={assignCost} onChange={handleAssignCost}>
+        개통 비용
+      </PriceInput>
+      <PriceInput value={rentalCost} onChange={handleRentalCost}>
+        배정 비용
+      </PriceInput>
+      <PriceInput value={chargeCost} onChange={handleChargeCost}>
+        충전 비용
+      </PriceInput>
       <FormControl fullWidth sx={{ marginBottom: "16px" }}>
         <InputLabel id="demo-simple-select-label">무료 충전 개월 수</InputLabel>
-
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
@@ -196,7 +170,6 @@ export default function ProductID() {
         loading={loading}
         onClick={handleSave}
         sx={{ height: "56px", color: "#fff", fontSize: "16px" }}
-        loadingPosition="start"
         fullWidth
       >
         수정하기

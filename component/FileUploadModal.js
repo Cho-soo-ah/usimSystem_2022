@@ -112,7 +112,6 @@ export default function FileUploadModal() {
               loading={loading}
               onClick={handleAxios}
               sx={{ height: "35px", color: "#fff" }}
-              loadingPosition="start"
             >
               업로드
             </LoadingButton>

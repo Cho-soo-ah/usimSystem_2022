@@ -1,29 +1,24 @@
 import * as React from "react";
+import axios from "axios";
+import { useState, useEffect } from "react";
+import { styled } from "@mui/system";
 import {
   Box,
   Stack,
+  TextField,
   Table,
   TableHead,
   TableBody,
   TableCell,
   TableContainer,
   TableRow,
-  TableSortLabel,
   Pagination,
 } from "@mui/material";
 import CustomButton from "../component/CustomButton";
 // Table Input
-import TableDateInput from "../component/TableInput/TableDateInput";
-import TableStoreInput from "../component/TableInput/TableStoreInput";
-import TableBarcodeInput from "../component/TableInput/TableBarcodeInput";
+import DateInput from "../component/TextInput/DateInput";
+import StoreInput from "../component/TextInput/StoreInput";
 import ExcelDownloadButton from "../component/ExcelDownloadButton";
-import Chip from "../component/Chips";
-
-import { styled } from "@mui/system";
-
-import { visuallyHidden } from "@mui/utils";
-import TableReasonInput from "../component/TableInput/TableReasonInput";
-import TableDepositInput from "../component/TableInput/TableDepositInput";
 
 const InputWrap = styled("div")({
   width: "100%",
@@ -36,161 +31,63 @@ const InputWrap = styled("div")({
   },
 });
 
-// ---------- table ----------
-
-function createData(date, store, account, deposit, user) {
-  return {
-    date,
-    store,
-    account,
-    deposit,
-    user,
-  };
-}
-// table Cell
-const rows = [
-  createData(
-    "2022-02-15 20:51:49",
-    "오피피에이",
-    "60438085518952 (우리은행)",
-    "\uFFE620,000",
-    "(주)오피피에이"
-  ),
-  createData(
-    "2022-02-15 20:51:49",
-    "양산아시아마트",
-    "60438085518952 (우리은행)",
-    "\uFFE650,000",
-    "김해경"
-  ),
-  createData(
-    "2022-02-15 20:51:49",
-    "오피피에이",
-    "60438085518952 (우리은행)",
-    "\uFFE6200,000",
-    "최기순"
-  ),
-];
-
-function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
-}
-
-function getComparator(order, orderBy) {
-  return order === "desc"
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
-}
-
-function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) {
-      return order;
-    }
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
-}
-
-const headCells = [
-  {
-    id: "data",
-    label: "날짜",
-  },
-  {
-    id: "store",
-    label: "대리점 명",
-  },
-  {
-    id: "account",
-    label: "가상계좌",
-  },
-  {
-    id: "deposit",
-    label: "입금",
-  },
-  {
-    id: "user",
-    label: "입금자",
-  },
-];
-
-function EnhancedTableHead(props) {
-  const { order, orderBy, onRequestSort } = props;
-  const createSortHandler = (property) => (event) => {
-    onRequestSort(event, property);
-  };
-
-  return (
-    <TableHead
-      sx={{
-        bgcolor: "#0000000a",
-        "& .MuiTableCell-head": {
-          border: "1px solid #dbdbdb",
-          textAlign: "center",
-          height: "45px",
-          padding: "0 10px",
-        },
-        "& .MuiTableSortLabel-root": {
-          marginLeft: "25px",
-        },
-      }}
-    >
-      <TableRow>
-        {headCells.map((headCell) => (
-          <TableCell
-            key={headCell.id}
-            sortDirection={orderBy === headCell.id ? order : false}
-          >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : "asc"}
-              onClick={createSortHandler(headCell.id)}
-            >
-              {headCell.label}
-              {orderBy === headCell.id ? (
-                <Box component="span" sx={visuallyHidden}>
-                  {order === "desc" ? "sorted descending" : "sorted ascending"}
-                </Box>
-              ) : null}
-            </TableSortLabel>
-          </TableCell>
-        ))}
-      </TableRow>
-    </TableHead>
-  );
-}
-// ---------- table ----------
+const tableHead = ["날짜", "대리점 명", "가상계좌", "입금", "입금자"];
 
 export default function PayList() {
-  const [order, setOrder] = React.useState("asc");
-  const [orderBy, setOrderBy] = React.useState();
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
-    setOrderBy(property);
+  const [totalPages, setTotalPages] = useState();
+  const [page, setPage] = useState(1);
+  const handlePagination = (e, value) => {
+    setPage(value);
   };
-
+  // useEffect(() => {
+  //   axios
+  //     .get(`http://192.168.0.52:8080/sims?page=${page}&size=10`)
+  //     .then((res) => {
+  //       console.log(res);
+  //       setData(res.data.content);
+  //       setTotalPages(res.data.totalPages);
+  //     })
+  //     .catch((err) => console.log(err));
+  // }, [page]);
+  // ----- axios -----
+  const [data, setData] = useState([
+    {
+      date: 1111111,
+      store: 1111111,
+      account: 1111111,
+      deposit: 1111111,
+      user: 1111111,
+    },
+    {
+      date: 1111111,
+      store: 1111111,
+      account: 1111111,
+      deposit: 1111111,
+      user: 1111111,
+    },
+  ]);
+  const [user, setUser] = useState("");
+  const handleUser = (e) => {
+    setUser(e.target.value);
+  };
   return (
     <>
       <div className="tableInner">
         <h2>입금 내역</h2>
         <InputWrap>
-          <TableDateInput />
-          <TableStoreInput />
-          <TableDepositInput />
+          <DateInput />
+          <StoreInput variant="standard" />
+          <TextField
+            variant="standard"
+            label="입금자"
+            onChange={handleUser}
+            value={user}
+            fullWidth
+            sx={{ mr: "16px" }}
+          ></TextField>
           <CustomButton
             variant="contained"
             type="submit"
-            // disabled={isSubmitting}
             sx={{
               width: "30%",
               height: "40px",
@@ -217,13 +114,29 @@ export default function PayList() {
             }}
             aria-label="custom pagination table"
           >
-            <EnhancedTableHead
-              order={order}
-              orderBy={orderBy}
-              onRequestSort={handleRequestSort}
-              rowCount={rows.length}
-              align="center"
-            />
+            <TableHead
+              sx={{
+                bgcolor: "#0000000a",
+                width: "100%",
+                "& .MuiTableCell-head": {
+                  border: "1px solid #dbdbdb",
+                  textAlign: "center",
+                  height: "45px",
+                  padding: "0 10px",
+                },
+                "& .MuiTableSortLabel-root": {
+                  marginLeft: "25px",
+                },
+              }}
+            >
+              <TableRow>
+                {tableHead.map((e, index) => (
+                  <TableCell key={index} sx={{ padding: 0 }}>
+                    {e}
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
             <TableBody
               sx={{
                 "& .MuiTableCell-root": {
@@ -233,34 +146,37 @@ export default function PayList() {
                 },
               }}
             >
-              {stableSort(rows, getComparator(order, orderBy)).map(
-                (row, index) => {
-                  return (
-                    <TableRow hover key={row.data}>
-                      <TableCell align="center" sx={{ minWidth: "155px" }}>
-                        {row.date}
-                      </TableCell>
-                      <TableCell align="left" sx={{ minWidth: "120px" }}>
-                        {row.store}
-                      </TableCell>
-                      <TableCell align="center" sx={{ minWidth: "100px" }}>
-                        {row.account}
-                      </TableCell>
-                      <TableCell align="right" sx={{ minWidth: "140px" }}>
-                        {row.deposit}
-                      </TableCell>
-                      <TableCell align="center" sx={{ minWidth: "140px" }}>
-                        {row.user}
-                      </TableCell>
-                    </TableRow>
-                  );
-                }
-              )}
+              {data.map((obj, index) => {
+                return (
+                  <TableRow hover key={index}>
+                    <TableCell align="center" sx={{ minWidth: "155px" }}>
+                      {obj.date}
+                    </TableCell>
+                    <TableCell align="left" sx={{ minWidth: "120px" }}>
+                      {obj.store}
+                    </TableCell>
+                    <TableCell align="center" sx={{ minWidth: "100px" }}>
+                      {obj.account}
+                    </TableCell>
+                    <TableCell align="right" sx={{ minWidth: "140px" }}>
+                      {obj.deposit}
+                    </TableCell>
+                    <TableCell align="center" sx={{ minWidth: "140px" }}>
+                      {obj.user}
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
             </TableBody>
           </Table>
         </TableContainer>
         <Stack spacing={2}>
-          <Pagination count={10} variant="outlined" shape="rounded" />
+          <Pagination
+            count={page}
+            onChange={handlePagination}
+            variant="outlined"
+            shape="rounded"
+          />
         </Stack>
       </div>
     </>

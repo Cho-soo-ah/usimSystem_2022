@@ -1,7 +1,7 @@
 import { Autocomplete, TextField } from "@mui/material";
 
 const option = [{ label: "aa" }, { label: "bb" }];
-export default function TableReasonInput() {
+export default function ReasonInput(props) {
   return (
     <>
       <Autocomplete
@@ -9,17 +9,15 @@ export default function TableReasonInput() {
         id="combo-box-demo"
         options={option}
         fullWidth
+        noOptionsText="검색 결과가 없습니다."
         sx={{
-          margin: "0 16px 0 0",
-          "& .MuiInputLabel-root": { fontSize: "14px", textIndent: "10px" },
+          mb: "16px",
+          mr: "16px",
+          minWidth: "130px",
+          maxWidth: "130px",
         }}
         renderInput={(params) => (
-          <TextField
-            {...params}
-            label="사유"
-            variant="standard"
-            sx={{ "& .MuiInput-input": { textIndent: "10px" } }}
-          />
+          <TextField {...params} label="사유" variant={props.variant} />
         )}
       />
     </>

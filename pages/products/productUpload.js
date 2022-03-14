@@ -14,6 +14,7 @@ import {
 import LoadingButton from "@mui/lab/LoadingButton";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import PriceInput from "../../component/PriceInput";
 
 export default function ProductUpload() {
   const [name, setName] = useState();
@@ -22,17 +23,23 @@ export default function ProductUpload() {
   const [chargeCost, setChargeCost] = useState();
   const [months, setMonths] = useState();
 
+  const replaceRegex = /\B(?=(\d{3})+(?!\d))/g;
+  const deleteRegex = /[^\d]/g;
+  const regex = (value) =>
+    Number(del(value)).toString().replace(replaceRegex, ",");
+  const del = (value) => value.toString().replace(deleteRegex, "");
+
   const handleName = (e) => {
     setName(e.target.value);
   };
   const handleAssignCost = (e) => {
-    setAssignCost(e.target.value);
+    setAssignCost(regex(e.target.value));
   };
   const handleRentalCost = (e) => {
-    setRentalCost(e.target.value);
+    setRentalCost(regex(e.target.value));
   };
   const handleChargeCost = (e) => {
-    setChargeCost(e.target.value);
+    setChargeCost(regex(e.target.value));
   };
   const handleMonth = (e) => {
     setMonths(e.target.value);
@@ -46,9 +53,9 @@ export default function ProductUpload() {
     axios
       .post(url, {
         name: name,
-        assignCost: assignCost,
-        rentalCost: rentalCost,
-        chargeCost: chargeCost,
+        assignCost: del(assignCost),
+        rentalCost: del(rentalCost),
+        chargeCost: del(chargeCost),
         freeChargeMonths: months,
       })
       .then((response) => {
@@ -114,46 +121,15 @@ export default function ProductUpload() {
         sx={{ marginBottom: "16px" }}
         onChange={handleName}
       ></TextField>
-      <TextField
-        id="outlined-basic"
-        label="배정 비용"
-        variant="outlined"
-        fullWidth
-        sx={{ marginBottom: "16px" }}
-        onChange={handleAssignCost}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">&#65510;</InputAdornment>
-          ),
-        }}
-      ></TextField>
-      <TextField
-        id="outlined-basic"
-        label="개통 비용"
-        variant="outlined"
-        fullWidth
-        sx={{ marginBottom: "16px" }}
-        onChange={handleRentalCost}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">&#65510;</InputAdornment>
-          ),
-        }}
-      ></TextField>
-      <TextField
-        id="outlined-basic"
-        label="충전 비용"
-        variant="outlined"
-        fullWidth
-        sx={{ marginBottom: "16px" }}
-        onChange={handleChargeCost}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">&#65510;</InputAdornment>
-          ),
-        }}
-      ></TextField>
-
+      <PriceInput value={assignCost} onChange={handleAssignCost}>
+        배정 비용
+      </PriceInput>
+      <PriceInput value={rentalCost} onChange={handleRentalCost}>
+        개통 비용
+      </PriceInput>
+      <PriceInput value={chargeCost} onChange={handleChargeCost}>
+        충전 비용
+      </PriceInput>
       <FormControl fullWidth sx={{ marginBottom: "16px" }}>
         <InputLabel id="demo-simple-select-label">무료 충전 개월 수</InputLabel>
         <Select
@@ -171,7 +147,6 @@ export default function ProductUpload() {
         loading={loading}
         onClick={handleAxios}
         sx={{ height: "56px", color: "#fff", fontSize: "16px" }}
-        loadingPosition="start"
         fullWidth
       >
         추가하기

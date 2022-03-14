@@ -5,18 +5,18 @@ export default function Chips(props) {
   const [status, setStatus] = useState();
   const [color, setColor] = useState();
   useEffect(() => {
-    if (props.status === "cancel") {
+    if (props.children === "취소") {
       setStatus(<Clear />);
-    } else if (props.status === "complete") {
+    } else if (props.children === "완료") {
       setStatus(<Check />);
     } else {
       setStatus(<HourglassBottom />);
     }
   }, []);
   useEffect(() => {
-    if (props.status === "cancel") {
+    if (props.children === "취소") {
       setColor("primary");
-    } else if (props.status === "complete") {
+    } else if (props.children === "완료") {
       setColor("success");
     } else {
       setColor("warning");
@@ -28,8 +28,8 @@ export default function Chips(props) {
       <Link href="/ListDetail" sx={{ textDecoration: "none" }}>
         <Chip
           size="small"
-          avatar={status}
           label={props.children}
+          avatar={status}
           color={color}
           sx={{
             cursor: "pointer",

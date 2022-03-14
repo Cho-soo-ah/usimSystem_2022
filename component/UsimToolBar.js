@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react";
 import {
   Typography,
   List,
@@ -23,6 +24,12 @@ import {
   MoveToInbox,
   Logout,
   AccountCircle,
+  ShoppingCart,
+  SimCard,
+  People,
+  Receipt,
+  ListAlt,
+  ChargingStation,
 } from "@mui/icons-material";
 
 const menuObjTop = [
@@ -33,47 +40,47 @@ const menuObjTop = [
   },
   {
     name: "개통 및 충전 처리",
-    icon: <PhoneIphone />,
+    icon: <ChargingStation />,
     link: "/chargeIn",
   },
   {
     name: "개통 및 충전 내역",
-    icon: <PhoneIphone />,
+    icon: <ListAlt />,
     link: "/chargeList",
   },
 
   {
     name: "대리점 개통 및 충전 현황",
     icon: <Store />,
-    link: "/agencies/agencieState",
+    link: "/agencies/agencyState",
   },
 ];
 const menuObjBot = [
   {
     name: "입금 내역",
-    icon: <PaidOutlined />,
+    icon: <ListAlt />,
     link: "/payList",
   },
 
   {
     name: "유심 관리",
-    icon: <PhoneIphone />,
+    icon: <SimCard />,
     link: "/usimList",
   },
 
   {
     name: "상품 관리",
-    icon: <PhoneIphone />,
+    icon: <ShoppingCart />,
     link: "/products/productList",
   },
   {
     name: "회원 관리",
-    icon: <Face />,
-    link: "/member",
+    icon: <People />,
+    link: "/members/memberList",
   },
   {
     name: "대리점 관리",
-    icon: <AddBusiness />,
+    icon: <Store />,
     link: "/agencies/agencyList",
   },
   {
@@ -84,8 +91,8 @@ const menuObjBot = [
 ];
 
 const drawerWidth = 275;
-const PcToolBar = () => {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+const UsimToolBar = () => {
+  const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -160,7 +167,7 @@ const PcToolBar = () => {
             <Divider sx={{ margin: "4px 0" }} />
             <Link href="/myUsimList" underline="none" color="#000">
               <MenuItem>
-                <PhoneIphone
+                <SimCard
                   fontSize="medium"
                   sx={{ color: "#8a8a8a", marginRight: "10px" }}
                 />
@@ -201,10 +208,10 @@ const PcToolBar = () => {
         anchor="right"
       >
         <List sx={{ mt: "64px" }}>
-          {menuObjTop.map((menu) => (
+          {menuObjTop.map((menu, index) => (
             <>
               <Link href={menu.link} sx={{ textDecoration: "none" }}>
-                <ListItem button>
+                <ListItem button key={index}>
                   <ListItemIcon>{menu.icon}</ListItemIcon>
                   <ListItemText primary={menu.name} />
                 </ListItem>
@@ -214,10 +221,10 @@ const PcToolBar = () => {
         </List>
         <Divider />
         <List>
-          {menuObjBot.map((menu) => (
+          {menuObjBot.map((menu, index) => (
             <>
               <Link href={menu.link} sx={{ textDecoration: "none" }}>
-                <ListItem button>
+                <ListItem button key={index}>
                   <ListItemIcon>{menu.icon}</ListItemIcon>
                   <ListItemText primary={menu.name} />
                 </ListItem>
@@ -230,4 +237,4 @@ const PcToolBar = () => {
   );
 };
 
-export default PcToolBar;
+export default UsimToolBar;

@@ -18,7 +18,7 @@ export default function CustomInput(props) {
               onChange={field.onChange}
               error={touched[props.name] && Boolean(errors[props.name])}
               helperText={touched[props.name] && errors[props.name]}
-              sx={{ marginTop: 2 }}
+              sx={props.sx}
             />
           );
         }}

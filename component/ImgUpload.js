@@ -88,8 +88,8 @@ export default function FileUpload() {
     setFiles(newFiles); // update the state
   };
 
-  const [open, setOpen] = React.useState(false);
-  const [imgSrc, setImgSrc] = React.useState();
+  const [open, setOpen] = useState(false);
+  const [imgSrc, setImgSrc] = useState();
   const handleOpen = (e) => {
     console.log("e.target.src : ", e.target);
     setImgSrc(e.target.src);
@@ -149,7 +149,13 @@ export default function FileUpload() {
             </span>
           </p>
         </div>
-        {thumbs.length > 0 && <aside style={thumbsContainer}>{thumbs}</aside>}
+        {thumbs.length > 0 && (
+          <Link href="">
+            <a target="_blank">
+              <aside style={thumbsContainer}>{thumbs}</aside>
+            </a>
+          </Link>
+        )}
       </section>
 
       <Modal open={open} onClose={handleClose}>

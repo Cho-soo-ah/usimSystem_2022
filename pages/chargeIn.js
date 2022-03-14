@@ -7,8 +7,8 @@ import { Box, InputLabel, MenuItem, FormControl, Select } from "@mui/material";
 import CustomButton from "../component/CustomButton";
 import CustomInput from "../component/CustomInput";
 import ImgUpload from "../component/ImgUpload";
-import StoreInput from "../component/StoreInput";
-import BarcodePhoneInput from "../component/BarcodePhoneInput";
+import StoreInput from "../component/TextInput/StoreInput";
+import BarcodeInput from "../component/TextInput/BarcodeInput";
 
 const validationSchema = yup.object({
   passport: yup
@@ -25,7 +25,7 @@ export default function ChargeIn() {
     <>
       <div className="inner">
         <Box>
-          <h2>개통 및 충전 처리</h2>
+          <h2 style={{ marginBottom: "16px" }}>개통 및 충전 처리</h2>
           <Formik
             validationSchema={validationSchema}
             initialValues={{ passport: "" }}
@@ -39,9 +39,11 @@ export default function ChargeIn() {
               return (
                 <Form onSubmit={handleSubmit}>
                   <StoreInput />
-                  <CustomInput name="passport">여권 번호</CustomInput>
-                  <BarcodePhoneInput></BarcodePhoneInput>
-                  <FormControl sx={{ width: "100%", marginTop: 2 }}>
+                  <CustomInput name="passport" sx={{ mb: "16px" }}>
+                    여권 번호
+                  </CustomInput>
+                  <BarcodeInput />
+                  <FormControl fullWidth>
                     <InputLabel id="product">상품</InputLabel>
                     <Select
                       labelId="product"

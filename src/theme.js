@@ -30,6 +30,11 @@ const theme = createTheme({
       },
     },
   },
+  breakpoints: {
+    values: {
+      laptop: 1024,
+    },
+  },
 });
 
 export default theme;
