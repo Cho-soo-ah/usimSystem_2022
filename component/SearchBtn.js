@@ -2,6 +2,7 @@ import * as React from "react";
 import { styled } from "@mui/material/styles";
 import { useState, useEffect } from "react";
 import {
+  Box,
   Button,
   Dialog,
   DialogActions,
@@ -58,14 +59,18 @@ const BootstrapDialogTitle = (props) => {
 
 export default function SearchBtn(props) {
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (props.items.includes("barcode")) {
+      setBarcode(true);
+    }
+  }, []);
+
   const handleOpen = () => {
     props.items.map((item) => {
       switch (item) {
         case "date":
           setDate(true);
-          break;
-        case "barcode":
-          setBarcode(true);
           break;
         case "deposit":
           setDeposit(true);
@@ -102,7 +107,14 @@ export default function SearchBtn(props) {
   const [usim, setUsim] = useState(false);
 
   return (
-    <>
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "flex-end",
+        alignItems: "center",
+        mb: 2,
+      }}
+    >
       {barcode && <BarcodeInput />}
       <Search
         fontSize="large"
@@ -121,6 +133,10 @@ export default function SearchBtn(props) {
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
+        sx={{
+          "& .MuiPaper-root": { overflow: "visible" },
+          "& .MuiDialogContent-root": { overflow: "visible" },
+        }}
       >
         <BootstrapDialogTitle
           id="customized-dialog-title"
@@ -130,10 +146,10 @@ export default function SearchBtn(props) {
         </BootstrapDialogTitle>
         <DialogContent dividers>
           {date && <DateInput />}
-          {deposit && <DepositInput />}
-          {product && <ProductInput />}
           {store && <StoreInput />}
+          {product && <ProductInput />}
           {usim && <UsimInput />}
+          {deposit && <DepositInput />}
           {reason && <ReasonInput />}
           {ris && <RisStateInput />}
         </DialogContent>
@@ -152,6 +168,6 @@ export default function SearchBtn(props) {
           </Button>
         </DialogActions>
       </BootstrapDialog>
-    </>
+    </Box>
   );
 }

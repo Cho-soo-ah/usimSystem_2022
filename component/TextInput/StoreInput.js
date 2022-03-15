@@ -6,23 +6,23 @@ import match from "autosuggest-highlight/match";
 import TextInputWrap from "./TextInputWrap";
 
 export default function StoreInput(props) {
-  const [agencies, setAgencies] = useState("");
+  const [data, setData] = useState("");
   useEffect(() => {
     axios
       .get("http://192.168.0.52:8080/agencies")
       .then((res) => {
-        setAgencies(res.data.content);
+        setData(res.data.content);
       })
       .catch((err) => console.log(err));
   }, []);
   return (
     <>
       <TextInputWrap text="대리점 명">
-        {agencies === "" ? (
+        {data === "" ? (
           "loading"
         ) : (
           <Autocomplete
-            options={agencies}
+            options={data}
             fullWidth
             noOptionsText="검색 결과가 없습니다."
             sx={{

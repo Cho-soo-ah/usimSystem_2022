@@ -14,12 +14,11 @@ import {
   Stack,
 } from "@mui/material";
 import StoreInput from "../../component/TextInput/StoreInput";
-import BarcodeInput from "../../component/TextInput/BarcodeInput";
-import UsimInput from "../../component/TextInput/UsimInput";
 import CustomButton from "../../component/CustomButton";
 import ExcelDownloadButton from "../../component/ExcelDownloadButton";
-import UsimListHeader from "../UsimListHeader";
+import UsimListHeader from "../sims/UsimListHeader";
 import FileUploadModal from "../../component/FileUploadModal";
+import SearchBtn from "../../component/SearchBtn";
 
 export default function AgencyState() {
   // ----- axios -----
@@ -94,28 +93,10 @@ export default function AgencyState() {
   return (
     <div className="tableInner">
       <h2>대리점 개통 및 충전 내역</h2>
-      <UsimListHeader></UsimListHeader>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "flex-end",
-          width: "100%",
-          mb: "16px",
-        }}
-      >
-        <StoreInput />
-        <BarcodeInput />
-        <UsimInput />
-        <CustomButton
-          sx={{
-            width: "30%",
-            mb: "16px",
-          }}
-        >
-          검색
-        </CustomButton>
+      <Box sx={{ width: "100%", textAlign: "right" }}>
+        <SearchBtn items={["barcode", "store", "usim"]} />
       </Box>
+      <UsimListHeader />
       <TableContainer>
         <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
           <TableHead
@@ -159,7 +140,10 @@ export default function AgencyState() {
                     id={obj.id}
                     selected={isSelected(index)}
                   >
-                    <TableCell padding="checkbox">
+                    <TableCell
+                      align="center"
+                      sx={{ width: "20px", padding: 0 }}
+                    >
                       <Checkbox
                         color="primary"
                         id={obj.id}

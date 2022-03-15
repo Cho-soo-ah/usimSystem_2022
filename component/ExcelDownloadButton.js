@@ -15,7 +15,6 @@ export default function ExcelDownloadButton() {
           padding: "5px",
           cursor: "pointer",
           color: "#5a5a5a",
-          mr: "8px",
         }}
       ></FileDownloadRounded>
     </>

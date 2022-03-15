@@ -10,6 +10,7 @@ export default function AddBtn() {
           borderRadius: "4px",
           padding: "5px",
           color: "#5a5a5a",
+          ml: "8px",
         }}
       ></Add>
     </>

@@ -14,11 +14,8 @@ import {
   TableRow,
   Pagination,
 } from "@mui/material";
-import CustomButton from "../component/CustomButton";
-// Table Input
-import DateInput from "../component/TextInput/DateInput";
-import StoreInput from "../component/TextInput/StoreInput";
 import ExcelDownloadButton from "../component/ExcelDownloadButton";
+import SearchBtn from "../component/SearchBtn";
 
 const InputWrap = styled("div")({
   width: "100%",
@@ -34,74 +31,31 @@ const InputWrap = styled("div")({
 const tableHead = ["날짜", "대리점 명", "가상계좌", "입금", "입금자"];
 
 export default function PayList() {
-  const [totalPages, setTotalPages] = useState();
+  const [data, setData] = useState("");
+  const [totalPages, setTotalPages] = useState("");
   const [page, setPage] = useState(1);
   const handlePagination = (e, value) => {
     setPage(value);
   };
-  // useEffect(() => {
-  //   axios
-  //     .get(`http://192.168.0.52:8080/sims?page=${page}&size=10`)
-  //     .then((res) => {
-  //       console.log(res);
-  //       setData(res.data.content);
-  //       setTotalPages(res.data.totalPages);
-  //     })
-  //     .catch((err) => console.log(err));
-  // }, [page]);
+  useEffect(() => {
+    axios
+      .get(`http://192.168.0.52:8080/sims?page=${page}&size=10`)
+      .then((res) => {
+        console.log(res);
+        setData(res.data.content);
+        setTotalPages(res.data.totalPages);
+      })
+      .catch((err) => console.log(err));
+  }, [page]);
   // ----- axios -----
-  const [data, setData] = useState([
-    {
-      date: 1111111,
-      store: 1111111,
-      account: 1111111,
-      deposit: 1111111,
-      user: 1111111,
-    },
-    {
-      date: 1111111,
-      store: 1111111,
-      account: 1111111,
-      deposit: 1111111,
-      user: 1111111,
-    },
-  ]);
-  const [user, setUser] = useState("");
-  const handleUser = (e) => {
-    setUser(e.target.value);
-  };
   return (
     <>
       <div className="tableInner">
         <h2>입금 내역</h2>
-        <InputWrap>
-          <DateInput />
-          <StoreInput variant="standard" />
-          <TextField
-            variant="standard"
-            label="입금자"
-            onChange={handleUser}
-            value={user}
-            fullWidth
-            sx={{ mr: "16px" }}
-          ></TextField>
-          <CustomButton
-            variant="contained"
-            type="submit"
-            sx={{
-              width: "30%",
-              height: "40px",
-              marginRight: "16px",
-            }}
-          >
-            검색
-          </CustomButton>
-          <Box sx={{ width: "35px", height: "35px" }}>
-            <ExcelDownloadButton />
-          </Box>
-        </InputWrap>
-
-        <TableContainer sx={{ margin: "20px 0" }}>
+        <Box sx={{ width: "100%", textAlign: "right" }}>
+          <SearchBtn items={["date", "store", "reason", "deposit"]} />
+        </Box>
+        <TableContainer sx={{ margin: "12px 0" }}>
           <Table
             sx={{
               minWidth: 500,
@@ -146,30 +100,41 @@ export default function PayList() {
                 },
               }}
             >
-              {data.map((obj, index) => {
-                return (
-                  <TableRow hover key={index}>
-                    <TableCell align="center" sx={{ minWidth: "155px" }}>
-                      {obj.date}
-                    </TableCell>
-                    <TableCell align="left" sx={{ minWidth: "120px" }}>
-                      {obj.store}
-                    </TableCell>
-                    <TableCell align="center" sx={{ minWidth: "100px" }}>
-                      {obj.account}
-                    </TableCell>
-                    <TableCell align="right" sx={{ minWidth: "140px" }}>
-                      {obj.deposit}
-                    </TableCell>
-                    <TableCell align="center" sx={{ minWidth: "140px" }}>
-                      {obj.user}
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
+              {data &&
+                data.map((obj, index) => {
+                  return (
+                    <TableRow hover key={index}>
+                      <TableCell align="center" sx={{ minWidth: "155px" }}>
+                        {obj.createDate}
+                      </TableCell>
+                      <TableCell align="left" sx={{ minWidth: "120px" }}>
+                        {obj.store}
+                      </TableCell>
+                      <TableCell align="center" sx={{ minWidth: "100px" }}>
+                        {obj.account}
+                      </TableCell>
+                      <TableCell align="right" sx={{ minWidth: "140px" }}>
+                        {obj.deposit}
+                      </TableCell>
+                      <TableCell align="center" sx={{ minWidth: "140px" }}>
+                        {obj.user}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
             </TableBody>
           </Table>
         </TableContainer>
+        <Box
+          sx={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "flex-end",
+            height: "35px",
+          }}
+        >
+          <ExcelDownloadButton />
+        </Box>
         <Stack spacing={2}>
           <Pagination
             count={page}

@@ -19,27 +19,36 @@ import { Delete, Edit } from "@mui/icons-material";
 import AddBtn from "../../component/AddBtn";
 import CustomDialog from "../../component/CustomDialog";
 
-export default function ProductList() {
-  const tableHead = [
-    "대리점 타입",
-    "상품명",
-    "배정 비용",
-    "개통 비용",
-    "충전 비용",
-    "무료 충전 개월 수",
-    "수정 / 삭제",
-  ];
-  // ------ axios -------
-  const [productArr, setProductArr] = useState();
+const tableHead = [
+  "대리점 타입",
+  "상품명",
+  "배정 비용",
+  "개통 비용",
+  "충전 비용",
+  "무료 충전 개월 수",
+  "수정 / 삭제",
+];
 
+export default function ProductList() {
+  // ------ axios -------
+  const [data, setData] = useState("");
   const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState();
+  const [totalPages, setTotalPages] = useState(0);
   const handlePagination = (e, value) => {
     setPage(value);
   };
-
-  // ------ axios -------
-
+  // ----- axios -----
+  useEffect(() => {
+    axios
+      .get(`http://192.168.0.52:8080/products?page=${page}&size=10`)
+      .then((res) => {
+        console.log(res);
+        setData(res.data.content);
+        setTotalPages(res.data.totalPages);
+      })
+      .catch((err) => console.log(err));
+  }, [page]);
+  // ----- axios -----
   const [open, setOpen] = useState(false);
   const [deleteData, setDeleteData] = useState();
   const handleClickOpen = (e) => {
@@ -93,8 +102,8 @@ export default function ProductList() {
               },
             }}
           >
-            {productArr &&
-              productArr.map((obj, index) => {
+            {data &&
+              data.map((obj, index) => {
                 const replaceRegex = /\B(?=(\d{3})+(?!\d))/g;
                 const regex = (value) => value.replace(replaceRegex, ",");
                 console.log(regex(obj.assignCost.toString()));
@@ -157,9 +166,9 @@ export default function ProductList() {
       <Stack spacing={2}>
         <Pagination
           count={totalPages}
+          onChange={handlePagination}
           variant="outlined"
           shape="rounded"
-          onChange={handlePagination}
         />
       </Stack>
       <CustomDialog message="삭제하시겠습니까?" open={open} setOpen={setOpen}>

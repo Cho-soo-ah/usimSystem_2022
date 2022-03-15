@@ -49,7 +49,6 @@ export default function Deposit() {
     axios
       .get(`http://192.168.0.52:8080/sims?page=${page}&size=10`)
       .then((res) => {
-        console.log(res);
         setData(res.data.content);
         setTotalPages(res.data.totalPages);
       })
@@ -64,10 +63,9 @@ export default function Deposit() {
       <div className="tableInner">
         <h2>예치금 내역</h2>
         <Box sx={{ width: "100%", textAlign: "right" }}>
-          <ExcelDownloadButton />
           <SearchBtn items={["date", "barcode", "store", "reason"]} />
         </Box>
-        <TableContainer sx={{ m: "16px 0" }}>
+        <TableContainer sx={{ mb: "16px" }}>
           <Table
             sx={{
               minWidth: 500,
@@ -150,7 +148,9 @@ export default function Deposit() {
             </TableBody>
           </Table>
         </TableContainer>
-
+        <Box sx={{ width: "100%", textAlign: "right" }}>
+          <ExcelDownloadButton />
+        </Box>
         <Stack spacing={2}>
           <Pagination
             count={page}

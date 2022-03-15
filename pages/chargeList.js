@@ -12,14 +12,7 @@ import {
   TableRow,
   Pagination,
 } from "@mui/material";
-import CustomButton from "../component/CustomButton";
-import InputWrap from "../component/InputWrap";
-// Table Input
-import DateInput from "../component/TextInput/DateInput";
-import StoreInput from "../component/TextInput/StoreInput";
-import BarcodeInput from "../component/TextInput/BarcodeInput";
-import ProductInput from "../component/TextInput/ProductInput";
-import RisStateInput from "../component/TextInput/RisStateInput";
+import SearchBtn from "../component/SearchBtn";
 
 const tableHead = [
   "날짜",
@@ -33,11 +26,13 @@ const tableHead = [
 ];
 
 export default function ChargeList() {
-  const [totalPages, setTotalPages] = useState();
+  const [data, setData] = useState("");
   const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
   const handlePagination = (e, value) => {
     setPage(value);
   };
+  // ----- axios -----
   useEffect(() => {
     axios
       .get(`http://192.168.0.52:8080/sims?page=${page}&size=10`)
@@ -49,68 +44,13 @@ export default function ChargeList() {
       .catch((err) => console.log(err));
   }, [page]);
   // ----- axios -----
-  const [data, setData] = useState();
   return (
     <>
       <div className="tableInner">
         <h2>개통 및 충전 내역</h2>
-        <InputWrap>
-          <DateInput
-            sx={{
-              "& .MuiInputBase-root": { borderRadius: "4px 0 0 4px" },
-              "& fieldset": {
-                borderRight: 0,
-              },
-            }}
-          />
-          <StoreInput
-            sx={{
-              "& .MuiInputBase-root": { borderRadius: 0 },
-              "& fieldset": {
-                borderRight: 0,
-              },
-            }}
-          />
-          <BarcodeInput
-            sx={{
-              mb: "12px",
-              "& .MuiInputBase-root": { borderRadius: 0 },
-              "& fieldset": {
-                borderRight: 0,
-              },
-            }}
-          />
-          <ProductInput
-            sx={{
-              mb: "12px",
-              borderRadius: 0,
-              "& fieldset": {
-                borderRight: 0,
-              },
-            }}
-          />
-          <RisStateInput
-            sx={{
-              mb: "12px",
-              borderRadius: 0,
-              "& fieldset": {
-                borderRight: 0,
-              },
-            }}
-          />
-          <CustomButton
-            variant="contained"
-            type="submit"
-            sx={{
-              minWidth: "130px",
-              mb: "17px",
-              borderRadius: "0 4px 4px 0",
-            }}
-          >
-            검색
-          </CustomButton>
-        </InputWrap>
-
+        <Box sx={{ width: "100%", textAlign: "right" }}>
+          <SearchBtn items={["date", "barcode", "store", "product", "ris"]} />
+        </Box>
         <TableContainer sx={{ mb: "16px" }}>
           <Table
             sx={{
@@ -190,7 +130,7 @@ export default function ChargeList() {
         </TableContainer>
         <Stack spacing={2}>
           <Pagination
-            count={page}
+            count={totalPages}
             onChange={handlePagination}
             variant="outlined"
             shape="rounded"

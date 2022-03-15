@@ -16,18 +16,14 @@ import {
 } from "@mui/material";
 import Link from "./MuiNextLink";
 import {
-  Face,
-  PhoneIphone,
   PaidOutlined,
   Store,
-  AddBusiness,
   MoveToInbox,
   Logout,
   AccountCircle,
   ShoppingCart,
   SimCard,
   People,
-  Receipt,
   ListAlt,
   ChargingStation,
 } from "@mui/icons-material";
@@ -65,7 +61,7 @@ const menuObjBot = [
   {
     name: "유심 관리",
     icon: <SimCard />,
-    link: "/usimList",
+    link: "/sims/usimList",
   },
 
   {

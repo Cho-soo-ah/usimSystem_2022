@@ -1,9 +1,16 @@
 import * as React from "react";
-import { Autocomplete, TextField } from "@mui/material";
+import { Autocomplete, Box, Skeleton, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import parse from "autosuggest-highlight/parse";
 import match from "autosuggest-highlight/match";
+
+import styled from "@emotion/styled";
+
+const CustomLi = styled.li`
+  min-height: 10px !important;
+  font-size: 14px;
+`;
 
 export default function BarcodeInput(props) {
   const [data, setData] = useState("");
@@ -20,7 +27,7 @@ export default function BarcodeInput(props) {
   return (
     <>
       {data === "" ? (
-        "loading"
+        <Skeleton animation="wave" width={240} height={56} sx={{ mr: 1 }} />
       ) : (
         <Autocomplete
           options={data}
@@ -31,7 +38,14 @@ export default function BarcodeInput(props) {
               label="바코드 번호 / 서비스 번호"
               variant="outlined"
               size="small"
-              sx={{ mb: "12px", width: "140px", fontSize: "12px" }}
+              sx={{
+                mb: "12px",
+                mr: "8px",
+                width: "240px",
+                height: "35px",
+                "& input": { fontSize: "13px" },
+              }}
+              InputLabelProps={{ style: { fontSize: 13 } }}
             />
           )}
           getOptionLabel={(option) =>
@@ -49,21 +63,13 @@ export default function BarcodeInput(props) {
               `${option.barcodeNumber} / ${option.serviceNumber}`,
               matches
             );
+
             return (
-              <li {...props}>
-                <div>
-                  {parts.map((part, index) => (
-                    <span
-                      key={index}
-                      style={{
-                        fontWeight: part.highlight ? 700 : 400,
-                      }}
-                    >
-                      {part.text}
-                    </span>
-                  ))}
-                </div>
-              </li>
+              <CustomLi {...props}>
+                {parts.map((part, index) => (
+                  <Box key={index}>{part.text}</Box>
+                ))}
+              </CustomLi>
             );
           }}
         />
