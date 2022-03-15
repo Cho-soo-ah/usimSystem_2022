@@ -151,17 +151,26 @@ export default function MemberList() {
                           checked={isSelected(index)}
                         />
                       </TableCell>
-                      <TableCell scope="row" padding="none" align="center">
+                      <TableCell
+                        scope="row"
+                        padding="none"
+                        align="center"
+                        sx={{ minWidth: "80px" }}
+                      >
+                        김떙떙
                         {/* {obj.store} */}
                       </TableCell>
-                      <TableCell align="center">
+                      <TableCell align="center" sx={{ minWidth: "180px" }}>
+                        sample@email.com
                         {/* {obj.barcodeNumber} */}
                       </TableCell>
-                      <TableCell align="center">{obj.serviceNumber}</TableCell>
-                      <TableCell align="center">
+                      <TableCell align="center" sx={{ minWidth: "120px" }}>
+                        {obj.serviceNumber}
+                      </TableCell>
+                      <TableCell align="center" sx={{ minWidth: "80px" }}>
                         {/*{obj.usimNumber}*/}
                       </TableCell>
-                      <TableCell align="center">
+                      <TableCell align="center" sx={{ minWidth: "120px" }}>
                         {/*{obj.serviceNumber}*/}
                       </TableCell>
                     </TableRow>

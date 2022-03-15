@@ -100,26 +100,29 @@ export default function ChargeList() {
                 data.map((obj, index) => {
                   return (
                     <TableRow hover key={index}>
-                      <TableCell align="center" sx={{ minWidth: "155px" }}>
-                        {obj.createDate}
+                      <TableCell align="center" sx={{ minWidth: "130px" }}>
+                        {/* {obj.createDate} */}
+                        2022-03-10
                       </TableCell>
-                      <TableCell sx={{ minWidth: "170px" }}>
+                      <TableCell sx={{ minWidth: "140px" }}>
                         {obj.store}
                       </TableCell>
                       <TableCell align="center" sx={{ minWidth: "100px" }}>
                         {obj.division}
                       </TableCell>
-                      <TableCell align="center" sx={{ minWidth: "140px" }}>
+                      <TableCell align="center" sx={{ minWidth: "120px" }}>
                         {obj.barcodeNumber}
                       </TableCell>
-                      <TableCell align="center" sx={{ minWidth: "140px" }}>
+                      <TableCell align="center" sx={{ minWidth: "120px" }}>
                         {obj.serviceNumber}
                       </TableCell>
                       <TableCell sx={{ minWidth: "170px" }}>
                         {obj.serialNumber}
                       </TableCell>
-                      <TableCell align="center">{obj.state}</TableCell>
-                      <TableCell align="center" sx={{ minWidth: "125px" }}>
+                      <TableCell align="center" sx={{ minWidth: "80px" }}>
+                        {obj.state}
+                      </TableCell>
+                      <TableCell align="center" sx={{ minWidth: "80px" }}>
                         {obj.risState}
                       </TableCell>
                     </TableRow>

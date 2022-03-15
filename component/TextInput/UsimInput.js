@@ -22,50 +22,46 @@ export default function UsimInput(props) {
   return (
     <>
       <TextInputWrap text="유심 정보">
-        {data === "" ? (
-          "loading"
-        ) : (
-          <Autocomplete
-            disablePortal
-            id="combo-box-demo"
-            options={data}
-            fullWidth
-            noOptionsText="검색 결과가 없습니다."
-            sx={{
-              mb: "12px",
-            }}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label={props.label}
-                variant={props.variant}
-              />
-            )}
-            getOptionLabel={(option) => option.usimNumber}
-            renderOption={(props, option, { inputValue }) => {
-              const matches = match(option.usimNumber, inputValue, {
-                insideWords: true,
-              });
-              const parts = parse(option.usimNumber, matches);
-              return (
-                <li {...props}>
-                  <div>
-                    {parts.map((part, index) => (
-                      <span
-                        key={index}
-                        style={{
-                          fontWeight: part.highlight ? 700 : 400,
-                        }}
-                      >
-                        {part.text}
-                      </span>
-                    ))}
-                  </div>
-                </li>
-              );
-            }}
-          />
-        )}
+        <Autocomplete
+          disablePortal
+          id="combo-box-demo"
+          options={data}
+          fullWidth
+          noOptionsText="검색 결과가 없습니다."
+          sx={{
+            mb: "12px",
+          }}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label={props.label}
+              variant={props.variant}
+            />
+          )}
+          getOptionLabel={(option) => option.usimNumber}
+          renderOption={(props, option, { inputValue }) => {
+            const matches = match(option.usimNumber, inputValue, {
+              insideWords: true,
+            });
+            const parts = parse(option.usimNumber, matches);
+            return (
+              <li {...props}>
+                <div>
+                  {parts.map((part, index) => (
+                    <span
+                      key={index}
+                      style={{
+                        fontWeight: part.highlight ? 700 : 400,
+                      }}
+                    >
+                      {part.text}
+                    </span>
+                  ))}
+                </div>
+              </li>
+            );
+          }}
+        />
       </TextInputWrap>
     </>
   );

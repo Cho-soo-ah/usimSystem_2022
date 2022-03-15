@@ -124,21 +124,26 @@ export default function AgencyList() {
                       scope="row"
                       padding="none"
                       align="center"
+                      sx={{ minWidth: "120px" }}
                     >
                       {obj.type}
                     </TableCell>
-                    <TableCell align="center">
+                    <TableCell align="center" sx={{ minWidth: "140px" }}>
                       {obj.corporateRegistrationNumber}
                     </TableCell>
-                    <TableCell align="center">{obj.name}</TableCell>
-                    <TableCell align="center">{obj.bank}</TableCell>
-                    <TableCell align="center">
+                    <TableCell align="center" sx={{ minWidth: "140px" }}>
+                      {obj.name}
+                    </TableCell>
+                    <TableCell align="center" sx={{ minWidth: "80px" }}>
+                      {obj.bank}
+                    </TableCell>
+                    <TableCell align="center" sx={{ minWidth: "180px" }}>
                       {obj.virtualAccountNumber}
                     </TableCell>
-                    <TableCell align="right">
+                    <TableCell align="right" sx={{ minWidth: "130px" }}>
                       &#65510; {obj.freeChargeMonths}
                     </TableCell>
-                    <TableCell align="center" width="130px">
+                    <TableCell align="center" sx={{ minWidth: "130px" }}>
                       <Link href={`/agencies/${obj.id}`} passHref>
                         <IconButton aria-label="Example">
                           <Edit

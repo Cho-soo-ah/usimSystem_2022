@@ -150,14 +150,29 @@ export default function AgencyState() {
                         checked={isSelected(index)}
                       />
                     </TableCell>
-                    <TableCell scope="row" padding="none" align="center">
+                    <TableCell
+                      scope="row"
+                      padding="none"
+                      align="center"
+                      sx={{ minWidth: "140px" }}
+                    >
                       {obj.store}
                     </TableCell>
-                    <TableCell align="center">{obj.barcodeNumber}</TableCell>
-                    <TableCell align="center">{obj.serviceNumber}</TableCell>
-                    <TableCell align="center">{obj.usimNumber}</TableCell>
-                    <TableCell align="center">{obj.date}</TableCell>
-                    <TableCell align="center">{obj.state}</TableCell>
+                    <TableCell align="center" sx={{ minWidth: "120px" }}>
+                      {obj.barcodeNumber}
+                    </TableCell>
+                    <TableCell align="center" sx={{ minWidth: "120px" }}>
+                      {obj.serviceNumber}
+                    </TableCell>
+                    <TableCell align="center" sx={{ minWidth: "140px" }}>
+                      {obj.usimNumber}
+                    </TableCell>
+                    <TableCell align="center" sx={{ minWidth: "140px" }}>
+                      {obj.date}
+                    </TableCell>
+                    <TableCell align="center" sx={{ minWidth: "80px" }}>
+                      {obj.state}
+                    </TableCell>
                   </TableRow>
                 );
               })}

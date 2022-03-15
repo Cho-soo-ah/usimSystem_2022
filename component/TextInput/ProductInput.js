@@ -18,49 +18,45 @@ export default function ProductInput(props) {
   return (
     <>
       <TextInputWrap text="상품">
-        {data === "" ? (
-          "loading"
-        ) : (
-          <Autocomplete
-            options={data}
-            fullWidth
-            noOptionsText="검색 결과가 없습니다."
-            sx={{
-              mb: "12px",
-            }}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label={props.label}
-                variant={props.variant}
-                sx={props.sx}
-              />
-            )}
-            getOptionLabel={(option) => option.name}
-            renderOption={(props, option, { inputValue }) => {
-              const matches = match(option.name, inputValue, {
-                insideWords: true,
-              });
-              const parts = parse(option.name, matches);
-              return (
-                <li {...props}>
-                  <div>
-                    {parts.map((part, index) => (
-                      <span
-                        key={index}
-                        style={{
-                          fontWeight: part.highlight ? 700 : 400,
-                        }}
-                      >
-                        {part.text}
-                      </span>
-                    ))}
-                  </div>
-                </li>
-              );
-            }}
-          />
-        )}
+        <Autocomplete
+          options={data}
+          fullWidth
+          noOptionsText="검색 결과가 없습니다."
+          sx={{
+            mb: "12px",
+          }}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label={props.label}
+              variant={props.variant}
+              sx={props.sx}
+            />
+          )}
+          getOptionLabel={(option) => option.name}
+          renderOption={(props, option, { inputValue }) => {
+            const matches = match(option.name, inputValue, {
+              insideWords: true,
+            });
+            const parts = parse(option.name, matches);
+            return (
+              <li {...props}>
+                <div>
+                  {parts.map((part, index) => (
+                    <span
+                      key={index}
+                      style={{
+                        fontWeight: part.highlight ? 700 : 400,
+                      }}
+                    >
+                      {part.text}
+                    </span>
+                  ))}
+                </div>
+              </li>
+            );
+          }}
+        />
       </TextInputWrap>
     </>
   );

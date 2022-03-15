@@ -121,19 +121,22 @@ export default function ProductList() {
                       scope="row"
                       padding="none"
                       align="center"
+                      sx={{ minWidth: "120px" }}
                     ></TableCell>
-                    <TableCell>{obj.name}</TableCell>
-                    <TableCell align="right">
+                    <TableCell sx={{ minWidth: "180px" }}>{obj.name}</TableCell>
+                    <TableCell align="right" sx={{ minWidth: "130px" }}>
                       &#65510; {regex(obj.assignCost.toString())}
                     </TableCell>
-                    <TableCell align="right">
+                    <TableCell align="right" sx={{ minWidth: "130px" }}>
                       &#65510; {regex(obj.rentalCost.toString())}
                     </TableCell>
-                    <TableCell align="right">
+                    <TableCell align="right" sx={{ minWidth: "130px" }}>
                       &#65510; {regex(obj.chargeCost.toString())}
                     </TableCell>
-                    <TableCell align="center">{obj.freeChargeMonths}</TableCell>
-                    <TableCell align="center" width="130px">
+                    <TableCell align="center" sx={{ minWidth: "130px" }}>
+                      {obj.freeChargeMonths}
+                    </TableCell>
+                    <TableCell align="center" sx={{ minWidth: "130px" }}>
                       <Link href={`/products/${obj.id}`}>
                         <IconButton aria-label="Example">
                           <Edit

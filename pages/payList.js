@@ -104,19 +104,20 @@ export default function PayList() {
                 data.map((obj, index) => {
                   return (
                     <TableRow hover key={index}>
-                      <TableCell align="center" sx={{ minWidth: "155px" }}>
-                        {obj.createDate}
+                      <TableCell align="center" sx={{ minWidth: "130px" }}>
+                        {/* {obj.createDate} */}
+                        2022-03-10
                       </TableCell>
-                      <TableCell align="left" sx={{ minWidth: "120px" }}>
+                      <TableCell align="left" sx={{ minWidth: "140px" }}>
                         {obj.store}
                       </TableCell>
-                      <TableCell align="center" sx={{ minWidth: "100px" }}>
+                      <TableCell align="center" sx={{ minWidth: "180px" }}>
                         {obj.account}
                       </TableCell>
-                      <TableCell align="right" sx={{ minWidth: "140px" }}>
+                      <TableCell align="right" sx={{ minWidth: "120px" }}>
                         {obj.deposit}
                       </TableCell>
-                      <TableCell align="center" sx={{ minWidth: "140px" }}>
+                      <TableCell align="center" sx={{ minWidth: "120px" }}>
                         {obj.user}
                       </TableCell>
                     </TableRow>

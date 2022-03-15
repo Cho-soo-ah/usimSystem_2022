@@ -11,19 +11,9 @@ import {
   TableContainer,
   TableRow,
   Pagination,
-  FormGroup,
-  TextField,
-  Button,
 } from "@mui/material";
 import ExcelDownloadButton from "../component/ExcelDownloadButton";
 import SearchBtn from "../component/SearchBtn";
-import InputWrap from "../component/InputWrap";
-import CustomButton from "../component/CustomButton";
-import DateInput from "../component/TextInput/DateInput";
-import StoreInput from "../component/TextInput/StoreInput";
-import BarcodeInput from "../component/TextInput/BarcodeInput";
-import ProductInput from "../component/TextInput/ProductInput";
-import RisStateInput from "../component/TextInput/RisStateInput";
 const tableHead = [
   "날짜",
   "서비스 번호",
@@ -62,7 +52,7 @@ export default function Deposit() {
     <>
       <div className="tableInner">
         <h2>예치금 내역</h2>
-        <Box sx={{ width: "100%", textAlign: "right" }}>
+        <Box sx={{ width: "100%", height: "35px", textAlign: "right", mb: 2 }}>
           <SearchBtn items={["date", "barcode", "store", "reason"]} />
         </Box>
         <TableContainer sx={{ mb: "16px" }}>
@@ -120,13 +110,13 @@ export default function Deposit() {
                       <TableCell align="center" sx={{ minWidth: "120px" }}>
                         {obj.serviceNumber}
                       </TableCell>
-                      <TableCell align="center" sx={{ minWidth: "100px" }}>
+                      <TableCell align="center" sx={{ minWidth: "120px" }}>
                         {obj.barcodeNumber}
                       </TableCell>
                       <TableCell align="left" sx={{ minWidth: "140px" }}>
                         {obj.store}
                       </TableCell>
-                      <TableCell align="center" sx={{ minWidth: "140px" }}>
+                      <TableCell align="center" sx={{ minWidth: "180px" }}>
                         {obj.account}
                       </TableCell>
                       <TableCell align="right" sx={{ minWidth: "120px" }}>
@@ -138,10 +128,12 @@ export default function Deposit() {
                       <TableCell align="right" sx={{ minWidth: "120px" }}>
                         {/* &#65510; {regex(obj.balance)} */}
                       </TableCell>
-                      <TableCell align="center" sx={{ minWidth: "125px" }}>
+                      <TableCell align="center" sx={{ minWidth: "70px" }}>
                         {obj.note}
                       </TableCell>
-                      <TableCell align="center">{obj.state}</TableCell>
+                      <TableCell align="center" sx={{ minWidth: "70px" }}>
+                        {obj.state}
+                      </TableCell>
                     </TableRow>
                   );
                 })}
@@ -153,7 +145,7 @@ export default function Deposit() {
         </Box>
         <Stack spacing={2}>
           <Pagination
-            count={page}
+            count={totalPages}
             onChange={handlePagination}
             variant="outlined"
             shape="rounded"

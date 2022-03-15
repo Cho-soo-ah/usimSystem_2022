@@ -26,44 +26,40 @@ export default function DepositInput(props) {
   return (
     <>
       <TextInputWrap text="입금자 명">
-        {data === "" ? (
-          "loading"
-        ) : (
-          <Autocomplete
-            options={data}
-            fullWidth
-            noOptionsText="검색 결과가 없습니다."
-            sx={{
-              mb: "12px",
-            }}
-            renderInput={(params) => (
-              <TextField {...params} label={props.label} variant="outlined" />
-            )}
-            getOptionLabel={(option) => option.usimNumber}
-            renderOption={(props, option, { inputValue }) => {
-              const matches = match(option.usimNumber, inputValue, {
-                insideWords: true,
-              });
-              const parts = parse(option.usimNumber, matches);
-              return (
-                <li {...props}>
-                  <div>
-                    {parts.map((part, index) => (
-                      <span
-                        key={index}
-                        style={{
-                          fontWeight: part.highlight ? 700 : 400,
-                        }}
-                      >
-                        {part.text}
-                      </span>
-                    ))}
-                  </div>
-                </li>
-              );
-            }}
-          />
-        )}
+        <Autocomplete
+          options={data}
+          fullWidth
+          noOptionsText="검색 결과가 없습니다."
+          sx={{
+            mb: "12px",
+          }}
+          renderInput={(params) => (
+            <TextField {...params} label={props.label} variant="outlined" />
+          )}
+          getOptionLabel={(option) => option.usimNumber}
+          renderOption={(props, option, { inputValue }) => {
+            const matches = match(option.usimNumber, inputValue, {
+              insideWords: true,
+            });
+            const parts = parse(option.usimNumber, matches);
+            return (
+              <li {...props}>
+                <div>
+                  {parts.map((part, index) => (
+                    <span
+                      key={index}
+                      style={{
+                        fontWeight: part.highlight ? 700 : 400,
+                      }}
+                    >
+                      {part.text}
+                    </span>
+                  ))}
+                </div>
+              </li>
+            );
+          }}
+        />
       </TextInputWrap>
     </>
   );
