@@ -10,7 +10,7 @@ let validationSchema2 = {
   phoneNumber: yup
     .number("숫자만 입력하세요")
     .typeError("숫자만 입력하세요")
-    .required("핸드폰 번호를 입력하세요"),
+    .required("서비스 번호를 입력하세요"),
   code: yup
     .number("인증 코드를 입력하세요")
     .typeError("6자리 인증 코드를 입력하세요")
@@ -35,7 +35,7 @@ export default function PhoneCertify(props) {
                 color="primary"
                 id="phoneNumber"
                 name="phoneNumber"
-                label="핸드폰 번호"
+                label="서비스 번호"
                 type="text"
                 value={field.value}
                 onChange={field.onChange}
@@ -48,7 +48,7 @@ export default function PhoneCertify(props) {
                   },
                 }}
               >
-                핸드폰 번호
+                서비스 번호
               </TextField>
             );
           }}

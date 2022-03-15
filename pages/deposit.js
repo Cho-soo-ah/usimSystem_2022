@@ -1,7 +1,6 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import theme from "../src/theme";
 import {
   Box,
   Stack,
@@ -12,18 +11,22 @@ import {
   TableContainer,
   TableRow,
   Pagination,
+  FormGroup,
+  TextField,
+  Button,
 } from "@mui/material";
+import ExcelDownloadButton from "../component/ExcelDownloadButton";
+import SearchBtn from "../component/SearchBtn";
 import InputWrap from "../component/InputWrap";
+import CustomButton from "../component/CustomButton";
 import DateInput from "../component/TextInput/DateInput";
 import StoreInput from "../component/TextInput/StoreInput";
 import BarcodeInput from "../component/TextInput/BarcodeInput";
-import ReasonInput from "../component/TextInput/ReasonInput";
-import CustomButton from "../component/CustomButton";
-import ExcelDownloadButton from "../component/ExcelDownloadButton";
-import Chip from "../component/Chips";
+import ProductInput from "../component/TextInput/ProductInput";
+import RisStateInput from "../component/TextInput/RisStateInput";
 const tableHead = [
   "날짜",
-  "핸드폰 번호",
+  "서비스 번호",
   "바코드 번호",
   "대리점 명",
   "가상계좌",
@@ -60,26 +63,11 @@ export default function Deposit() {
     <>
       <div className="tableInner">
         <h2>예치금 내역</h2>
-        <InputWrap>
-          <DateInput />
-          <BarcodeInput />
-          <StoreInput />
-          <ReasonInput />
-          <CustomButton
-            variant="contained"
-            type="submit"
-            sx={{
-              [theme.breakpoints.only("laptop")]: {
-                width: "30%",
-                mb: "16px",
-              },
-            }}
-          >
-            검색
-          </CustomButton>
-        </InputWrap>
-
-        <TableContainer sx={{ mb: "16px" }}>
+        <Box sx={{ width: "100%", textAlign: "right" }}>
+          <ExcelDownloadButton />
+          <SearchBtn items={["date", "barcode", "store", "reason"]} />
+        </Box>
+        <TableContainer sx={{ m: "16px 0" }}>
           <Table
             sx={{
               minWidth: 500,
@@ -162,9 +150,7 @@ export default function Deposit() {
             </TableBody>
           </Table>
         </TableContainer>
-        <Box sx={{ width: "100%", textAlign: "right" }}>
-          <ExcelDownloadButton />
-        </Box>
+
         <Stack spacing={2}>
           <Pagination
             count={page}

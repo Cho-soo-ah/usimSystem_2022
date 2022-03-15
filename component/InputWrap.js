@@ -9,7 +9,7 @@ const InputWrap = styled("div")({
     flexDirection: "initial",
     alignItems: "flex-end",
     justifyContent: "center",
-    marginTop: "16px",
+    marginTop: "28px",
   },
 });
 export default InputWrap;

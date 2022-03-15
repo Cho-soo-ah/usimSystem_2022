@@ -23,15 +23,15 @@ export default function BarcodeInput(props) {
         "loading"
       ) : (
         <Autocomplete
-          fullWidth
           options={data}
           noOptionsText="검색 결과가 없습니다."
           renderInput={(params) => (
             <TextField
               {...params}
-              label="바코드 번호 / 핸드폰 번호"
-              variant={props.variant}
-              sx={{ mb: "16px", minHeight: "35px" }}
+              label="바코드 번호 / 서비스 번호"
+              variant="outlined"
+              size="small"
+              sx={{ mb: "12px", width: "140px", fontSize: "12px" }}
             />
           )}
           getOptionLabel={(option) =>
@@ -65,10 +65,6 @@ export default function BarcodeInput(props) {
                 </div>
               </li>
             );
-          }}
-          sx={{
-            margin: "0 16px 0 0",
-            // "& .MuiInputLabel-root": { fontSize: "14px", textIndent: "10px" },
           }}
         />
       )}

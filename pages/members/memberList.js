@@ -37,7 +37,7 @@ const InputWrap = styled("div")({
   },
 });
 
-const tableHead = ["이름", "이메일", "핸드폰 번호", "권한", "대리점"];
+const tableHead = ["이름", "이메일", "서비스 번호", "권한", "대리점"];
 
 export default function MemberList() {
   // ------ axios -------

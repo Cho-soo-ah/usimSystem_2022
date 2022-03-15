@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { Box, IconButton, Link, Modal } from "@mui/material";
+import { IconButton, Link } from "@mui/material";
 import { HighlightOff, ErrorOutline } from "@mui/icons-material";
 
 const thumbsContainer = {
@@ -43,29 +43,11 @@ const buttonStyle = {
   padding: 1,
 };
 
-const modalStyle = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  p: 4,
-  width: 600,
-  minHeight: "50vh",
-  maxHeight: "70vh",
-  bgcolor: "background.paper",
-  borderRadius: 1,
-  boxShadow: 24,
-  overflowY: "scroll",
-};
-
 export default function FileUpload() {
   const [files, setFiles] = useState([]);
   const { getRootProps, getInputProps } = useDropzone({
     accept: "image/*",
     onDrop: (acceptedFiles) => {
-      // 파일을 선택했을 때, 실행
-      // setFiles = 기존에 있던 파일 + 새로 선택한 파일
-
       var newFiles = acceptedFiles.map((file) =>
         Object.assign(file, {
           preview: URL.createObjectURL(file),
@@ -75,27 +57,17 @@ export default function FileUpload() {
     },
   });
 
-  // 선택한 썸네일 삭제
   const handleClick = (i) => {
-    const newFiles = [...files]; // make a var for the new array
-
-    const target = newFiles.splice(i, 1); // 배열에서 선택한 Index 의 Thumbnail 을 삭제
+    const newFiles = [...files];
+    const target = newFiles.splice(i, 1);
     URL.revokeObjectURL(target.preview);
-    // files.forEach((file) => {
-    //
-    // });
-
-    setFiles(newFiles); // update the state
+    setFiles(newFiles);
   };
 
-  const [open, setOpen] = useState(false);
   const [imgSrc, setImgSrc] = useState();
   const handleOpen = (e) => {
-    console.log("e.target.src : ", e.target);
     setImgSrc(e.target.src);
-    setOpen(true);
   };
-  const handleClose = () => setOpen(false);
 
   const thumbs = files.map((file, i) => {
     return (
@@ -112,14 +84,16 @@ export default function FileUpload() {
             <HighlightOff fontSize="small" />
           </IconButton>
           <div style={thumbInner}>
-            <Image
-              width="105"
-              height="105"
-              src={file.preview}
-              sx={img}
-              alt="#"
-              onClick={handleOpen}
-            />
+            <Link href={imgSrc} target="_blank">
+              <Image
+                width="105"
+                height="105"
+                src={file.preview}
+                sx={img}
+                alt="#"
+                onClick={handleOpen}
+              />
+            </Link>
           </div>
         </div>
       </>
@@ -149,27 +123,8 @@ export default function FileUpload() {
             </span>
           </p>
         </div>
-        {thumbs.length > 0 && (
-          <Link href="">
-            <a target="_blank">
-              <aside style={thumbsContainer}>{thumbs}</aside>
-            </a>
-          </Link>
-        )}
+        {thumbs.length > 0 && <aside style={thumbsContainer}>{thumbs}</aside>}
       </section>
-
-      <Modal open={open} onClose={handleClose}>
-        <Box sx={modalStyle}>
-          <Image
-            src={imgSrc}
-            alt="/"
-            objectFit="contain"
-            width="600px"
-            height="550px"
-            maxheight="1000px"
-          />
-        </Box>
-      </Modal>
     </>
   );
 }

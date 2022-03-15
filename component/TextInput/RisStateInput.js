@@ -1,5 +1,6 @@
-import { InputLabel, MenuItem, FormControl, Select } from "@mui/material";
 import { useState } from "react";
+import { InputLabel, MenuItem, FormControl, Select } from "@mui/material";
+import TextInputWrap from "./TextInputWrap";
 
 export default function RisStateInput(props) {
   const [value, setValue] = useState("");
@@ -7,31 +8,25 @@ export default function RisStateInput(props) {
     setValue(event.target.value);
   };
   return (
-    <FormControl
-      sx={{ width: "50%", margin: "0 16px 0 0" }}
-      variant={props.variant}
-    >
-      <InputLabel
-        id="risState"
-        //  sx={{ textIndent: "10px", fontSize: "14px" }}
-      >
-        RIS 처리 여부
-      </InputLabel>
-      <Select
-        labelId="risState"
-        id="risState"
-        value={value}
-        label="RIS 처리 여부"
-        onChange={handleChange}
-        sx={{ mb: "16px" }}
-      >
-        <MenuItem value={10} sx={{ minHeight: "38px" }}>
-          완료
-        </MenuItem>
-        <MenuItem value={20} sx={{ minHeight: "38px" }}>
-          미완
-        </MenuItem>
-      </Select>
-    </FormControl>
+    <TextInputWrap text="RIS 처리 여부">
+      <FormControl fullWidth variant={props.variant}>
+        <InputLabel id="risState"></InputLabel>
+        <Select
+          labelId="risState"
+          id="risState"
+          value={value}
+          label={props.label}
+          onChange={handleChange}
+          sx={{ mb: "12px" }}
+        >
+          <MenuItem value={10} sx={{ minHeight: "38px" }}>
+            완료
+          </MenuItem>
+          <MenuItem value={20} sx={{ minHeight: "38px" }}>
+            미완
+          </MenuItem>
+        </Select>
+      </FormControl>
+    </TextInputWrap>
   );
 }

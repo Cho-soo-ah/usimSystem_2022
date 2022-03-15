@@ -17,7 +17,6 @@ export default function DepositInput(props) {
       .get("http://192.168.0.52:8080/sims")
       .then((res) => {
         setData(res.data.content);
-        console.log(res.data.content);
       })
       .catch((err) => {
         console.log(err);
@@ -35,10 +34,14 @@ export default function DepositInput(props) {
           fullWidth
           noOptionsText="검색 결과가 없습니다."
           sx={{
-            margin: "0 16px 0 0",
+            mb: "12px",
           }}
           renderInput={(params) => (
-            <TextField {...params} label="입금자" variant={props.variant} />
+            <TextField
+              {...params}
+              label={props.label}
+              variant={props.variant}
+            />
           )}
           getOptionLabel={(option) => option.usimNumber}
           renderOption={(props, option, { inputValue }) => {

@@ -1,6 +1,7 @@
 import { InputLabel, MenuItem, FormControl, Select, Menu } from "@mui/material";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import TextInputWrap from "./TextInputWrap";
 
 export default function ProductInput(props) {
   const [productArr, setProductArr] = useState([]);
@@ -19,28 +20,27 @@ export default function ProductInput(props) {
   };
   return (
     <>
-      <FormControl
-        sx={{ width: "100%", margin: "0 16px 0 0" }}
-        variant={props.variant}
-      >
-        <InputLabel id="productInput">상품</InputLabel>
-        <Select
-          labelId="product"
-          id="product"
-          label="상품"
-          disablePortal
-          value={product}
-          onChange={handleProduct}
-          sx={{ mb: "16px" }}
-        >
-          {productArr &&
-            productArr.map((e, index) => (
-              <MenuItem key={index} value={e.id} sx={{ minHeight: "38px" }}>
-                {e.name}
-              </MenuItem>
-            ))}
-        </Select>
-      </FormControl>
+      <TextInputWrap text="상품">
+        <FormControl sx={{ width: "100%" }} variant={props.variant}>
+          <InputLabel id="productInput"></InputLabel>
+          <Select
+            labelId="product"
+            id="product"
+            label={props.label}
+            disablePortal
+            value={product}
+            onChange={handleProduct}
+            sx={{ mb: "12px" }}
+          >
+            {productArr &&
+              productArr.map((e, index) => (
+                <MenuItem key={index} value={e.id} sx={{ minHeight: "38px" }}>
+                  {e.name}
+                </MenuItem>
+              ))}
+          </Select>
+        </FormControl>
+      </TextInputWrap>
     </>
   );
 }

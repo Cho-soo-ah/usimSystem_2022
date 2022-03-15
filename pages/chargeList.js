@@ -26,7 +26,7 @@ const tableHead = [
   "대리점 명",
   "구분",
   "바코드 번호",
-  "핸드폰 번호",
+  "서비스 번호",
   "상품",
   "상태",
   "RIS 상태",
@@ -55,17 +55,56 @@ export default function ChargeList() {
       <div className="tableInner">
         <h2>개통 및 충전 내역</h2>
         <InputWrap>
-          <DateInput />
-          <StoreInput />
-          <BarcodeInput />
-          <ProductInput />
-          <RisStateInput />
+          <DateInput
+            sx={{
+              "& .MuiInputBase-root": { borderRadius: "4px 0 0 4px" },
+              "& fieldset": {
+                borderRight: 0,
+              },
+            }}
+          />
+          <StoreInput
+            sx={{
+              "& .MuiInputBase-root": { borderRadius: 0 },
+              "& fieldset": {
+                borderRight: 0,
+              },
+            }}
+          />
+          <BarcodeInput
+            sx={{
+              mb: "12px",
+              "& .MuiInputBase-root": { borderRadius: 0 },
+              "& fieldset": {
+                borderRight: 0,
+              },
+            }}
+          />
+          <ProductInput
+            sx={{
+              mb: "12px",
+              borderRadius: 0,
+              "& fieldset": {
+                borderRight: 0,
+              },
+            }}
+          />
+          <RisStateInput
+            sx={{
+              mb: "12px",
+              borderRadius: 0,
+              "& fieldset": {
+                borderRight: 0,
+              },
+            }}
+          />
           <CustomButton
             variant="contained"
             type="submit"
             sx={{
-              width: "30%",
-              mb: "16px",
+              minWidth: "130px",
+              mb: "17px",
+              borderRadius: "0 4px 4px 0",
             }}
           >
             검색
@@ -122,7 +161,7 @@ export default function ChargeList() {
                   return (
                     <TableRow hover key={index}>
                       <TableCell align="center" sx={{ minWidth: "155px" }}>
-                        {obj.date}
+                        {obj.createDate}
                       </TableCell>
                       <TableCell sx={{ minWidth: "170px" }}>
                         {obj.store}
@@ -131,13 +170,13 @@ export default function ChargeList() {
                         {obj.division}
                       </TableCell>
                       <TableCell align="center" sx={{ minWidth: "140px" }}>
-                        {obj.barcode}
+                        {obj.barcodeNumber}
                       </TableCell>
                       <TableCell align="center" sx={{ minWidth: "140px" }}>
-                        {obj.phoneNumber}
+                        {obj.serviceNumber}
                       </TableCell>
                       <TableCell sx={{ minWidth: "170px" }}>
-                        {obj.product}
+                        {obj.serialNumber}
                       </TableCell>
                       <TableCell align="center">{obj.state}</TableCell>
                       <TableCell align="center" sx={{ minWidth: "125px" }}>

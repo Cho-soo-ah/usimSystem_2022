@@ -13,7 +13,7 @@ const YupData = yup.object().shape({
   phoneNumber: yup
     .number("숫자만 입력하세요")
     .typeError("숫자만 입력하세요")
-    .required("핸드폰 번호를 입력하세요"),
+    .required("서비스 번호를 입력하세요"),
   code: yup
     .number("인증 코드를 입력하세요")
     .typeError("6자리 인증 코드를 입력하세요")
