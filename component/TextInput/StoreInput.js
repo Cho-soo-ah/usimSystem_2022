@@ -23,7 +23,7 @@ export default function StoreInput(props) {
       fullWidth
       noOptionsText="검색 결과가 없습니다."
       sx={{
-        mb: props.placeholder ? "16px" : "12px",
+        mb: props.placeholder ? props.sx : "12px",
       }}
       renderInput={(params) => (
         <TextField

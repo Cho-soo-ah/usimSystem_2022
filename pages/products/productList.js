@@ -62,16 +62,21 @@ export default function ProductList() {
   return (
     <div className="tableInner">
       <h2>상품 관리</h2>
-      <Box sx={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>
+      <Box
+        sx={{
+          width: "100%",
+          height: "35px",
+          display: "flex",
+          justifyContent: "flex-end",
+          mb: 1.5,
+        }}
+      >
         <Link href="/products/productUpload/" passHref>
           <AddBtn />
         </Link>
       </Box>
       <TableContainer>
-        <Table
-          sx={{ minWidth: 750, margin: "7px 0 16px" }}
-          aria-labelledby="tableTitle"
-        >
+        <Table sx={{ minWidth: 750, mb: 1.5 }} aria-labelledby="tableTitle">
           <TableHead
             sx={{
               bgcolor: "#0000000a",

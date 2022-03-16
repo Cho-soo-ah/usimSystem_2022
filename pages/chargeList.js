@@ -48,7 +48,7 @@ export default function ChargeList() {
     <>
       <div className="tableInner">
         <h2>개통 및 충전 내역</h2>
-        <Box sx={{ width: "100%", textAlign: "right" }}>
+        <Box sx={{ width: "100%", textAlign: "right", mb: 1.5 }}>
           <SearchBtn items={["date", "barcode", "store", "product", "ris"]} />
         </Box>
         <TableContainer sx={{ mb: "16px" }}>

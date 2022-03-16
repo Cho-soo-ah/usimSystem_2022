@@ -52,7 +52,9 @@ export default function Deposit() {
     <>
       <div className="tableInner">
         <h2>예치금 내역</h2>
-        <Box sx={{ width: "100%", height: "35px", textAlign: "right", mb: 2 }}>
+        <Box
+          sx={{ width: "100%", height: "35px", textAlign: "right", mb: 1.5 }}
+        >
           <SearchBtn items={["date", "barcode", "store", "reason"]} />
         </Box>
         <TableContainer sx={{ mb: "16px" }}>

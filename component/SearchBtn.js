@@ -112,7 +112,6 @@ export default function SearchBtn(props) {
         display: "flex",
         justifyContent: "flex-end",
         alignItems: "center",
-        mb: 2,
       }}
     >
       {barcode && <BarcodeInput />}

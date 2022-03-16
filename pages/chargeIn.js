@@ -39,7 +39,11 @@ export default function ChargeIn() {
             {({ handleSubmit, isSubmitting }) => {
               return (
                 <Form onSubmit={handleSubmit}>
-                  <StoreInput placeholder label="대리점 명" />
+                  <StoreInput
+                    placeholder
+                    label="대리점 명"
+                    sx={{ mb: "16px" }}
+                  />
                   <CustomInput name="passport" sx={{ mb: "16px" }}>
                     여권 번호
                   </CustomInput>

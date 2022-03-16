@@ -92,14 +92,11 @@ export default function MemberList() {
     <>
       <div className="tableInner">
         <h2>회원 관리</h2>
-        <Box sx={{ width: "100%", textAlign: "right" }}>
+        <Box sx={{ width: "100%", textAlign: "right", mb: 1.5 }}>
           <SearchBtn items={["store", "barcode", "usim"]} />
         </Box>
         <TableContainer>
-          <Table
-            sx={{ minWidth: 750, mb: "16px" }}
-            aria-labelledby="tableTitle"
-          >
+          <Table sx={{ minWidth: 750, mb: 1.5 }} aria-labelledby="tableTitle">
             <TableHead
               sx={{
                 bgcolor: "#0000000a",

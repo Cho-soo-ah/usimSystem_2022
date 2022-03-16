@@ -39,7 +39,7 @@ export default function PayList() {
     <>
       <div className="tableInner">
         <h2>입금 내역</h2>
-        <Box sx={{ width: "100%", textAlign: "right" }}>
+        <Box sx={{ width: "100%", textAlign: "right", mb: 1.5 }}>
           <SearchBtn items={["date", "store", "reason", "deposit"]} />
         </Box>
         <TableContainer sx={{ mb: "12px" }}>
