@@ -9,6 +9,7 @@ import CustomInput from "../component/CustomInput";
 import ImgUpload from "../component/ImgUpload";
 import StoreInput from "../component/TextInput/StoreInput";
 import BarcodeInput from "../component/TextInput/BarcodeInput";
+import ProductInput from "../component/TextInput/ProductInput";
 
 const validationSchema = yup.object({
   passport: yup
@@ -38,23 +39,12 @@ export default function ChargeIn() {
             {({ handleSubmit, isSubmitting }) => {
               return (
                 <Form onSubmit={handleSubmit}>
-                  <StoreInput />
+                  <StoreInput placeholder label="대리점 명" />
                   <CustomInput name="passport" sx={{ mb: "16px" }}>
                     여권 번호
                   </CustomInput>
-                  <BarcodeInput />
-                  <FormControl fullWidth>
-                    <InputLabel id="product">상품</InputLabel>
-                    <Select
-                      labelId="product"
-                      id="product"
-                      value={value}
-                      label="상품"
-                      onChange={handleChange}
-                    >
-                      <MenuItem value={10}>825SIM 330</MenuItem>
-                    </Select>
-                  </FormControl>
+                  <BarcodeInput placeholder />
+                  <ProductInput placeholder label="상품" />
                   <ImgUpload />
                   <CustomButton
                     variant="contained"

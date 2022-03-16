@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import {
   Box,
-  Checkbox,
   Table,
   TableHead,
   TableBody,
@@ -39,7 +38,6 @@ export default function AgencyState() {
   }, [page]);
   // ----- axios -----
   const tableHead = [
-    <Checkbox key="usimCheckAll" color="primary"></Checkbox>,
     "대리점 명",
     "바코드 번호",
     "서비스 번호",
@@ -47,48 +45,6 @@ export default function AgencyState() {
     "적용일",
     "상태",
   ];
-  // ----- CLICK -----
-  const [selectedArr, setSelectedArr] = useState([]);
-  const handleClick = (e, selectedId) => {
-    if (e.ctrlKey) {
-      if (selectedArr.includes(selectedId)) {
-        let arr = selectedArr.filter((item) => {
-          return item !== selectedId;
-        });
-        setSelectedArr(arr);
-      } else {
-        setSelectedArr((arr) => [...arr, selectedId]);
-      }
-    } else if (e.shiftKey) {
-      if (selectedId > selectedArr[selectedArr.length - 1]) {
-        for (
-          let i = selectedArr[selectedArr.length - 1];
-          i <= selectedId;
-          i++
-        ) {
-          if (selectedArr.includes(i)) continue;
-          setSelectedArr((arr) => [...arr, i]);
-        }
-      } else {
-        for (
-          let i = selectedArr[selectedArr.length - 1];
-          i >= selectedId;
-          i--
-        ) {
-          if (selectedArr.includes(i)) continue;
-          setSelectedArr((arr) => [...arr, i]);
-        }
-      }
-    } else {
-      setSelectedArr(() => [selectedId]);
-    }
-  };
-
-  // ----- CLICK -----
-  const isSelected = (id) =>
-    selectedArr.some((selectedId) => {
-      return selectedId == id;
-    });
 
   return (
     <div className="tableInner">
@@ -98,7 +54,7 @@ export default function AgencyState() {
       </Box>
       <UsimListHeader />
       <TableContainer>
-        <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
+        <Table aria-labelledby="tableTitle">
           <TableHead
             sx={{
               bgcolor: "#0000000a",
@@ -132,24 +88,7 @@ export default function AgencyState() {
             {data &&
               data.map((obj, index) => {
                 return (
-                  <TableRow
-                    hover
-                    onClick={(e) => handleClick(e, index)}
-                    role="checkbox"
-                    key={index}
-                    id={obj.id}
-                    selected={isSelected(index)}
-                  >
-                    <TableCell
-                      align="center"
-                      sx={{ width: "20px", padding: 0 }}
-                    >
-                      <Checkbox
-                        color="primary"
-                        id={obj.id}
-                        checked={isSelected(index)}
-                      />
-                    </TableCell>
+                  <TableRow hover role="checkbox" key={index} id={obj.id}>
                     <TableCell
                       scope="row"
                       padding="none"
@@ -182,31 +121,15 @@ export default function AgencyState() {
       <Box
         sx={{
           display: "flex",
+          justifyContent: "flex-end",
           width: "100%",
-          justifyContent: "space-between",
-          alignItems: "center",
+          mt: 2,
         }}
       >
-        <Box
-          sx={{
-            display: "flex",
-            width: "20%",
-            marginTop: "16px",
-          }}
-        >
-          <StoreInput variant="standard" />
-          <CustomButton sx={{ margin: 0, width: "40%" }}>이관</CustomButton>
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "flex-start",
-          }}
-        >
-          <FileUploadModal />
-          <ExcelDownloadButton />
-        </Box>
+        <FileUploadModal />
+        <ExcelDownloadButton />
       </Box>
+
       <Stack spacing={2}>
         <Pagination
           count={totalPages}

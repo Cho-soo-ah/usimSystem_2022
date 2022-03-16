@@ -7,7 +7,6 @@ export default function ExcelDownloadButton() {
         다운로드 링크 추가할것
     */}
       <FileDownloadRounded
-        // color="gray"
         fontSize="large"
         sx={{
           border: "1px solid #0000003b",

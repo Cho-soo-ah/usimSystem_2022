@@ -120,13 +120,13 @@ export default function Deposit() {
                         {obj.account}
                       </TableCell>
                       <TableCell align="right" sx={{ minWidth: "120px" }}>
-                        {/* &#65510; {regex(123456)} */}
+                        &#65510;{/*  {regex(123456)} */}
                       </TableCell>
                       <TableCell align="right" sx={{ minWidth: "120px" }}>
-                        {/* &#65510; {regex(obj.deduction)} */}
+                        &#65510;{/*  {regex(obj.deduction)} */}
                       </TableCell>
                       <TableCell align="right" sx={{ minWidth: "120px" }}>
-                        {/* &#65510; {regex(obj.balance)} */}
+                        &#65510;{/*  {regex(sobj.balance)} */}
                       </TableCell>
                       <TableCell align="center" sx={{ minWidth: "70px" }}>
                         {obj.note}

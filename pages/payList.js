@@ -1,11 +1,9 @@
 import * as React from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { styled } from "@mui/system";
 import {
   Box,
   Stack,
-  TextField,
   Table,
   TableHead,
   TableBody,
@@ -16,17 +14,6 @@ import {
 } from "@mui/material";
 import ExcelDownloadButton from "../component/ExcelDownloadButton";
 import SearchBtn from "../component/SearchBtn";
-
-const InputWrap = styled("div")({
-  width: "100%",
-  display: "flex",
-  alignItems: "flex-end",
-  justifyContent: "center",
-  marginTop: "20px",
-  "@media(minWidth: 780px)": {
-    bgcolor: "red",
-  },
-});
 
 const tableHead = ["날짜", "대리점 명", "가상계좌", "입금", "입금자"];
 
@@ -55,7 +42,7 @@ export default function PayList() {
         <Box sx={{ width: "100%", textAlign: "right" }}>
           <SearchBtn items={["date", "store", "reason", "deposit"]} />
         </Box>
-        <TableContainer sx={{ margin: "12px 0" }}>
+        <TableContainer sx={{ mb: "12px" }}>
           <Table
             sx={{
               minWidth: 500,

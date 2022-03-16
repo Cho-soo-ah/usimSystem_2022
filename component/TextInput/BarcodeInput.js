@@ -12,18 +12,11 @@ const CustomLi = styled.li`
   min-height: 10px !important;
   font-size: 14px;
 `;
-function sleep(delay = 0) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, delay);
-  });
-}
+
 export default function BarcodeInput(props) {
   const [data, setData] = useState("");
-  const loading = open && data.length === 0;
+
   useEffect(() => {
-    if (!loading) {
-      return undefined;
-    }
     axios
       .get("http://192.168.0.52:8080/sims")
       .then((res) => {
@@ -32,36 +25,30 @@ export default function BarcodeInput(props) {
       .catch((err) => {
         console.log(err);
       });
-  }, [loading]);
+  }, []);
   return (
     <Autocomplete
       options={data}
-      loading={loading}
       noOptionsText="검색 결과가 없습니다."
-      sx={{ height: "35px" }}
+      sx={props.placeholder ? null : { height: "35px" }}
       renderInput={(params) => (
         <TextField
           {...params}
           label="바코드 번호 / 서비스 번호"
           variant="outlined"
-          size="small"
-          sx={{
-            mr: "8px",
-            width: "240px",
-            "& input": { fontSize: "13px" },
-          }}
-          InputLabelProps={{ style: { fontSize: 13 } }}
-          InputProps={{
-            ...params.InputProps,
-            endAdornment: (
-              <React.Fragment>
-                {loading ? (
-                  <CircularProgress color="inherit" size={20} />
-                ) : null}
-                {params.InputProps.endAdornment}
-              </React.Fragment>
-            ),
-          }}
+          size={props.placeholder ? "medium" : "small"}
+          sx={
+            props.placeholder
+              ? {
+                  mb: "16px",
+                }
+              : {
+                  mr: "8px",
+                  width: "240px",
+                  "& input": { fontSize: "13px" },
+                }
+          }
+          InputLabelProps={{ style: { fontSize: props.placeholder ? 16 : 13 } }}
         />
       )}
       getOptionLabel={(option) =>

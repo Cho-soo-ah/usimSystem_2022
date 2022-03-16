@@ -15,49 +15,57 @@ export default function ProductInput(props) {
       })
       .catch((err) => console.log(err));
   }, []);
+
+  const Placeholder = () => (
+    <Autocomplete
+      options={data}
+      fullWidth
+      noOptionsText="검색 결과가 없습니다."
+      sx={{
+        mb: props.placeholder ? "16px" : "12px",
+      }}
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          label={props.label}
+          variant={props.variant}
+          sx={props.sx}
+        />
+      )}
+      getOptionLabel={(option) => option.name}
+      renderOption={(props, option, { inputValue }) => {
+        const matches = match(option.name, inputValue, {
+          insideWords: true,
+        });
+        const parts = parse(option.name, matches);
+        return (
+          <li {...props}>
+            <div>
+              {parts.map((part, index) => (
+                <span
+                  key={index}
+                  style={{
+                    fontWeight: part.highlight ? 700 : 400,
+                  }}
+                >
+                  {part.text}
+                </span>
+              ))}
+            </div>
+          </li>
+        );
+      }}
+    />
+  );
   return (
     <>
-      <TextInputWrap text="상품">
-        <Autocomplete
-          options={data}
-          fullWidth
-          noOptionsText="검색 결과가 없습니다."
-          sx={{
-            mb: "12px",
-          }}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label={props.label}
-              variant={props.variant}
-              sx={props.sx}
-            />
-          )}
-          getOptionLabel={(option) => option.name}
-          renderOption={(props, option, { inputValue }) => {
-            const matches = match(option.name, inputValue, {
-              insideWords: true,
-            });
-            const parts = parse(option.name, matches);
-            return (
-              <li {...props}>
-                <div>
-                  {parts.map((part, index) => (
-                    <span
-                      key={index}
-                      style={{
-                        fontWeight: part.highlight ? 700 : 400,
-                      }}
-                    >
-                      {part.text}
-                    </span>
-                  ))}
-                </div>
-              </li>
-            );
-          }}
-        />
-      </TextInputWrap>
+      {props.placeholder ? (
+        <Placeholder />
+      ) : (
+        <TextInputWrap text="상품">
+          <Placeholder />
+        </TextInputWrap>
+      )}
     </>
   );
 }

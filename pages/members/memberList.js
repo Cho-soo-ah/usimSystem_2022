@@ -168,10 +168,10 @@ export default function MemberList() {
                         {obj.serviceNumber}
                       </TableCell>
                       <TableCell align="center" sx={{ minWidth: "80px" }}>
-                        {/*{obj.usimNumber}*/}
+                        {obj.usimNumber}
                       </TableCell>
                       <TableCell align="center" sx={{ minWidth: "120px" }}>
-                        {/*{obj.serviceNumber}*/}
+                        {obj.serviceNumber}
                       </TableCell>
                     </TableRow>
                   );

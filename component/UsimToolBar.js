@@ -86,7 +86,7 @@ const menuObjBot = [
   },
 ];
 
-const drawerWidth = 275;
+const drawerWidth = 255;
 const UsimToolBar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -114,22 +114,16 @@ const UsimToolBar = () => {
           />
           <Menu
             anchorEl={anchorEl}
-            id="account-menu"
             open={open}
             onClose={handleClose}
             onClick={handleClose}
+            sx={{ "& .MuiMenuItem-root": { minHeight: 40 } }}
             PaperProps={{
               elevation: 0,
               sx: {
                 overflow: "visible",
                 filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
                 mt: 1.5,
-                "& .MuiAvatar-root": {
-                  width: 32,
-                  height: 32,
-                  ml: -0.5,
-                  mr: 1,
-                },
                 "&:before": {
                   content: '""',
                   display: "block",
@@ -191,7 +185,6 @@ const UsimToolBar = () => {
       <Drawer
         sx={{
           width: drawerWidth,
-          flexShrink: 0,
           color: "black",
           "& .MuiDrawer-paper": {
             width: drawerWidth,
@@ -199,6 +192,7 @@ const UsimToolBar = () => {
             zIndex: 2,
             position: "absolute",
           },
+          // "& .MuiListItem-root": { p: "4px 16px" },
         }}
         variant="permanent"
         anchor="right"

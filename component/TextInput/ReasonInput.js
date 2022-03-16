@@ -19,42 +19,8 @@ export default function ReasonInput(props) {
           onChange={handleChange}
           sx={{ mb: "12px" }}
         >
-          <MenuItem value={10} sx={{ minHeight: "38px" }}>
-            사유
-          </MenuItem>
-          <MenuItem value={20} sx={{ minHeight: "38px" }}>
-            사유사유
-          </MenuItem>
-          <MenuItem value={10} sx={{ minHeight: "38px" }}>
-            사유
-          </MenuItem>
-          <MenuItem value={20} sx={{ minHeight: "38px" }}>
-            사유사유
-          </MenuItem>
-          <MenuItem value={10} sx={{ minHeight: "38px" }}>
-            사유
-          </MenuItem>
-          <MenuItem value={20} sx={{ minHeight: "38px" }}>
-            사유사유
-          </MenuItem>
-          <MenuItem value={10} sx={{ minHeight: "38px" }}>
-            사유
-          </MenuItem>
-          <MenuItem value={20} sx={{ minHeight: "38px" }}>
-            사유사유
-          </MenuItem>
-          <MenuItem value={10} sx={{ minHeight: "38px" }}>
-            사유
-          </MenuItem>
-          <MenuItem value={20} sx={{ minHeight: "38px" }}>
-            사유사유
-          </MenuItem>
-          <MenuItem value={10} sx={{ minHeight: "38px" }}>
-            사유
-          </MenuItem>
-          <MenuItem value={20} sx={{ minHeight: "38px" }}>
-            사유사유
-          </MenuItem>
+          <MenuItem value={10}>사유</MenuItem>
+          <MenuItem value={20}>사유사유</MenuItem>
         </Select>
       </FormControl>
     </TextInputWrap>

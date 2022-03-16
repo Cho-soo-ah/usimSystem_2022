@@ -39,7 +39,6 @@ export default function AgencyList() {
   };
 
   useEffect(() => {
-    console.log("useEffect!!!!!!");
     axios
       .get(`http://192.168.0.52:8080/agencies?page=${page}&size=10`)
       .then((res) => {
@@ -109,7 +108,6 @@ export default function AgencyList() {
           >
             {agencyArr &&
               agencyArr.map((obj, index) => {
-                console.log(obj);
                 return (
                   <TableRow
                     hover
