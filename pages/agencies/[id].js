@@ -27,16 +27,16 @@ export default function AgencyID() {
   };
 
   useEffect(() => {
+    if (!router.isReady) return;
     axios
       .get(`http://192.168.0.52:8080/agencies/${router.query.id}`)
       .then((res) => {
         setType(res.data.type);
         setName(res.data.name);
         setRegNumber(res.data.corporateRegistrationNumber);
-        console.log(res);
       })
       .catch((err) => console.log(err));
-  }, []);
+  }, [router.isReady]);
 
   function handleSave() {
     setLoading(true);
@@ -46,12 +46,11 @@ export default function AgencyID() {
         name: name,
         corporateRegistrationNumber: regNumber,
       })
-      .then((response) => {
-        console.log(response);
+      .then((res) => {
+        console.log(res);
       })
-      .catch((error) => {
-        console.log(error);
-        alert("error");
+      .catch((err) => {
+        console.log(err);
       })
       .finally(() => {
         setLoading(false);

@@ -32,6 +32,7 @@ export default function DateInput(props) {
             selectsRange={true}
             startDate={startDate}
             endDate={endDate}
+            value={dateRange}
             onChange={(update) => {
               setDateRange(update);
             }}

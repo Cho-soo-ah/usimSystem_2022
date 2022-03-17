@@ -1,80 +1,115 @@
 import * as React from "react";
-import { Autocomplete, Box, TextField } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
+import { Autocomplete, TextField, CircularProgress } from "@mui/material";
 import parse from "autosuggest-highlight/parse";
 import match from "autosuggest-highlight/match";
-import CircularProgress from "@mui/material/CircularProgress";
-
-import styled from "@emotion/styled";
-
-const CustomLi = styled.li`
-  min-height: 10px !important;
-  font-size: 14px;
-`;
 
 export default function BarcodeInput(props) {
-  const [data, setData] = useState("");
+  const [data, setData] = useState([]);
+  const [value, setValue] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
+  const handleOpen = () => {
+    setOpen(true);
+    setLoading(true);
     axios
       .get("http://192.168.0.52:8080/sims")
       .then((res) => {
         setData(res.data.content);
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  };
   return (
-    <Autocomplete
-      options={data}
-      noOptionsText="검색 결과가 없습니다."
-      sx={props.placeholder ? null : { height: "35px" }}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          label="바코드 번호 / 서비스 번호"
-          variant="outlined"
-          size={props.placeholder ? "medium" : "small"}
-          sx={
-            props.placeholder
-              ? {
-                  mb: "16px",
-                }
-              : {
-                  mr: "8px",
-                  width: "240px",
-                  "& input": { fontSize: "13px" },
-                }
-          }
-          InputLabelProps={{ style: { fontSize: props.placeholder ? 16 : 13 } }}
-        />
-      )}
-      getOptionLabel={(option) =>
-        `${option.barcodeNumber} / ${option.serviceNumber}`
-      }
-      renderOption={(props, option, { inputValue }) => {
-        const matches = match(
-          `${option.barcodeNumber} / ${option.serviceNumber}`,
-          inputValue,
-          {
-            insideWords: true,
-          }
-        );
-        const parts = parse(
-          `${option.barcodeNumber} / ${option.serviceNumber}`,
-          matches
-        );
-
-        return (
-          <CustomLi {...props}>
-            {parts.map((part, index) => (
-              <Box key={index}>{part.text}</Box>
-            ))}
-          </CustomLi>
-        );
-      }}
-    />
+    <>
+      <Autocomplete
+        options={data}
+        open={open}
+        onOpen={handleOpen}
+        onClose={() => {
+          setOpen(false);
+          setData([]);
+        }}
+        loading={loading}
+        noOptionsText="검색 결과가 없습니다."
+        loadingText="로딩 중 입니다."
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            variant="outlined"
+            label="바코드 번호 / 서비스 번호"
+            size={props.search ? "small" : "medium"}
+            value={value}
+            onChange={(e, newValue) => {
+              setValue(newValue);
+            }}
+            sx={
+              props.search
+                ? {
+                    mr: "8px",
+                    width: "240px",
+                    "& input": { fontSize: "13px" },
+                    "& span": { fontSize: "10px" },
+                  }
+                : {
+                    mb: "16px",
+                  }
+            }
+            InputProps={{
+              ...params.InputProps,
+              endAdornment: (
+                <>
+                  {loading ? (
+                    <CircularProgress color="inherit" size={20} />
+                  ) : (
+                    params.InputProps.endAdornment
+                  )}
+                </>
+              ),
+            }}
+            InputLabelProps={{
+              style: { fontSize: props.search ? 13 : 16 },
+            }}
+          />
+        )}
+        getOptionLabel={(option) =>
+          `${option.barcodeNumber} / ${option.serviceNumber}`
+        }
+        renderOption={(obj, option, { inputValue }) => {
+          const matches = match(
+            `${option.barcodeNumber} / ${option.serviceNumber}`,
+            inputValue,
+            {
+              insideWords: true,
+            }
+          );
+          const parts = parse(
+            `${option.barcodeNumber} / ${option.serviceNumber}`,
+            matches
+          );
+          return (
+            <li {...obj}>
+              <div>
+                {parts.map((part, index) => (
+                  <span
+                    key={index}
+                    style={{
+                      fontWeight: part.highlight ? 700 : 400,
+                      fontSize: props.search ? 14 : props.sx,
+                    }}
+                  >
+                    {part.text}
+                  </span>
+                ))}
+              </div>
+            </li>
+          );
+        }}
+      />
+    </>
   );
 }

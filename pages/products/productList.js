@@ -12,12 +12,10 @@ import {
   TableRow,
   Pagination,
   Stack,
-  IconButton,
-  Button,
 } from "@mui/material";
-import { Delete, Edit } from "@mui/icons-material";
-import AddBtn from "../../component/AddBtn";
-import CustomDialog from "../../component/CustomDialog";
+import AddBtn from "../../component/Buttons/AddBtn";
+import DeleteBtn from "../../component/Buttons/DeleteBtn";
+import EditBtn from "../../component/Buttons/EditBtn";
 
 const tableHead = [
   "대리점 타입",
@@ -26,7 +24,7 @@ const tableHead = [
   "개통 비용",
   "충전 비용",
   "무료 충전 개월 수",
-  "수정 / 삭제",
+  "추가 기능",
 ];
 
 export default function ProductList() {
@@ -49,32 +47,9 @@ export default function ProductList() {
       .catch((err) => console.log(err));
   }, [page]);
   // ----- axios -----
-  const [open, setOpen] = useState(false);
-  const [deleteData, setDeleteData] = useState();
-  const handleClickOpen = (e) => {
-    setOpen(true);
-    setDeleteData(e.currentTarget.id);
-  };
-  const handleDelete = (e) => {
-    // deleteData;
-  };
-
   return (
     <div className="tableInner">
       <h2>상품 관리</h2>
-      <Box
-        sx={{
-          width: "100%",
-          height: "35px",
-          display: "flex",
-          justifyContent: "flex-end",
-          mb: 1.5,
-        }}
-      >
-        <Link href="/products/productUpload/" passHref>
-          <AddBtn />
-        </Link>
-      </Box>
       <TableContainer>
         <Table sx={{ minWidth: 750, mb: 1.5 }} aria-labelledby="tableTitle">
           <TableHead
@@ -141,29 +116,11 @@ export default function ProductList() {
                     <TableCell align="center" sx={{ minWidth: "130px" }}>
                       {obj.freeChargeMonths}
                     </TableCell>
-                    <TableCell align="center" sx={{ minWidth: "130px" }}>
+                    <TableCell align="center" sx={{ width: "130px" }}>
                       <Link href={`/products/${obj.id}`}>
-                        <IconButton aria-label="Example">
-                          <Edit
-                            sx={{
-                              cursor: "pointer",
-                              color: "#5a5a5a",
-                            }}
-                          />
-                        </IconButton>
+                        <EditBtn />
                       </Link>
-                      <IconButton aria-label="Example">
-                        <Delete
-                          variant="outlined"
-                          onClick={handleClickOpen}
-                          id={obj.id}
-                          sx={{
-                            cursor: "pointer",
-                            color: "#5a5a5a",
-                            padding: 0,
-                          }}
-                        ></Delete>
-                      </IconButton>
+                      <DeleteBtn />
                     </TableCell>
                   </TableRow>
                 );
@@ -171,6 +128,19 @@ export default function ProductList() {
           </TableBody>
         </Table>
       </TableContainer>
+      <Box
+        sx={{
+          width: "100%",
+          height: "35px",
+          display: "flex",
+          justifyContent: "flex-end",
+          mb: 1.5,
+        }}
+      >
+        <Link href="/products/productUpload" passHref>
+          <AddBtn />
+        </Link>
+      </Box>
       <Stack spacing={2}>
         <Pagination
           count={totalPages}
@@ -179,14 +149,6 @@ export default function ProductList() {
           shape="rounded"
         />
       </Stack>
-      <CustomDialog message="삭제하시겠습니까?" open={open} setOpen={setOpen}>
-        <Button
-          onClick={handleDelete}
-          sx={{ background: "none", "&:hover": { background: "none" } }}
-        >
-          삭제
-        </Button>
-      </CustomDialog>
     </div>
   );
 }

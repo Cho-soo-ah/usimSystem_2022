@@ -35,7 +35,7 @@ export default function App(props) {
   return (
     <CacheProvider value={emotionCache}>
       <Head>
-        <title>NEXT MUI</title>
+        <title>825 SIM</title>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
         <Link
           href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap"

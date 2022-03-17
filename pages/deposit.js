@@ -12,8 +12,8 @@ import {
   TableRow,
   Pagination,
 } from "@mui/material";
-import ExcelDownloadButton from "../component/ExcelDownloadButton";
-import SearchBtn from "../component/SearchBtn";
+import ExcelDownloadBtn from "../component/Buttons/ExcelDownloadBtn";
+import SearchBtn from "../component/Buttons/SearchBtn";
 const tableHead = [
   "날짜",
   "서비스 번호",
@@ -57,7 +57,7 @@ export default function Deposit() {
         >
           <SearchBtn items={["date", "barcode", "store", "reason"]} />
         </Box>
-        <TableContainer sx={{ mb: "16px" }}>
+        <TableContainer sx={{ mb: 1.5 }}>
           <Table
             sx={{
               minWidth: 500,
@@ -143,7 +143,7 @@ export default function Deposit() {
           </Table>
         </TableContainer>
         <Box sx={{ width: "100%", textAlign: "right" }}>
-          <ExcelDownloadButton />
+          <ExcelDownloadBtn />
         </Box>
         <Stack spacing={2}>
           <Pagination

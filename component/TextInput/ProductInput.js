@@ -18,6 +18,7 @@ export default function ProductInput(props) {
 
   const Placeholder = () => (
     <Autocomplete
+      value={value}
       options={data}
       fullWidth
       noOptionsText="검색 결과가 없습니다."

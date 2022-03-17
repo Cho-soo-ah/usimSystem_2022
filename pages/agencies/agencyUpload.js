@@ -7,9 +7,8 @@ import {
   FormLabel,
   ToggleButtonGroup,
   ToggleButton,
-  InputAdornment,
 } from "@mui/material";
-import CustomButton from "../../component/CustomButton";
+import CustomBtn from "../../component/Buttons/CustomBtn";
 import axios from "axios";
 import { useState } from "react";
 const validationSchema = yup.object({
@@ -121,7 +120,7 @@ export default function AgencyUpload() {
                   },
                 }}
               ></TextField>
-              <CustomButton
+              <CustomBtn
                 color="primary"
                 variant="contained"
                 fullWidth
@@ -129,7 +128,7 @@ export default function AgencyUpload() {
                 onClick={handleAxios}
               >
                 등록하기
-              </CustomButton>
+              </CustomBtn>
             </Form>
           )}
         </Formik>

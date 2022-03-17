@@ -199,27 +199,27 @@ const UsimToolBar = () => {
       >
         <List sx={{ mt: "64px" }}>
           {menuObjTop.map((menu, index) => (
-            <>
-              <Link href={menu.link} sx={{ textDecoration: "none" }}>
-                <ListItem button key={index}>
-                  <ListItemIcon>{menu.icon}</ListItemIcon>
-                  <ListItemText primary={menu.name} />
-                </ListItem>
-              </Link>
-            </>
+            <Link href={menu.link} sx={{ textDecoration: "none" }} key={index}>
+              <ListItem button>
+                <ListItemIcon>{menu.icon}</ListItemIcon>
+                <ListItemText primary={menu.name} />
+              </ListItem>
+            </Link>
           ))}
         </List>
         <Divider />
         <List>
           {menuObjBot.map((menu, index) => (
-            <>
-              <Link href={menu.link} sx={{ textDecoration: "none" }}>
-                <ListItem button key={index}>
-                  <ListItemIcon>{menu.icon}</ListItemIcon>
-                  <ListItemText primary={menu.name} />
-                </ListItem>
-              </Link>
-            </>
+            <Link
+              href={menu.link}
+              sx={{ textDecoration: "none" }}
+              key={menu.name}
+            >
+              <ListItem button>
+                <ListItemIcon>{menu.icon}</ListItemIcon>
+                <ListItemText primary={menu.name} />
+              </ListItem>
+            </Link>
           ))}
         </List>
       </Drawer>

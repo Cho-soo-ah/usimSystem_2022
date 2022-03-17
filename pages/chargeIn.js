@@ -2,9 +2,9 @@ import * as React from "react";
 import { useState } from "react";
 import * as yup from "yup";
 import { Form, Formik } from "formik";
-import { Box, InputLabel, MenuItem, FormControl, Select } from "@mui/material";
+import { Box } from "@mui/material";
 
-import CustomButton from "../component/CustomButton";
+import CustomBtn from "../component/Buttons/CustomBtn";
 import CustomInput from "../component/CustomInput";
 import ImgUpload from "../component/ImgUpload";
 import StoreInput from "../component/TextInput/StoreInput";
@@ -50,14 +50,14 @@ export default function ChargeIn() {
                   <BarcodeInput placeholder />
                   <ProductInput placeholder label="상품" />
                   <ImgUpload />
-                  <CustomButton
+                  <CustomBtn
                     variant="contained"
                     fullWidth
                     type="submit"
                     disabled={isSubmitting}
                   >
                     개통 처리
-                  </CustomButton>
+                  </CustomBtn>
                 </Form>
               );
             }}

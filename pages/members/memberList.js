@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import {
   Box,
@@ -13,10 +14,11 @@ import {
   Checkbox,
   Link,
 } from "@mui/material";
-import { useState, useEffect } from "react";
-import ExcelDownloadButton from "../../component/ExcelDownloadButton";
-import AddBtn from "../../component/AddBtn";
-import SearchBtn from "../../component/SearchBtn";
+import ExcelDownloadBtn from "../../component/Buttons/ExcelDownloadBtn";
+import AddBtn from "../../component/Buttons/AddBtn";
+import SearchBtn from "../../component/Buttons/SearchBtn";
+import DeleteBtn from "../../component/Buttons/DeleteBtn";
+import EditBtn from "../../component/Buttons/EditBtn";
 
 const tableHead = [
   <Checkbox key="usimCheckAll" color="primary"></Checkbox>,
@@ -25,6 +27,7 @@ const tableHead = [
   "핸드폰 번호",
   "권한",
   "대리점",
+  "추가 기능",
 ];
 
 export default function MemberList() {
@@ -35,7 +38,6 @@ export default function MemberList() {
   const handlePagination = (e, value) => {
     setPage(value);
   };
-
   useEffect(() => {
     axios
       .get(`http://192.168.0.52:8080/sims?page=${page}&size=10`)
@@ -137,6 +139,7 @@ export default function MemberList() {
                       key={index}
                       id={obj.id}
                       selected={isSelected(index)}
+                      sx={{ "& .MuiTableCell-root": { padding: "0 20px" } }}
                     >
                       <TableCell
                         align="center"
@@ -146,6 +149,7 @@ export default function MemberList() {
                           color="primary"
                           id={obj.id}
                           checked={isSelected(index)}
+                          sx={{ p: 0 }}
                         />
                       </TableCell>
                       <TableCell
@@ -170,6 +174,12 @@ export default function MemberList() {
                       <TableCell align="center" sx={{ minWidth: "120px" }}>
                         {obj.serviceNumber}
                       </TableCell>
+                      <TableCell align="center" sx={{ width: "130px" }}>
+                        <Link href={`/agencies/${obj.id}`} passHref>
+                          <EditBtn />
+                        </Link>
+                        <DeleteBtn />
+                      </TableCell>
                     </TableRow>
                   );
                 })}
@@ -184,7 +194,7 @@ export default function MemberList() {
             height: "35px",
           }}
         >
-          <ExcelDownloadButton />
+          <ExcelDownloadBtn />
           <Link href="/members/memberUpload/" passHref sx={{ height: "35px" }}>
             <AddBtn />
           </Link>

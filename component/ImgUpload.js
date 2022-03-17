@@ -71,32 +71,30 @@ export default function FileUpload() {
 
   const thumbs = files.map((file, i) => {
     return (
-      <>
-        <div style={thumb} key={file.name}>
-          <IconButton
-            aria-label="delete"
-            size="small"
-            style={buttonStyle}
-            onClick={() => {
-              handleClick(i);
-            }}
-          >
-            <HighlightOff fontSize="small" />
-          </IconButton>
-          <div style={thumbInner}>
-            <Link href={imgSrc} target="_blank">
-              <Image
-                width="105"
-                height="105"
-                src={file.preview}
-                sx={img}
-                alt="#"
-                onClick={handleOpen}
-              />
-            </Link>
-          </div>
+      <div style={thumb} key={file.name}>
+        <IconButton
+          aria-label="delete"
+          size="small"
+          style={buttonStyle}
+          onClick={() => {
+            handleClick(i);
+          }}
+        >
+          <HighlightOff fontSize="small" />
+        </IconButton>
+        <div style={thumbInner}>
+          <Link href={imgSrc} target="_blank">
+            <Image
+              width="105"
+              height="105"
+              src={file.preview}
+              sx={img}
+              alt="#"
+              onClick={handleOpen}
+            />
+          </Link>
         </div>
-      </>
+      </div>
     );
   });
 

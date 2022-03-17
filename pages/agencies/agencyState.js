@@ -12,12 +12,10 @@ import {
   Pagination,
   Stack,
 } from "@mui/material";
-import StoreInput from "../../component/TextInput/StoreInput";
-import CustomButton from "../../component/CustomButton";
-import ExcelDownloadButton from "../../component/ExcelDownloadButton";
+import ExcelDownloadBtn from "../../component/Buttons/ExcelDownloadBtn";
 import UsimListHeader from "../sims/UsimListHeader";
-import FileUploadModal from "../../component/FileUploadModal";
-import SearchBtn from "../../component/SearchBtn";
+import FileUploadModal from "../../component/Buttons/FileUploadModal";
+import SearchBtn from "../../component/Buttons/SearchBtn";
 
 export default function AgencyState() {
   // ----- axios -----
@@ -123,11 +121,11 @@ export default function AgencyState() {
           display: "flex",
           justifyContent: "flex-end",
           width: "100%",
-          mt: 2,
+          mt: 1.5,
         }}
       >
         <FileUploadModal />
-        <ExcelDownloadButton />
+        <ExcelDownloadBtn />
       </Box>
 
       <Stack spacing={2}>

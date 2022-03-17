@@ -119,28 +119,24 @@ export default function MobileToolBar() {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        {menuObjTop.map((menu) => (
-          <>
-            <Link href={menu.link} sx={{ textDecoration: "none" }}>
-              <ListItem button>
-                <ListItemIcon>{menu.icon}</ListItemIcon>
-                <ListItemText primary={menu.name} />
-              </ListItem>
-            </Link>
-          </>
+        {menuObjTop.map((menu, index) => (
+          <Link href={menu.link} sx={{ textDecoration: "none" }} key={index}>
+            <ListItem button>
+              <ListItemIcon>{menu.icon}</ListItemIcon>
+              <ListItemText primary={menu.name} />
+            </ListItem>
+          </Link>
         ))}
       </List>
       <Divider />
       <List>
-        {menuObjBot.map((menu) => (
-          <>
-            <Link href={menu.link} sx={{ textDecoration: "none" }}>
-              <ListItem button>
-                <ListItemIcon>{menu.icon}</ListItemIcon>
-                <ListItemText primary={menu.name} />
-              </ListItem>
-            </Link>
-          </>
+        {menuObjBot.map((menu, index) => (
+          <Link href={menu.link} sx={{ textDecoration: "none" }} key={index}>
+            <ListItem button>
+              <ListItemIcon>{menu.icon}</ListItemIcon>
+              <ListItemText primary={menu.name} />
+            </ListItem>
+          </Link>
         ))}
       </List>
     </Box>

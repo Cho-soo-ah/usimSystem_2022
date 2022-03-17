@@ -3,7 +3,7 @@ import * as yup from "yup";
 import { Field } from "formik";
 import { useState } from "react";
 import TextField from "@mui/material/TextField";
-import CustomButton from "./CustomButton";
+import CustomBtn from "./Buttons/CustomBtn";
 import CustomInput from "./CustomInput";
 
 let validationSchema2 = {
@@ -53,7 +53,7 @@ export default function PhoneCertify(props) {
             );
           }}
         </Field>
-        <CustomButton
+        <CustomBtn
           sx={{
             marginTop: "16px",
             fontSize: "16px",
@@ -63,7 +63,7 @@ export default function PhoneCertify(props) {
           onClick={handleClick}
         >
           인증 코드 발송
-        </CustomButton>
+        </CustomBtn>
       </div>
       {click && <CustomInput name="code">인증 코드</CustomInput>}
       <style jsx>{`

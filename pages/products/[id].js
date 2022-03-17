@@ -52,6 +52,7 @@ export default function ProductID() {
   };
 
   useEffect(() => {
+    if (!router.isReady) return;
     axios
       .get(`http://192.168.0.52:8080/products/${router.query.id}`)
       .then((res) => {
@@ -62,7 +63,7 @@ export default function ProductID() {
         setMonths(res.data.freeChargeMonths);
       })
       .catch((err) => console.log(err));
-  }, []);
+  }, [router.isReady]);
 
   const [loading, setLoading] = useState();
 

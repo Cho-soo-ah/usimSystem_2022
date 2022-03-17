@@ -1,6 +1,7 @@
 import * as React from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import {
-  Box,
   Link,
   Table,
   TableHead,
@@ -10,14 +11,9 @@ import {
   TableRow,
   Pagination,
   Stack,
-  IconButton,
-  Button,
 } from "@mui/material";
-import CustomDialog from "../../component/CustomDialog";
-import AddBtn from "../../component/AddBtn";
-import axios from "axios";
-import { useState, useEffect } from "react";
-import { Delete, Edit } from "@mui/icons-material";
+import DeleteBtn from "../../component/Buttons/DeleteBtn";
+import EditBtn from "../../component/Buttons/EditBtn";
 
 export default function AgencyList() {
   const tableHead = [
@@ -27,7 +23,7 @@ export default function AgencyList() {
     "은행",
     "가상계좌번호",
     "예치금",
-    "수정 / 삭제",
+    "추가 기능",
   ];
   // ------ axios -------
   const [agencyArr, setAgencyArr] = useState();
@@ -52,33 +48,9 @@ export default function AgencyList() {
 
   // ------ axios -------
 
-  const [open, setOpen] = useState(false);
-  const [deleteData, setDeleteData] = useState();
-  const handleClickOpen = (e) => {
-    setOpen(true);
-    setDeleteData(e.currentTarget.id);
-  };
-  const handleDelete = (e) => {
-    // deleteData;
-  };
-
   return (
     <div className="tableInner">
       <h2>대리점 관리</h2>
-
-      <Box
-        sx={{
-          width: "100%",
-          height: "35px",
-          display: "flex",
-          justifyContent: "flex-end",
-          mb: 1.5,
-        }}
-      >
-        <Link href="/agencies/agencyUpload" passHref>
-          <AddBtn />
-        </Link>
-      </Box>
       <TableContainer>
         <Table sx={{ minWidth: 750, mb: 1.5 }} aria-labelledby="tableTitle">
           <TableHead
@@ -146,29 +118,11 @@ export default function AgencyList() {
                     <TableCell align="right" sx={{ minWidth: "130px" }}>
                       &#65510; {obj.freeChargeMonths}
                     </TableCell>
-                    <TableCell align="center" sx={{ minWidth: "130px" }}>
+                    <TableCell align="center" sx={{ width: "130px" }}>
                       <Link href={`/agencies/${obj.id}`} passHref>
-                        <IconButton aria-label="Example">
-                          <Edit
-                            sx={{
-                              cursor: "pointer",
-                              color: "#5a5a5a",
-                            }}
-                          />
-                        </IconButton>
+                        <EditBtn />
                       </Link>
-                      <IconButton aria-label="Example">
-                        <Delete
-                          variant="outlined"
-                          onClick={handleClickOpen}
-                          id={obj.id}
-                          sx={{
-                            cursor: "pointer",
-                            color: "#5a5a5a",
-                            padding: 0,
-                          }}
-                        />
-                      </IconButton>
+                      <DeleteBtn />
                     </TableCell>
                   </TableRow>
                 );
@@ -176,6 +130,7 @@ export default function AgencyList() {
           </TableBody>
         </Table>
       </TableContainer>
+
       <Stack spacing={2}>
         <Pagination
           count={totalPages}
@@ -184,14 +139,6 @@ export default function AgencyList() {
           onChange={handlePagination}
         />
       </Stack>
-      <CustomDialog message="삭제하시겠습니까?" open={open} setOpen={setOpen}>
-        <Button
-          onClick={handleDelete}
-          sx={{ background: "none", "&:hover": { background: "none" } }}
-        >
-          삭제
-        </Button>
-      </CustomDialog>
     </div>
   );
 }

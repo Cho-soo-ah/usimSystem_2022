@@ -2,7 +2,7 @@ import * as React from "react";
 import * as yup from "yup";
 import Box from "@mui/material/Box";
 import { Form, Formik } from "formik";
-import CustomButton from "../component/CustomButton";
+import CustomBtn from "../component/Buttons/CustomBtn";
 import CustomInput from "../component/CustomInput";
 import PhoneCertify from "../component/PhoneCertify";
 
@@ -24,7 +24,6 @@ export default function Login() {
     var combimed = Object.assign(schema, validSchema2);
     // setState(yup.object(combimed));
     var aa = yup.object(combimed);
-    // console.log("combine", aa);
   };
 
   return (
@@ -55,7 +54,7 @@ export default function Login() {
                 <CustomInput name="password">변경할 비밀번호</CustomInput>
                 <CustomInput name="passwordValid">비밀번호 확인</CustomInput>
                 <PhoneCertify callback={callback} />
-                <CustomButton
+                <CustomBtn
                   color="primary"
                   variant="contained"
                   fullWidth
@@ -63,7 +62,7 @@ export default function Login() {
                   disabled={isSubmitting}
                 >
                   로그인
-                </CustomButton>
+                </CustomBtn>
               </Form>
             )}
           </Formik>

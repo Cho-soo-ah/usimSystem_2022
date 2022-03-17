@@ -12,8 +12,8 @@ import {
   TableRow,
   Pagination,
 } from "@mui/material";
-import ExcelDownloadButton from "../component/ExcelDownloadButton";
-import SearchBtn from "../component/SearchBtn";
+import ExcelDownloadBtn from "../component/Buttons/ExcelDownloadBtn";
+import SearchBtn from "../component/Buttons/SearchBtn";
 
 const tableHead = ["날짜", "대리점 명", "가상계좌", "입금", "입금자"];
 
@@ -28,7 +28,6 @@ export default function PayList() {
     axios
       .get(`http://192.168.0.52:8080/sims?page=${page}&size=10`)
       .then((res) => {
-        console.log(res);
         setData(res.data.content);
         setTotalPages(res.data.totalPages);
       })
@@ -121,7 +120,7 @@ export default function PayList() {
             height: "35px",
           }}
         >
-          <ExcelDownloadButton />
+          <ExcelDownloadBtn />
         </Box>
         <Stack spacing={2}>
           <Pagination

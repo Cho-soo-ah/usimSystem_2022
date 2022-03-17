@@ -27,6 +27,7 @@ export default function AgencyID() {
   };
 
   useEffect(() => {
+    if (!router.isReady) return;
     axios
       .get(`http://192.168.0.52:8080/agencies/${router.query.id}`)
       .then((res) => {
@@ -36,7 +37,7 @@ export default function AgencyID() {
         console.log(res);
       })
       .catch((err) => console.log(err));
-  }, []);
+  }, [router.isReady]);
 
   function handleSave() {
     setLoading(true);
@@ -46,12 +47,11 @@ export default function AgencyID() {
         name: name,
         corporateRegistrationNumber: regNumber,
       })
-      .then((response) => {
-        console.log(response);
+      .then((res) => {
+        console.log(res);
       })
       .catch((error) => {
         console.log(error);
-        alert("error");
       })
       .finally(() => {
         setLoading(false);
@@ -62,42 +62,10 @@ export default function AgencyID() {
   return (
     <div className="inner">
       <h2>회원 수정</h2>
-      <Box sx={{ marginBottom: "16px" }}>
-        <FormLabel
-          id="demo-controlled-radio-buttons-group"
-          sx={{ fontSize: "13px", top: "-5px" }}
-        >
-          대리점 타입
-        </FormLabel>
-        <br />
-        <ToggleButtonGroup
-          exclusive
-          value={type}
-          onChange={handleType}
-          aria-label="text formatting"
-          sx={{
-            display: "flex",
-            "& .MuiButtonBase-root": {
-              width: "50%",
-              height: 56,
-              border: "1px solid #85858585",
-              fontSize: "16px",
-            },
-          }}
-        >
-          <ToggleButton value="GENERAL" aria-label="GENERAL">
-            일반
-          </ToggleButton>
-          <ToggleButton value="SPECIAL" aria-label="SPECIAL">
-            스페셜
-          </ToggleButton>
-        </ToggleButtonGroup>
-      </Box>
-
       <TextField
         id="productInput"
         variant="outlined"
-        label=" 상품명"
+        label=" 이름"
         value={name}
         fullWidth
         sx={{
@@ -105,21 +73,7 @@ export default function AgencyID() {
         }}
         onChange={handleName}
       ></TextField>
-      <TextField
-        id="outlined-basic"
-        label="사업자등록번호"
-        value={regNumber}
-        variant="outlined"
-        fullWidth
-        sx={{
-          marginBottom: "16px",
-          "& .MuiOutlinedInput-root": { paddingLeft: "6px" },
-        }}
-        onChange={handleRegNumber}
-        InputProps={{
-          startAdornment: <InputAdornment position="start"></InputAdornment>,
-        }}
-      ></TextField>
+
       <LoadingButton
         color="primary"
         loading={loading}

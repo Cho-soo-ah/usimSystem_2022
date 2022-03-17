@@ -2,7 +2,7 @@ import * as React from "react";
 import * as yup from "yup";
 import Box from "@mui/material/Box";
 import { Form, Formik } from "formik";
-import CustomButton from "../component/CustomButton";
+import CustomBtn from "../component/Buttons/CustomBtn";
 import CustomInput from "../component/CustomInput";
 import Link from "../component/MuiNextLink";
 
@@ -36,7 +36,7 @@ export default function Login() {
               <CustomInput name="password" type="password">
                 비밀번호
               </CustomInput>
-              <CustomButton
+              <CustomBtn
                 color="primary"
                 variant="contained"
                 fullWidth
@@ -44,7 +44,7 @@ export default function Login() {
                 disabled={isSubmitting}
               >
                 로그인
-              </CustomButton>
+              </CustomBtn>
             </Form>
           )}
         </Formik>

@@ -13,7 +13,6 @@ export default function UsimInput(props) {
       .get("http://192.168.0.52:8080/sims")
       .then((res) => {
         setData(res.data.content);
-        console.log(res.data.content);
       })
       .catch((err) => {
         console.log(err);
