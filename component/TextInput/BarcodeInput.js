@@ -43,7 +43,7 @@ export default function BarcodeInput(props) {
             variant="outlined"
             label="바코드 번호 / 서비스 번호"
             size={props.search ? "small" : "medium"}
-            value={value}
+            value={props.value}
             onChange={(e, newValue) => {
               setValue(newValue);
             }}

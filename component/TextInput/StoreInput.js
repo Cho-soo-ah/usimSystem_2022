@@ -8,6 +8,7 @@ import TextInputWrap from "./TextInputWrap";
 export default function StoreInput(props) {
   const [data, setData] = useState("");
   const [value, setValue] = useState("");
+
   useEffect(() => {
     axios
       .get("http://192.168.0.52:8080/agencies")
@@ -26,16 +27,15 @@ export default function StoreInput(props) {
       sx={{
         mb: props.placeholder ? props.sx : "12px",
       }}
+      value={value}
       onChange={(e, newValue) => {
-        props.wrap ? setValue(newValue) : null;
-        props.wrap ? props.wrap(newValue) : null;
         setValue(newValue);
-        console.log("storeInput", value);
+        props.wrap ? props.wrap(newValue) : null;
+        props.clear ? props.clear(newValue) : null;
       }}
       renderInput={(params) => (
         <TextField
           {...params}
-          value={value}
           label={props.label}
           variant={props.variant}
           sx={props.sx}

@@ -18,10 +18,10 @@ const validationSchema = yup.object({
 });
 
 export default function ChargeIn() {
-  const [value, setValue] = useState("");
-  const handleChange = (event) => {
-    setValue(event.target.value);
-  };
+  // const [value, setValue] = useState("");
+  // const handleChange = (event) => {
+  //   setValue(event.target.value);
+  // };
   return (
     <>
       <div className="inner">
@@ -34,6 +34,7 @@ export default function ChargeIn() {
               setSubmitting(true);
               // 비동기 동작
               setSubmitting(false);
+              console.log("data", data);
             }}
           >
             {({ handleSubmit, isSubmitting }) => {

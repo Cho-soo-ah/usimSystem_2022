@@ -30,6 +30,11 @@ export default function UsimInput(props) {
           sx={{
             mb: "12px",
           }}
+          value={props.value}
+          onChange={(e, newValue) => {
+            props.setValue(newValue);
+            // props.clear ? props.clear(newValue) : null;
+          }}
           renderInput={(params) => (
             <TextField
               {...params}
@@ -37,14 +42,16 @@ export default function UsimInput(props) {
               variant={props.variant}
             />
           )}
-          getOptionLabel={(option) => option.usimNumber}
-          renderOption={(props, option, { inputValue }) => {
+          getOptionLabel={(option) =>
+            option.usimNumber ? option.usimNumber : ""
+          }
+          renderOption={(obj, option, { inputValue }) => {
             const matches = match(option.usimNumber, inputValue, {
               insideWords: true,
             });
             const parts = parse(option.usimNumber, matches);
             return (
-              <li {...props}>
+              <li {...obj}>
                 <div>
                   {parts.map((part, index) => (
                     <span

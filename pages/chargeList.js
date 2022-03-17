@@ -12,7 +12,7 @@ import {
   TableRow,
   Pagination,
 } from "@mui/material";
-import SearchBtn from "../component/SearchBtn";
+import SearchBtn from "../component/Buttons/SearchBtn";
 
 const tableHead = [
   "날짜",
