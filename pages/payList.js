@@ -91,8 +91,7 @@ export default function PayList() {
                   return (
                     <TableRow hover key={index}>
                       <TableCell align="center" sx={{ minWidth: "130px" }}>
-                        {/* {obj.createDate} */}
-                        2022-03-10
+                        {obj.createDate}
                       </TableCell>
                       <TableCell align="left" sx={{ minWidth: "140px" }}>
                         {obj.store}
@@ -124,7 +123,7 @@ export default function PayList() {
         </Box>
         <Stack spacing={2}>
           <Pagination
-            count={page}
+            count={totalPages}
             onChange={handlePagination}
             variant="outlined"
             shape="rounded"

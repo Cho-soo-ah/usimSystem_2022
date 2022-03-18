@@ -11,7 +11,6 @@ import {
   TableContainer,
   TableRow,
   Pagination,
-  Checkbox,
   Link,
 } from "@mui/material";
 import ExcelDownloadBtn from "../../component/Buttons/ExcelDownloadBtn";
@@ -21,7 +20,6 @@ import DeleteBtn from "../../component/Buttons/DeleteBtn";
 import EditBtn from "../../component/Buttons/EditBtn";
 
 const tableHead = [
-  <Checkbox key="usimCheckAll" color="primary"></Checkbox>,
   "이름",
   "이메일",
   "핸드폰 번호",
@@ -50,45 +48,6 @@ export default function MemberList() {
   }, [page]);
 
   // ------ axios -------
-  const [selectedArr, setSelectedArr] = useState([]);
-  const handleClick = (e, selectedId) => {
-    if (e.ctrlKey) {
-      if (selectedArr.includes(selectedId)) {
-        let arr = selectedArr.filter((item) => {
-          return item !== selectedId;
-        });
-        setSelectedArr(arr);
-      } else {
-        setSelectedArr((arr) => [...arr, selectedId]);
-      }
-    } else if (e.shiftKey) {
-      if (selectedId > selectedArr[selectedArr.length - 1]) {
-        for (
-          let i = selectedArr[selectedArr.length - 1];
-          i <= selectedId;
-          i++
-        ) {
-          if (selectedArr.includes(i)) continue;
-          setSelectedArr((arr) => [...arr, i]);
-        }
-      } else {
-        for (
-          let i = selectedArr[selectedArr.length - 1];
-          i >= selectedId;
-          i--
-        ) {
-          if (selectedArr.includes(i)) continue;
-          setSelectedArr((arr) => [...arr, i]);
-        }
-      }
-    } else {
-      setSelectedArr(() => [selectedId]);
-    }
-  };
-  const isSelected = (id) =>
-    selectedArr.some((selectedId) => {
-      return selectedId == id;
-    });
 
   return (
     <>
@@ -135,23 +94,10 @@ export default function MemberList() {
                     <TableRow
                       hover
                       onClick={(e) => handleClick(e, index)}
-                      role="checkbox"
                       key={index}
                       id={obj.id}
-                      selected={isSelected(index)}
                       sx={{ "& .MuiTableCell-root": { padding: "0 20px" } }}
                     >
-                      <TableCell
-                        align="center"
-                        sx={{ width: "20px", padding: 0 }}
-                      >
-                        <Checkbox
-                          color="primary"
-                          id={obj.id}
-                          checked={isSelected(index)}
-                          sx={{ p: 0 }}
-                        />
-                      </TableCell>
                       <TableCell
                         scope="row"
                         padding="none"
@@ -175,7 +121,7 @@ export default function MemberList() {
                         {obj.serviceNumber}
                       </TableCell>
                       <TableCell align="center" sx={{ width: "130px" }}>
-                        <Link href={`/agencies/${obj.id}`} passHref>
+                        <Link href={`/agencies/${obj.id}`} passhref="true">
                           <EditBtn />
                         </Link>
                         <DeleteBtn />
@@ -195,7 +141,11 @@ export default function MemberList() {
           }}
         >
           <ExcelDownloadBtn />
-          <Link href="/members/memberUpload/" passHref sx={{ height: "35px" }}>
+          <Link
+            href="/members/memberUpload/"
+            passhref="true"
+            sx={{ height: "35px" }}
+          >
             <AddBtn />
           </Link>
         </Box>

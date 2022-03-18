@@ -90,7 +90,6 @@ export default function ProductList() {
                 return (
                   <TableRow
                     hover
-                    role="checkbox"
                     tabIndex={-1}
                     key={index}
                     sx={{ "& .MuiTableCell-root": { padding: "0 20px" } }}
@@ -137,7 +136,7 @@ export default function ProductList() {
           mb: 1.5,
         }}
       >
-        <Link href="/products/productUpload" passHref>
+        <Link href="/products/productUpload" passhref="true">
           <AddBtn />
         </Link>
       </Box>

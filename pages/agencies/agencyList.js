@@ -119,7 +119,7 @@ export default function AgencyList() {
                       &#65510; {obj.freeChargeMonths}
                     </TableCell>
                     <TableCell align="center" sx={{ width: "130px" }}>
-                      <Link href={`/agencies/${obj.id}`} passHref>
+                      <Link href={`/agencies/${obj.id}`} passhref="true">
                         <EditBtn />
                       </Link>
                       <DeleteBtn />
