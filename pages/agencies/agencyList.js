@@ -11,9 +11,11 @@ import {
   TableRow,
   Pagination,
   Stack,
+  Box,
 } from "@mui/material";
 import DeleteBtn from "../../component/Buttons/DeleteBtn";
 import EditBtn from "../../component/Buttons/EditBtn";
+import AddBtn from "../../component/Buttons/AddBtn";
 
 export default function AgencyList() {
   const tableHead = [
@@ -51,6 +53,7 @@ export default function AgencyList() {
   return (
     <div className="tableInner">
       <h2>대리점 관리</h2>
+
       <TableContainer>
         <Table sx={{ minWidth: 750, mb: 1.5 }} aria-labelledby="tableTitle">
           <TableHead
@@ -130,7 +133,19 @@ export default function AgencyList() {
           </TableBody>
         </Table>
       </TableContainer>
-
+      <Box
+        sx={{
+          width: "100%",
+          height: "35px",
+          display: "flex",
+          justifyContent: "flex-end",
+          mb: 1.5,
+        }}
+      >
+        <Link href="/agencies/agencyUpload" passHref>
+          <AddBtn />
+        </Link>
+      </Box>
       <Stack spacing={2}>
         <Pagination
           count={totalPages}

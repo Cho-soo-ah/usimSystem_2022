@@ -4,10 +4,12 @@ import { useEffect, useState } from "react";
 import parse from "autosuggest-highlight/parse";
 import match from "autosuggest-highlight/match";
 import TextInputWrap from "./TextInputWrap";
+import { useRecoilState } from "recoil";
+import { storeState } from "../../src/Recoil/atoms";
 
 export default function StoreInput(props) {
   const [data, setData] = useState("");
-  const [value, setValue] = useState("");
+  const [storeValue, setStoreValue] = useRecoilState(storeState);
 
   useEffect(() => {
     axios
@@ -27,11 +29,10 @@ export default function StoreInput(props) {
       sx={{
         mb: props.placeholder ? props.sx : "12px",
       }}
-      value={value}
+      value={storeValue}
       onChange={(e, newValue) => {
-        setValue(newValue);
+        setStoreValue(newValue);
         props.wrap ? props.wrap(newValue) : null;
-        props.clear ? props.clear(newValue) : null;
       }}
       renderInput={(params) => (
         <TextField
@@ -43,7 +44,7 @@ export default function StoreInput(props) {
         />
       )}
       getOptionLabel={(option) => {
-        return option.name ? option.name : "";
+        return option ? option.name : "";
       }}
       renderOption={(obj, option, { inputValue }) => {
         const matches = match(option.name, inputValue, {

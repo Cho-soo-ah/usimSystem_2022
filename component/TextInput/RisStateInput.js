@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { InputLabel, MenuItem, FormControl, Select } from "@mui/material";
 import TextInputWrap from "./TextInputWrap";
+import { useRecoilState } from "recoil";
+import { risState } from "../../src/Recoil/atoms";
 
 export default function RisStateInput(props) {
-  const [value, setValue] = useState("");
-  const handleChange = (event) => {
-    setValue(event.target.value);
-  };
+  const [risValue, setRisValue] = useRecoilState(risState);
+
   return (
     <TextInputWrap text="RIS 처리 여부">
       <FormControl fullWidth variant={props.variant}>
@@ -14,9 +14,9 @@ export default function RisStateInput(props) {
         <Select
           labelId="risState"
           id="risState"
-          value={value}
           label={props.label}
-          onChange={handleChange}
+          value={risValue}
+          onChange={(e) => setRisValue(e.target.value)}
           sx={{ mb: "12px" }}
         >
           <MenuItem value={10} sx={{ minHeight: "38px" }}>

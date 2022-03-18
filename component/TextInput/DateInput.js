@@ -1,15 +1,18 @@
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { useState } from "react";
 import { FormControl, IconButton, TextField } from "@mui/material";
 import { Clear } from "@mui/icons-material";
 import TextInputWrap from "./TextInputWrap";
+import { useRecoilState } from "recoil";
+import { dateState } from "../../src/Recoil/atoms";
+
 export default function DateInput(props) {
-  const [dateRange, setDateRange] = useState([null, null]);
-  const [startDate, endDate] = dateRange;
+  const [dateValue, setDateValue] = useRecoilState(dateState);
+  const [startDate, endDate] = dateValue;
   const handleClear = () => {
-    setDateRange([null, null]);
+    setDateValue([null, null]);
   };
+
   return (
     <>
       <TextInputWrap text="날짜">
@@ -32,9 +35,10 @@ export default function DateInput(props) {
             selectsRange={true}
             startDate={startDate}
             endDate={endDate}
-            value={dateRange}
+            value={dateValue}
             onChange={(update) => {
-              setDateRange(update);
+              setDateValue(update);
+              console.log(dateValue);
             }}
             selected={startDate}
             monthsShown={2}

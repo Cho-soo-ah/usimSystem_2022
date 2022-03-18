@@ -50,8 +50,8 @@ export default function AgencyID() {
       .then((res) => {
         console.log(res);
       })
-      .catch((error) => {
-        console.log(error);
+      .catch((err) => {
+        console.log(err);
       })
       .finally(() => {
         setLoading(false);

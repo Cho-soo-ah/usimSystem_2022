@@ -7,7 +7,6 @@ import match from "autosuggest-highlight/match";
 
 export default function BarcodeInput(props) {
   const [data, setData] = useState([]);
-  const [value, setValue] = useState(false);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -43,10 +42,6 @@ export default function BarcodeInput(props) {
             variant="outlined"
             label="바코드 번호 / 서비스 번호"
             size={props.search ? "small" : "medium"}
-            value={props.value}
-            onChange={(e, newValue) => {
-              setValue(newValue);
-            }}
             sx={
               props.search
                 ? {

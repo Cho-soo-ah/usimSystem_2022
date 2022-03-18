@@ -34,7 +34,6 @@ export default function ChargeIn() {
               setSubmitting(true);
               // 비동기 동작
               setSubmitting(false);
-              console.log("data", data);
             }}
           >
             {({ handleSubmit, isSubmitting }) => {

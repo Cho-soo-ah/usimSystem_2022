@@ -5,9 +5,13 @@ import axios from "axios";
 import parse from "autosuggest-highlight/parse";
 import match from "autosuggest-highlight/match";
 import TextInputWrap from "./TextInputWrap";
+import { useRecoilState } from "recoil";
+import { usimState } from "../../src/Recoil/atoms";
 
 export default function UsimInput(props) {
   const [data, setData] = useState("");
+  const [usimValue, setUsimValue] = useRecoilState(usimState);
+
   useEffect(() => {
     axios
       .get("http://192.168.0.52:8080/sims")
@@ -30,10 +34,9 @@ export default function UsimInput(props) {
           sx={{
             mb: "12px",
           }}
-          value={props.value}
+          value={usimValue}
           onChange={(e, newValue) => {
-            props.setValue(newValue);
-            // props.clear ? props.clear(newValue) : null;
+            setUsimValue(newValue);
           }}
           renderInput={(params) => (
             <TextField
@@ -43,7 +46,7 @@ export default function UsimInput(props) {
             />
           )}
           getOptionLabel={(option) =>
-            option.usimNumber ? option.usimNumber : ""
+            option.usimNumber ? option.usimNumber : '""'
           }
           renderOption={(obj, option, { inputValue }) => {
             const matches = match(option.usimNumber, inputValue, {

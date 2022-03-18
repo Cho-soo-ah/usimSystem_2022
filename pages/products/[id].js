@@ -77,12 +77,11 @@ export default function ProductID() {
         chargeCost: del(chargeCost),
         freeChargeMonths: months,
       })
-      .then((response) => {
-        console.log(response);
+      .then((res) => {
+        console.log(res);
       })
-      .catch((error) => {
-        console.log(error);
-        alert("error");
+      .catch((err) => {
+        console.log(err);
       })
       .finally(() => {
         setLoading(false);

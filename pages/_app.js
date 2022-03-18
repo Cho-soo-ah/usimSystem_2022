@@ -7,17 +7,13 @@ import theme from "../src/theme";
 import UsimToolBar from "../component/UsimToolBar";
 import MobileToolBar from "../component/MobileToolBar";
 import "../public/style.css";
-import { wrapper } from "../src/redux";
+
+import { RecoilRoot } from "recoil";
 
 const clientSideEmotionCache = createEmotionCache();
 
 function App(props) {
-  const {
-    Component,
-    emotionCache = clientSideEmotionCache,
-    pageProps,
-    store,
-  } = props;
+  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
   const mobileQuery = useMediaQuery("(max-width:1023px)");
   const PcInner = styled("div")({
     width: "calc(100% - 270px)",
@@ -38,7 +34,7 @@ function App(props) {
     alignItems: "center",
     justifyContent: "center",
   });
-  console.log("aaaaaaaaaaaa", store);
+
   return (
     <CacheProvider value={emotionCache}>
       <Head>
@@ -62,7 +58,9 @@ function App(props) {
           <>
             <UsimToolBar />
             <PcInner>
-              <Component {...pageProps} />
+              <RecoilRoot>
+                <Component {...pageProps} />
+              </RecoilRoot>
             </PcInner>
           </>
         )}
@@ -106,4 +104,4 @@ function App(props) {
     </CacheProvider>
   );
 }
-export default wrapper.withRedux(App);
+export default App;

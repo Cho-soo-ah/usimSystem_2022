@@ -1,12 +1,10 @@
-import { useState } from "react";
 import { InputLabel, MenuItem, FormControl, Select } from "@mui/material";
 import TextInputWrap from "./TextInputWrap";
-
+import { useRecoilState } from "recoil";
+import { reasonState } from "../../src/Recoil/atoms";
 export default function ReasonInput(props) {
-  const [value, setValue] = useState("");
-  const handleChange = (event) => {
-    setValue(event.target.value);
-  };
+  const [reasonValue, setReasonValue] = useRecoilState(reasonState);
+
   return (
     <TextInputWrap text="사유">
       <FormControl fullWidth variant={props.variant}>
@@ -14,9 +12,11 @@ export default function ReasonInput(props) {
         <Select
           labelId="reason"
           id="reason"
-          value={value}
+          onChange={(e) => {
+            setReasonValue(e.target.value);
+          }}
+          value={reasonValue}
           label={props.label}
-          onChange={handleChange}
           sx={{ mb: "12px" }}
         >
           <MenuItem value={10}>사유</MenuItem>
