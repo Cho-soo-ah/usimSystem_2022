@@ -18,6 +18,7 @@ export default function PriceInput(props) {
         ),
       }}
       sx={{ marginBottom: "16px", "& input": { textAlign: "right" } }}
+      autoComplete="off"
     ></TextField>
   );
 }

@@ -72,6 +72,7 @@ export default function AgencyID() {
           marginBottom: "16px",
         }}
         onChange={handleName}
+        autoComplete="off"
       ></TextField>
 
       <LoadingButton

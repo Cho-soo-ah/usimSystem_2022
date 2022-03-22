@@ -11,9 +11,8 @@ import ProductInput from "../component/TextInput/ProductInput";
 import { useRecoilValue } from "recoil";
 import { formikState } from "../src/Recoil/atoms";
 
-export default function ChargeIn() {
+export default function ChargeIn(e) {
   const formik = useRecoilValue(formikState);
-
   return (
     <>
       <div className="inner">
@@ -28,6 +27,7 @@ export default function ChargeIn() {
               product: null,
             }}
             onSubmit={(data, { setSubmitting }) => {
+              console.log("data", data);
               setSubmitting(true);
               setSubmitting(false);
             }}
@@ -36,20 +36,28 @@ export default function ChargeIn() {
               return (
                 <Form onSubmit={handleSubmit}>
                   <StoreInput
-                    placeholder
+                    formik
                     name="storeName"
                     label="대리점 명"
                     sx={{ mb: "16px" }}
                   />
                   <CustomInput
                     name="passport"
-                    sx={{ mb: "16px" }}
-                    helperText="여권 번호를 입력해주세요"
+                    type="number"
+                    inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+                    sx={{
+                      mb: "16px",
+                      "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+                        {
+                          appearance: " none",
+                          margin: 0,
+                        },
+                    }}
                   >
                     여권 번호
                   </CustomInput>
-                  <BarcodeInput name="barcode" placeholder />
-                  <ProductInput name="product" placeholder label="상품" />
+                  {/* <BarcodeInput name="barcode" placeholder />
+                  <ProductInput name="product" placeholder label="상품" /> */}
                   <ImgUpload />
                   <CustomBtn
                     variant="contained"

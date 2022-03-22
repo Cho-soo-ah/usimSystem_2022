@@ -43,6 +43,7 @@ export default function UsimInput(props) {
               {...params}
               label={props.label}
               variant={props.variant}
+              autoComplete="off"
             />
           )}
           getOptionLabel={(option) =>

@@ -143,6 +143,7 @@ export default function ProductID() {
           marginBottom: "16px",
         }}
         onChange={handleName}
+        autoComplete="off"
       ></TextField>
       <PriceInput value={assignCost} onChange={handleAssignCost}>
         개통 비용

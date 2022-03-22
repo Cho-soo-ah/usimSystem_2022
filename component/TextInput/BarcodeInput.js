@@ -88,6 +88,7 @@ export default function BarcodeInput(props) {
                 "바코드 번호 / 서비스 번호를 입력해주세요"
               : null
           }
+          autoComplete="off"
         />
       )}
       getOptionLabel={(option) =>

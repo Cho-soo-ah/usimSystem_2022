@@ -49,6 +49,7 @@ export default function ProductInput(props) {
               ? forms.touched[props.name] && "상품명을 입력해주세요"
               : null
           }
+          autoComplete="off"
         />
       )}
       getOptionLabel={(option) => (option ? option.name : "")}

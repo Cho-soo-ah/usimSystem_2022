@@ -40,6 +40,7 @@ export default function PhoneCertify() {
                     borderRadius: "4px 0 0 4px",
                   },
                 }}
+                autoComplete="off"
               >
                 서비스 번호
               </TextField>

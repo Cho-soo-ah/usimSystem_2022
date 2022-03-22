@@ -122,6 +122,7 @@ export default function ProductUpload() {
         fullWidth
         sx={{ marginBottom: "16px" }}
         onChange={handleName}
+        autoComplete="off"
       ></TextField>
       <PriceInput value={assignCost} onChange={handleAssignCost}>
         배정 비용

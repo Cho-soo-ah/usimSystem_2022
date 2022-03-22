@@ -100,6 +100,7 @@ export default function AgencyUpload() {
                 fullWidth
                 sx={{ marginBottom: "16px" }}
                 onChange={handleName}
+                autoComplete="off"
               ></TextField>
               <TextField
                 id="outlined-basic"
@@ -109,15 +110,13 @@ export default function AgencyUpload() {
                 fullWidth
                 onChange={handleNumber}
                 sx={{
-                  "& input::-webkit-outer-spin-button": {
-                    appearance: " none",
-                    margin: 0,
-                  },
-                  "& input::-webkit-inner-spin-button": {
-                    appearance: " none",
-                    margin: 0,
-                  },
+                  "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+                    {
+                      appearance: " none",
+                      margin: 0,
+                    },
                 }}
+                autoComplete="off"
               ></TextField>
               <CustomBtn
                 color="primary"

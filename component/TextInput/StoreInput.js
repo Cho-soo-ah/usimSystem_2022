@@ -22,6 +22,18 @@ export default function StoreInput(props) {
   }, []);
 
   const Placeholder = (forms) => {
+    let helperText;
+    let errorText;
+
+    if (props.formik) {
+      helperText = forms.touched[props.name] && forms.errors[props.name];
+      errorText =
+        forms.touched[props.name] && Boolean(forms.errors[props.name]);
+    } else {
+      helperText = null;
+      errorText = null;
+    }
+    console.log("storeValue", storeValue);
     return (
       <>
         <Autocomplete
@@ -31,13 +43,15 @@ export default function StoreInput(props) {
           fullWidth
           noOptionsText="검색 결과가 없습니다."
           sx={{
-            mb: props.placeholder ? props.sx : "12px",
+            mb: props.formik ? props.sx : "12px",
           }}
           value={storeValue}
           onChange={(e, newValue) => {
             setStoreValue(newValue);
-            props.wrap ? props.wrap(newValue) : null;
-            props.placeholder ? forms.setFieldValue(newValue) : null;
+            // props.wrap ? props.wrap(newValue) : null;
+            console.log("newVlaue", newValue);
+            if (newValue) forms.setFieldValue("storeName", newValue.name);
+            else forms.setFieldValue("storeName", "");
           }}
           renderInput={(params) => (
             <TextField
@@ -46,17 +60,9 @@ export default function StoreInput(props) {
               variant={props.variant}
               sx={props.sx}
               InputLabelProps={props.InputLabelProps}
-              error={
-                props.placeholder
-                  ? forms.touched[props.name] &&
-                    Boolean(forms.errors[props.name])
-                  : null
-              }
-              helperText={
-                props.placeholder
-                  ? forms.touched[props.name] && "대리점 명을 입력해주세요"
-                  : null
-              }
+              error={errorText}
+              helperText={helperText}
+              autoComplete="off"
             />
           )}
           getOptionLabel={(option) => (option ? option.name : "")}
@@ -87,17 +93,17 @@ export default function StoreInput(props) {
   };
   return (
     <>
-      {props.placeholder || props.wrap ? (
+      {props.formik || props.wrap ? (
         <Field name={props.name}>
-          {({ form: { touched, errors, setFieldValue } }) => {
+          {({ field, form: { touched, errors, setFieldValue } }) => {
+            console.log(touched);
             return (
-              props.placeholder && (
-                <Placeholder
-                  touched={touched}
-                  errors={errors}
-                  setFieldValue={setFieldValue}
-                />
-              )
+              <Placeholder
+                field={field}
+                touched={touched}
+                errors={errors}
+                setFieldValue={setFieldValue}
+              />
             );
           }}
         </Field>

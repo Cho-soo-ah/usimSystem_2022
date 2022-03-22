@@ -15,6 +15,7 @@ export default function DepositInput() {
           sx={{ mb: "16px" }}
           onChange={(e) => setDepositValue(e.target.value)}
           value={depositValue}
+          autoComplete="off"
         />
       </TextInputWrap>
     </>

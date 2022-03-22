@@ -50,9 +50,7 @@ export default function DateInput(props) {
                 id="standard-basic"
                 label={props.label}
                 fullWidth
-                inputProps={{
-                  autoComplete: "off",
-                }}
+                autoComplete="off"
               ></TextField>
             }
           ></DatePicker>

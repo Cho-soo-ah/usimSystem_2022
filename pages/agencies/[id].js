@@ -103,6 +103,7 @@ export default function AgencyID() {
           marginBottom: "16px",
         }}
         onChange={handleName}
+        autoComplete="off"
       ></TextField>
       <TextField
         id="outlined-basic"
@@ -118,6 +119,7 @@ export default function AgencyID() {
         InputProps={{
           startAdornment: <InputAdornment position="start"></InputAdornment>,
         }}
+        autoComplete="off"
       ></TextField>
       <LoadingButton
         color="primary"
