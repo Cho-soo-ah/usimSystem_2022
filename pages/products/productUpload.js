@@ -16,11 +16,11 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import PriceInput from "../../component/PriceInput";
 
 export default function ProductUpload() {
-  const [name, setName] = useState();
-  const [assignCost, setAssignCost] = useState();
-  const [rentalCost, setRentalCost] = useState();
-  const [chargeCost, setChargeCost] = useState();
-  const [months, setMonths] = useState();
+  const [name, setName] = useState("");
+  const [assignCost, setAssignCost] = useState("");
+  const [rentalCost, setRentalCost] = useState("");
+  const [chargeCost, setChargeCost] = useState("");
+  const [months, setMonths] = useState("");
 
   const replaceRegex = /\B(?=(\d{3})+(?!\d))/g;
   const deleteRegex = /[^\d]/g;
@@ -71,7 +71,11 @@ export default function ProductUpload() {
   const loop = [];
 
   for (let i = 0; i < 13; i++) {
-    loop.push(<MenuItem value={i}>{i}</MenuItem>);
+    loop.push(
+      <MenuItem value={i} key={i}>
+        {i}
+      </MenuItem>
+    );
   }
   const [formats, setFormats] = useState();
 

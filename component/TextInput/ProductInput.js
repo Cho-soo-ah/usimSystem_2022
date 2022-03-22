@@ -6,6 +6,7 @@ import match from "autosuggest-highlight/match";
 import TextInputWrap from "./TextInputWrap";
 import { useRecoilState } from "recoil";
 import { productState } from "../../src/Recoil/atoms";
+import { Field } from "formik";
 
 export default function ProductInput(props) {
   const [data, setData] = useState("");
@@ -19,8 +20,7 @@ export default function ProductInput(props) {
       })
       .catch((err) => console.log(err));
   }, []);
-
-  const Placeholder = () => (
+  const Placeholder = (forms) => (
     <Autocomplete
       options={data}
       fullWidth
@@ -31,6 +31,7 @@ export default function ProductInput(props) {
       value={productValue}
       onChange={(e, newValue) => {
         setProductValue(newValue);
+        props.placeholder && forms.setFieldValue(newValue);
       }}
       renderInput={(params) => (
         <TextField
@@ -38,6 +39,16 @@ export default function ProductInput(props) {
           label={props.label}
           variant={props.variant}
           sx={props.sx}
+          error={
+            props.placeholder
+              ? forms.touched[props.name] && Boolean(forms.errors[props.name])
+              : null
+          }
+          helperText={
+            props.placeholder
+              ? forms.touched[props.name] && "상품명을 입력해주세요"
+              : null
+          }
         />
       )}
       getOptionLabel={(option) => (option ? option.name : "")}
@@ -68,7 +79,19 @@ export default function ProductInput(props) {
   return (
     <>
       {props.placeholder ? (
-        <Placeholder />
+        <Field name={props.name}>
+          {({ form: { touched, errors, setFieldValue } }) => {
+            return (
+              props.placeholder && (
+                <Placeholder
+                  touched={touched}
+                  errors={errors}
+                  setFieldValue={setFieldValue}
+                />
+              )
+            );
+          }}
+        </Field>
       ) : (
         <TextInputWrap text="상품">
           <Placeholder />

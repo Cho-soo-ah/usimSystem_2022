@@ -30,6 +30,7 @@ const tableHead = [
 export default function ProductList() {
   // ------ axios -------
   const [data, setData] = useState("");
+  const maxSize = 10;
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const handlePagination = (e, value) => {
@@ -38,9 +39,8 @@ export default function ProductList() {
   // ----- axios -----
   useEffect(() => {
     axios
-      .get(`http://192.168.0.52:8080/products?page=${page}&size=10`)
+      .get(`http://192.168.0.52:8080/products?page=${page}&size=${maxSize}`)
       .then((res) => {
-        console.log(res);
         setData(res.data.content);
         setTotalPages(res.data.totalPages);
       })
@@ -51,66 +51,59 @@ export default function ProductList() {
     <div className="tableInner">
       <h2>상품 관리</h2>
       <TableContainer>
-        <Table sx={{ minWidth: 750, mb: 1.5 }} aria-labelledby="tableTitle">
-          <TableHead
+        {data && (
+          <Table
             sx={{
-              bgcolor: "#0000000a",
-              width: "100%",
+              mb: 1.5,
+              borderRadius: "5px",
+              overflow: "hidden",
+              "& .MuiTableHead-root": {
+                bgcolor: "#0000000a",
+              },
               "& .MuiTableCell-head": {
-                border: "1px solid #dbdbdb",
                 textAlign: "center",
-                height: "45px",
+              },
+              "& .MuiTableCell-root": {
+                border: "1px solid #dbdbdb",
+                height: 40,
                 padding: "0 10px",
               },
-              "& .MuiTableSortLabel-root": {
-                marginLeft: "25px",
-              },
             }}
+            aria-labelledby="tableTitle"
           >
-            <TableRow>
-              {tableHead.map((e, index) => (
-                <TableCell key={index} sx={{ padding: 0 }}>
-                  {e}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody
-            sx={{
-              "& .MuiTableCell-root": {
-                border: "1px solid #e5e5e5",
-              },
-            }}
-          >
-            {data &&
-              data.map((obj, index) => {
+            <TableHead>
+              <TableRow>
+                {tableHead.map((e, index) => (
+                  <TableCell key={index} sx={{ padding: 0 }}>
+                    {e}
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {data.map((obj, index) => {
                 const replaceRegex = /\B(?=(\d{3})+(?!\d))/g;
                 const regex = (value) => value.replace(replaceRegex, ",");
-                console.log(regex(obj.assignCost.toString()));
                 return (
-                  <TableRow
-                    hover
-                    tabIndex={-1}
-                    key={index}
-                    sx={{ "& .MuiTableCell-root": { padding: "0 20px" } }}
-                  >
+                  <TableRow hover key={index}>
                     <TableCell
-                      component="th"
                       id={obj.id}
-                      scope="row"
-                      padding="none"
                       align="center"
                       sx={{ minWidth: "120px" }}
-                    ></TableCell>
-                    <TableCell sx={{ minWidth: "180px" }}>{obj.name}</TableCell>
-                    <TableCell align="right" sx={{ minWidth: "130px" }}>
-                      &#65510; {regex(obj.assignCost.toString())}
+                    >
+                      타입
+                    </TableCell>
+                    <TableCell sx={{ minWidth: "180px" }}>
+                      {obj.name ? obj.name : null}
                     </TableCell>
                     <TableCell align="right" sx={{ minWidth: "130px" }}>
-                      &#65510; {regex(obj.rentalCost.toString())}
+                      &#65510;{regex(obj.assignCost.toString())}
                     </TableCell>
                     <TableCell align="right" sx={{ minWidth: "130px" }}>
-                      &#65510; {regex(obj.chargeCost.toString())}
+                      &#65510;{regex(obj.rentalCost.toString())}
+                    </TableCell>
+                    <TableCell align="right" sx={{ minWidth: "130px" }}>
+                      &#65510;{regex(obj.chargeCost.toString())}
                     </TableCell>
                     <TableCell align="center" sx={{ minWidth: "130px" }}>
                       {obj.freeChargeMonths}
@@ -124,8 +117,25 @@ export default function ProductList() {
                   </TableRow>
                 );
               })}
-          </TableBody>
-        </Table>
+              {Array.from(Array(maxSize - data.length), (e, index) => {
+                return (
+                  <TableRow
+                    sx={{ "& .MuiTableCell-root": { height: 40 } }}
+                    key={index}
+                  >
+                    <TableCell></TableCell>
+                    <TableCell></TableCell>
+                    <TableCell></TableCell>
+                    <TableCell></TableCell>
+                    <TableCell></TableCell>
+                    <TableCell></TableCell>
+                    <TableCell></TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        )}
       </TableContainer>
       <Box
         sx={{

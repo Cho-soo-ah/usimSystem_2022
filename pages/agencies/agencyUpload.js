@@ -56,7 +56,6 @@ export default function AgencyUpload() {
           initialValues={{ email: "", password: "" }}
           onSubmit={(data, { setSubmitting }) => {
             setSubmitting(true);
-            // 비동기 동작
             setSubmitting(false);
           }}
         >

@@ -13,8 +13,6 @@ export default function Login() {
         <h2>비밀번호 찾기</h2>
         <Formik
           validationSchema={YupData}
-          // validateOnChange={false}
-          //   validateOnBlur={false}
           initialValues={{
             email: "",
             passwordCurrent: "",
@@ -25,7 +23,6 @@ export default function Login() {
           }}
           onSubmit={(data, { setSubmitting }) => {
             setSubmitting(true);
-            // 비동기 동작
             setSubmitting(false);
           }}
         >

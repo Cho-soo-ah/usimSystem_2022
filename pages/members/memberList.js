@@ -30,17 +30,17 @@ const tableHead = [
 
 export default function MemberList() {
   // ------ axios -------
-  const [data, setData] = useState();
+  const [data, setData] = useState([]);
+  const maxSize = 10;
   const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState();
+  const [totalPages, setTotalPages] = useState(1);
   const handlePagination = (e, value) => {
     setPage(value);
   };
   useEffect(() => {
     axios
-      .get(`http://192.168.0.52:8080/sims?page=${page}&size=10`)
+      .get(`http://192.168.0.52:8080/sims?page=${page}&size=${maxSize}`)
       .then((res) => {
-        console.log(res);
         setData(res.data.content);
         setTotalPages(res.data.totalPages);
       })
@@ -57,22 +57,26 @@ export default function MemberList() {
           <SearchBtn items={["store", "barcode", "usim"]} />
         </Box>
         <TableContainer>
-          <Table sx={{ minWidth: 750, mb: 1.5 }} aria-labelledby="tableTitle">
-            <TableHead
-              sx={{
+          <Table
+            sx={{
+              mb: 1.5,
+              borderRadius: "5px",
+              overflow: "hidden",
+              "& .MuiTableHead-root": {
                 bgcolor: "#0000000a",
-                width: "100%",
-                "& .MuiTableCell-head": {
-                  border: "1px solid #dbdbdb",
-                  textAlign: "center",
-                  height: "45px",
-                  padding: "0 10px",
-                },
-                "& .MuiTableSortLabel-root": {
-                  marginLeft: "25px",
-                },
-              }}
-            >
+              },
+              "& .MuiTableCell-head": {
+                textAlign: "center",
+              },
+              "& .MuiTableCell-root": {
+                border: "1px solid #dbdbdb",
+                height: 40,
+                padding: "0 10px",
+              },
+            }}
+            aria-labelledby="tableTitle"
+          >
+            <TableHead>
               <TableRow>
                 {tableHead.map((e, index) => (
                   <TableCell key={index} sx={{ padding: 0 }}>
@@ -81,13 +85,7 @@ export default function MemberList() {
                 ))}
               </TableRow>
             </TableHead>
-            <TableBody
-              sx={{
-                "& .MuiTableCell-root": {
-                  border: "1px solid #e5e5e5",
-                },
-              }}
-            >
+            <TableBody>
               {data &&
                 data.map((obj, index) => {
                   return (
@@ -96,14 +94,8 @@ export default function MemberList() {
                       onClick={(e) => handleClick(e, index)}
                       key={index}
                       id={obj.id}
-                      sx={{ "& .MuiTableCell-root": { padding: "0 20px" } }}
                     >
-                      <TableCell
-                        scope="row"
-                        padding="none"
-                        align="center"
-                        sx={{ minWidth: "80px" }}
-                      >
+                      <TableCell align="center" sx={{ minWidth: "80px" }}>
                         김떙떙
                         {/* {obj.store} */}
                       </TableCell>
@@ -126,6 +118,22 @@ export default function MemberList() {
                         </Link>
                         <DeleteBtn />
                       </TableCell>
+                    </TableRow>
+                  );
+                })}
+              {data &&
+                Array.from(Array(maxSize - data.length), (e, index) => {
+                  return (
+                    <TableRow
+                      sx={{ "& .MuiTableCell-root": { height: 40 } }}
+                      key={index}
+                    >
+                      <TableCell></TableCell>
+                      <TableCell></TableCell>
+                      <TableCell></TableCell>
+                      <TableCell></TableCell>
+                      <TableCell></TableCell>
+                      <TableCell></TableCell>
                     </TableRow>
                   );
                 })}
@@ -152,7 +160,7 @@ export default function MemberList() {
         <Stack spacing={2}>
           <Pagination
             count={totalPages}
-            onClick={handlePagination}
+            onChange={handlePagination}
             variant="outlined"
             shape="rounded"
           />

@@ -19,15 +19,16 @@ import SearchBtn from "../../component/Buttons/SearchBtn";
 
 export default function AgencyState() {
   // ----- axios -----
-  const [data, setData] = useState();
-  const [totalPages, setTotalPages] = useState();
+  const [data, setData] = useState([]);
+  const maxSize = 10;
+  const [totalPages, setTotalPages] = useState(1);
   const [page, setPage] = useState(1);
   const handlePagination = (e, value) => {
     setPage(value);
   };
   useEffect(() => {
     axios
-      .get(`http://192.168.0.52:8080/sims?page=${page}&size=10`)
+      .get(`http://192.168.0.52:8080/sims?page=${page}&size=${maxSize}`)
       .then((res) => {
         setData(res.data.content);
         setTotalPages(res.data.totalPages);
@@ -52,22 +53,25 @@ export default function AgencyState() {
       </Box>
       <UsimListHeader />
       <TableContainer>
-        <Table aria-labelledby="tableTitle">
-          <TableHead
-            sx={{
+        <Table
+          sx={{
+            borderRadius: "5px",
+            overflow: "hidden",
+            "& .MuiTableHead-root": {
               bgcolor: "#0000000a",
-              width: "100%",
-              "& .MuiTableCell-head": {
-                border: "1px solid #dbdbdb",
-                textAlign: "center",
-                height: "45px",
-                padding: "0 10px",
-              },
-              "& .MuiTableSortLabel-root": {
-                marginLeft: "25px",
-              },
-            }}
-          >
+            },
+            "& .MuiTableCell-head": {
+              textAlign: "center",
+            },
+            "& .MuiTableCell-root": {
+              border: "1px solid #dbdbdb",
+              height: 40,
+              padding: "0 10px",
+            },
+          }}
+          aria-labelledby="tableTitle"
+        >
+          <TableHead>
             <TableRow>
               {tableHead.map((e, index) => (
                 <TableCell key={index} sx={{ padding: 0 }}>
@@ -76,23 +80,12 @@ export default function AgencyState() {
               ))}
             </TableRow>
           </TableHead>
-          <TableBody
-            sx={{
-              "& .MuiTableCell-root": {
-                border: "1px solid #e5e5e5",
-              },
-            }}
-          >
+          <TableBody>
             {data &&
               data.map((obj, index) => {
                 return (
-                  <TableRow hover role="checkbox" key={index} id={obj.id}>
-                    <TableCell
-                      scope="row"
-                      padding="none"
-                      align="center"
-                      sx={{ minWidth: "140px" }}
-                    >
+                  <TableRow hover key={index} id={obj.id}>
+                    <TableCell align="center" sx={{ minWidth: "140px" }}>
                       {obj.store}
                     </TableCell>
                     <TableCell align="center" sx={{ minWidth: "120px" }}>
@@ -110,6 +103,22 @@ export default function AgencyState() {
                     <TableCell align="center" sx={{ minWidth: "80px" }}>
                       {obj.state}
                     </TableCell>
+                  </TableRow>
+                );
+              })}
+            {data &&
+              Array.from(Array(maxSize - data.length), (e, index) => {
+                return (
+                  <TableRow
+                    sx={{ "& .MuiTableCell-root": { height: 40 } }}
+                    key={index}
+                  >
+                    <TableCell></TableCell>
+                    <TableCell></TableCell>
+                    <TableCell></TableCell>
+                    <TableCell></TableCell>
+                    <TableCell></TableCell>
+                    <TableCell></TableCell>
                   </TableRow>
                 );
               })}

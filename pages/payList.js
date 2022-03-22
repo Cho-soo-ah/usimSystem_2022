@@ -18,15 +18,16 @@ import SearchBtn from "../component/Buttons/SearchBtn";
 const tableHead = ["날짜", "대리점 명", "가상계좌", "입금", "입금자"];
 
 export default function PayList() {
-  const [data, setData] = useState("");
-  const [totalPages, setTotalPages] = useState("");
+  const [data, setData] = useState([]);
+  const maxSize = 10;
+  const [totalPages, setTotalPages] = useState(1);
   const [page, setPage] = useState(1);
   const handlePagination = (e, value) => {
     setPage(value);
   };
   useEffect(() => {
     axios
-      .get(`http://192.168.0.52:8080/sims?page=${page}&size=10`)
+      .get(`http://192.168.0.52:8080/sims?page=${page}&size=${maxSize}`)
       .then((res) => {
         setData(res.data.content);
         setTotalPages(res.data.totalPages);
@@ -41,34 +42,26 @@ export default function PayList() {
         <Box sx={{ width: "100%", textAlign: "right", mb: 1.5 }}>
           <SearchBtn items={["date", "store", "reason", "deposit"]} />
         </Box>
-        <TableContainer sx={{ mb: "12px" }}>
+        <TableContainer sx={{ mb: 1.5 }}>
           <Table
             sx={{
-              minWidth: 500,
-              verticalAlign: "bottom",
-              "& .MuiTableRow-hover:hover": {
-                bgcolor: "#f1f1f1",
-              },
               borderRadius: "5px",
               overflow: "hidden",
+              "& .MuiTableHead-root": {
+                bgcolor: "#0000000a",
+              },
+              "& .MuiTableCell-head": {
+                textAlign: "center",
+              },
+              "& .MuiTableCell-root": {
+                border: "1px solid #dbdbdb",
+                height: 40,
+                padding: "0 10px",
+              },
             }}
             aria-label="custom pagination table"
           >
-            <TableHead
-              sx={{
-                bgcolor: "#0000000a",
-                width: "100%",
-                "& .MuiTableCell-head": {
-                  border: "1px solid #dbdbdb",
-                  textAlign: "center",
-                  height: "45px",
-                  padding: "0 10px",
-                },
-                "& .MuiTableSortLabel-root": {
-                  marginLeft: "25px",
-                },
-              }}
-            >
+            <TableHead>
               <TableRow>
                 {tableHead.map((e, index) => (
                   <TableCell key={index} sx={{ padding: 0 }}>
@@ -77,15 +70,7 @@ export default function PayList() {
                 ))}
               </TableRow>
             </TableHead>
-            <TableBody
-              sx={{
-                "& .MuiTableCell-root": {
-                  border: "1px solid #e5e5e5",
-                  height: "45px",
-                  padding: "0 10px",
-                },
-              }}
-            >
+            <TableBody>
               {data &&
                 data.map((obj, index) => {
                   return (
@@ -105,6 +90,21 @@ export default function PayList() {
                       <TableCell align="center" sx={{ minWidth: "120px" }}>
                         {obj.user}
                       </TableCell>
+                    </TableRow>
+                  );
+                })}
+              {data &&
+                Array.from(Array(maxSize - data.length), (e, index) => {
+                  return (
+                    <TableRow
+                      sx={{ "& .MuiTableCell-root": { height: 40 } }}
+                      key={index}
+                    >
+                      <TableCell></TableCell>
+                      <TableCell></TableCell>
+                      <TableCell></TableCell>
+                      <TableCell></TableCell>
+                      <TableCell></TableCell>
                     </TableRow>
                   );
                 })}

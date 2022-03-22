@@ -6,9 +6,10 @@ import match from "autosuggest-highlight/match";
 import TextInputWrap from "./TextInputWrap";
 import { useRecoilState } from "recoil";
 import { storeState } from "../../src/Recoil/atoms";
+import { Field } from "formik";
 
 export default function StoreInput(props) {
-  const [data, setData] = useState("");
+  const [data, setData] = useState([]);
   const [storeValue, setStoreValue] = useRecoilState(storeState);
 
   useEffect(() => {
@@ -20,59 +21,86 @@ export default function StoreInput(props) {
       .catch((err) => console.log(err));
   }, []);
 
-  const Placeholder = () => (
-    <Autocomplete
-      size={props.size}
-      options={data}
-      fullWidth
-      noOptionsText="검색 결과가 없습니다."
-      sx={{
-        mb: props.placeholder ? props.sx : "12px",
-      }}
-      value={storeValue}
-      onChange={(e, newValue) => {
-        setStoreValue(newValue);
-        props.wrap ? props.wrap(newValue) : null;
-      }}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          label={props.label}
-          variant={props.variant}
-          sx={props.sx}
-          InputLabelProps={props.InputLabelProps}
+  const Placeholder = (forms) => {
+    return (
+      <>
+        <Autocomplete
+          name={props.name}
+          size={props.size}
+          options={data}
+          fullWidth
+          noOptionsText="검색 결과가 없습니다."
+          sx={{
+            mb: props.placeholder ? props.sx : "12px",
+          }}
+          value={storeValue}
+          onChange={(e, newValue) => {
+            setStoreValue(newValue);
+            props.wrap ? props.wrap(newValue) : null;
+            props.placeholder ? forms.setFieldValue(newValue) : null;
+          }}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label={props.label}
+              variant={props.variant}
+              sx={props.sx}
+              InputLabelProps={props.InputLabelProps}
+              error={
+                props.placeholder
+                  ? forms.touched[props.name] &&
+                    Boolean(forms.errors[props.name])
+                  : null
+              }
+              helperText={
+                props.placeholder
+                  ? forms.touched[props.name] && "대리점 명을 입력해주세요"
+                  : null
+              }
+            />
+          )}
+          getOptionLabel={(option) => (option ? option.name : "")}
+          renderOption={(obj, option, { inputValue }) => {
+            const matches = match(option.name, inputValue, {
+              insideWords: true,
+            });
+            const parts = parse(option.name, matches);
+            return (
+              <li {...obj}>
+                {parts.map((part, index) => (
+                  <span
+                    key={index}
+                    style={{
+                      fontWeight: part.highlight ? 700 : 400,
+                      fontSize: props.wrap ? "14px" : props.sx,
+                    }}
+                  >
+                    {part.text}
+                  </span>
+                ))}
+              </li>
+            );
+          }}
         />
-      )}
-      getOptionLabel={(option) => {
-        return option ? option.name : "";
-      }}
-      renderOption={(obj, option, { inputValue }) => {
-        const matches = match(option.name, inputValue, {
-          insideWords: true,
-        });
-        const parts = parse(option.name, matches);
-        return (
-          <li {...obj}>
-            {parts.map((part, index) => (
-              <span
-                key={index}
-                style={{
-                  fontWeight: part.highlight ? 700 : 400,
-                  fontSize: props.wrap ? "14px" : props.sx,
-                }}
-              >
-                {part.text}
-              </span>
-            ))}
-          </li>
-        );
-      }}
-    />
-  );
+      </>
+    );
+  };
   return (
     <>
       {props.placeholder || props.wrap ? (
-        <Placeholder />
+        <Field name={props.name}>
+          {({ form: { touched, errors, setFieldValue } }) => {
+            return (
+              props.placeholder && (
+                <Placeholder
+                  touched={touched}
+                  errors={errors}
+                  setFieldValue={setFieldValue}
+                />
+              )
+            );
+          }}
+        </Field>
       ) : (
         <TextInputWrap text="대리점 명">
           <Placeholder />

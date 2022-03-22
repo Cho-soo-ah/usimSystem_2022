@@ -1,9 +1,6 @@
 import * as React from "react";
-import { useState } from "react";
-import * as yup from "yup";
 import { Form, Formik } from "formik";
 import { Box } from "@mui/material";
-
 import CustomBtn from "../component/Buttons/CustomBtn";
 import CustomInput from "../component/CustomInput";
 import ImgUpload from "../component/ImgUpload";
@@ -11,28 +8,27 @@ import StoreInput from "../component/TextInput/StoreInput";
 import BarcodeInput from "../component/TextInput/BarcodeInput";
 import ProductInput from "../component/TextInput/ProductInput";
 
-const validationSchema = yup.object({
-  passport: yup
-    .string("여권번호를 입력하세요")
-    .required("여권번호를 입력하세요"),
-});
+import { useRecoilValue } from "recoil";
+import { formikState } from "../src/Recoil/atoms";
 
 export default function ChargeIn() {
-  // const [value, setValue] = useState("");
-  // const handleChange = (event) => {
-  //   setValue(event.target.value);
-  // };
+  const formik = useRecoilValue(formikState);
+
   return (
     <>
       <div className="inner">
         <Box>
-          <h2 style={{ marginBottom: "16px" }}>개통 및 충전 처리</h2>
+          <h2 style={{ mb: 1.5 }}>개통 및 충전 처리</h2>
           <Formik
-            validationSchema={validationSchema}
-            initialValues={{ passport: "" }}
+            validationSchema={formik}
+            initialValues={{
+              passport: null,
+              storeName: null,
+              barcode: null,
+              product: null,
+            }}
             onSubmit={(data, { setSubmitting }) => {
               setSubmitting(true);
-              // 비동기 동작
               setSubmitting(false);
             }}
           >
@@ -41,14 +37,19 @@ export default function ChargeIn() {
                 <Form onSubmit={handleSubmit}>
                   <StoreInput
                     placeholder
+                    name="storeName"
                     label="대리점 명"
                     sx={{ mb: "16px" }}
                   />
-                  <CustomInput name="passport" sx={{ mb: "16px" }}>
+                  <CustomInput
+                    name="passport"
+                    sx={{ mb: "16px" }}
+                    helperText="여권 번호를 입력해주세요"
+                  >
                     여권 번호
                   </CustomInput>
-                  <BarcodeInput placeholder />
-                  <ProductInput placeholder label="상품" />
+                  <BarcodeInput name="barcode" placeholder />
+                  <ProductInput name="product" placeholder label="상품" />
                   <ImgUpload />
                   <CustomBtn
                     variant="contained"

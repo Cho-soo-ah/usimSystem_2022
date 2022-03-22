@@ -46,7 +46,7 @@ export default function UsimInput(props) {
             />
           )}
           getOptionLabel={(option) =>
-            option.usimNumber ? option.usimNumber : '""'
+            option.usimNumber ? option.usimNumber : ""
           }
           renderOption={(obj, option, { inputValue }) => {
             const matches = match(option.usimNumber, inputValue, {
