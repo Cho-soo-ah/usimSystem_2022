@@ -11,6 +11,7 @@ import {
 import CustomBtn from "../../component/Buttons/CustomBtn";
 import axios from "axios";
 import { useState } from "react";
+import CustomAlert from "../../component/CustomAlert";
 const validationSchema = yup.object({
   companyNumber: yup
     .string("사업자등록번호을 입력하세요")
@@ -24,6 +25,8 @@ export default function AgencyUpload() {
   const [name, setName] = useState("");
   const [type, setType] = useState("");
   const [regNumber, setRegNumber] = useState("");
+  const [open, setOpen] = useState(false);
+
   const handleName = (e) => {
     setName(e.target.value);
   };
@@ -43,10 +46,15 @@ export default function AgencyUpload() {
         type: type,
         corporateRegistrationNumber: regNumber,
       })
-      .then((res) => console.log(res))
+      .then((res) => {
+        console.log(res);
+        setOpen(true);
+        setTimeout(() => {
+          setOpen(false);
+        }, 3000);
+      })
       .catch((err) => console.log(err));
   }
-
   return (
     <div className="inner">
       <Box>
@@ -131,6 +139,7 @@ export default function AgencyUpload() {
           )}
         </Formik>
       </Box>
+      <CustomAlert open={open} message="대리점이 등록되었습니다." />
     </div>
   );
 }

@@ -8,7 +8,7 @@ export default function ReasonInput(props) {
 
   return (
     <Field name={names}>
-      {({ values, handleChange }) => {
+      {({ form: { setFieldValue } }) => {
         return (
           <>
             <InputLabel id={names}></InputLabel>
@@ -17,15 +17,18 @@ export default function ReasonInput(props) {
               select
               id={names}
               sx={{ mb: "12px" }}
-              value={values}
-              onChange={handleChange}
+              value={reasonValue}
+              onChange={(e) => {
+                setReasonValue(e.target.value);
+                setFieldValue(names, e.target.value);
+              }}
               autoComplete="off"
             >
-              <MenuItem value={10} key={1} InputLabel={1}>
-                사유
+              <MenuItem value="사유1" key={1} InputLabel={1}>
+                사유1
               </MenuItem>
-              <MenuItem value={20} key={2} InputLabel={2}>
-                사유사유
+              <MenuItem value="사유2" key={2} InputLabel={2}>
+                사유2
               </MenuItem>
             </TextField>
           </>

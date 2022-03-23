@@ -16,9 +16,9 @@ export default function DepositInput() {
             fullWidth
             sx={{ mb: "12px" }}
             value={depositValue}
-            onChange={(e, newValue) => {
-              if (newValue) setFieldValue(names, newValue.name);
-              else setFieldValue(names, "");
+            onChange={(e) => {
+              setDepositValue(e.target.value);
+              setFieldValue(names, e.target.value);
             }}
             autoComplete="off"
           />

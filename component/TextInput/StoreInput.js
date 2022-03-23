@@ -3,13 +3,11 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import parse from "autosuggest-highlight/parse";
 import match from "autosuggest-highlight/match";
-import { useRecoilState } from "recoil";
-import { storeState } from "../../src/Recoil/atoms";
 import { Field } from "formik";
 
 export default function StoreInput(props) {
   const [data, setData] = useState([]);
-  const [storeValue, setStoreValue] = useRecoilState(storeState);
+  const [storeValue, setStoreValue] = useState("");
   const names = "storeName";
 
   useEffect(() => {
@@ -78,10 +76,9 @@ export default function StoreInput(props) {
   };
   return (
     <Field name={names}>
-      {({ field, form: { touched, errors, setFieldValue } }) => {
+      {({ form: { touched, errors, setFieldValue } }) => {
         return (
           <Placeholder
-            field={field}
             touched={touched}
             errors={errors}
             setFieldValue={setFieldValue}

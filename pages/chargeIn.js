@@ -1,8 +1,10 @@
 import * as React from "react";
+import { useState } from "react";
 import { Form, Formik } from "formik";
 import { Box } from "@mui/material";
 import CustomBtn from "../component/Buttons/CustomBtn";
 import CustomInput from "../component/CustomInput";
+import CustomAlert from "../component/CustomAlert";
 import ImgUpload from "../component/ImgUpload";
 import StoreInput from "../component/TextInput/StoreInput";
 import BarcodeInput from "../component/TextInput/BarcodeInput";
@@ -13,13 +15,20 @@ import { formikState } from "../src/Recoil/atoms";
 
 export default function ChargeIn() {
   const formik = useRecoilValue(formikState);
+  const [open, setOpen] = useState(false);
+  const handleAlert = () => {
+    setOpen(true);
+    setTimeout(() => {
+      setOpen(false);
+    }, 3000);
+  };
   return (
     <>
       <div className="inner">
         <Box>
           <h2 style={{ mb: 1.5 }}>개통 및 충전 처리</h2>
           <Formik
-            validationSchema={formik}
+            // validationSchema={formik}
             initialValues={{
               passport: null,
               storeName: null,
@@ -59,6 +68,7 @@ export default function ChargeIn() {
                     fullWidth
                     type="submit"
                     disabled={isSubmitting}
+                    onClick={handleAlert}
                   >
                     개통 처리
                   </CustomBtn>
@@ -67,6 +77,7 @@ export default function ChargeIn() {
             }}
           </Formik>
         </Box>
+        <CustomAlert open={open} message="개통 처리가 완료되었습니다." />
       </div>
     </>
   );

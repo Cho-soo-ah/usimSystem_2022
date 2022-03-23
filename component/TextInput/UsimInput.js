@@ -35,6 +35,7 @@ export default function UsimInput(props) {
       value={usimValue}
       onChange={(e, newValue) => {
         setUsimValue(newValue);
+        forms.setFieldValue(names, newValue.usimNumber);
       }}
       renderInput={(params) => (
         <TextField
@@ -72,15 +73,8 @@ export default function UsimInput(props) {
 
   return (
     <Field name={names}>
-      {({ field, form: { touched, errors, setFieldValue } }) => {
-        return (
-          <Placeholder
-            field={field}
-            touched={touched}
-            errors={errors}
-            setFieldValue={setFieldValue}
-          />
-        );
+      {({ form: { setFieldValue } }) => {
+        return <Placeholder setFieldValue={setFieldValue} />;
       }}
     </Field>
   );

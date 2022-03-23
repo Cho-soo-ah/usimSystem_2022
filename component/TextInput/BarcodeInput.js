@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { Autocomplete, TextField, CircularProgress } from "@mui/material";
 import parse from "autosuggest-highlight/parse";
@@ -8,45 +8,24 @@ import { Field } from "formik";
 
 export default function BarcodeInput(props) {
   const [data, setData] = useState([]);
-  const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [barcodeValue, setBarcodeValue] = useState("");
+  const [barcodeValue, setBarcodeValue] = useState();
   const names = "barcode";
 
-  const handleOpen = () => {
-    setOpen(true);
-    setLoading(true);
+  useEffect(() => {
     axios
       .get("http://192.168.0.52:8080/sims")
       .then((res) => {
         setData(res.data.content);
-        setLoading(false);
       })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+      .catch((err) => console.log(err));
+  }, []);
+
   const FormikInput = (forms) => {
-    console.log(forms);
     return (
       <Autocomplete
         size={props.size}
         options={data}
-        open={open}
-        onOpen={handleOpen}
-        onClose={() => {
-          setOpen(false);
-          setData([]);
-        }}
-        loading={loading}
         noOptionsText="검색 결과가 없습니다."
-        loadingText="로딩 중 입니다."
-        // value={forms.values}
-        onChange={(e, newValue) => {
-          // setBarcodeValue(newValue);
-          if (newValue) forms.setFieldValue("barcode", newValue.name);
-          else forms.setFieldValue("barcode", "");
-        }}
         renderInput={(params) => (
           <TextField
             {...params}
@@ -65,18 +44,6 @@ export default function BarcodeInput(props) {
                     mb: "16px",
                   }
             }
-            InputProps={{
-              ...params.InputProps,
-              endAdornment: (
-                <>
-                  {loading ? (
-                    <CircularProgress color="inherit" size={20} />
-                  ) : (
-                    params.InputProps.endAdornment
-                  )}
-                </>
-              ),
-            }}
             InputLabelProps={{
               style: { fontSize: props.search ? 13 : 16 },
             }}
@@ -86,7 +53,7 @@ export default function BarcodeInput(props) {
           />
         )}
         getOptionLabel={(option) =>
-          `${option.barcodeNumber} / ${option.serviceNumber}`
+          option ? `${option.barcodeNumber} / ${option.serviceNumber}` : ""
         }
         renderOption={(obj, option, { inputValue }) => {
           const matches = match(
@@ -124,18 +91,16 @@ export default function BarcodeInput(props) {
   return (
     <>
       <Field name={names}>
-        {({ field, form: { touched, errors, setFieldValue }, values }) => (
-          <FormikInput
-            values={values}
-            field={field}
-            touched={touched}
-            errors={errors}
-            setFieldValue={setFieldValue}
-          />
-        )}
+        {({ form: { touched, errors, setFieldValue } }) => {
+          return (
+            <FormikInput
+              touched={touched}
+              errors={errors}
+              setFieldValue={setFieldValue}
+            />
+          );
+        }}
       </Field>
-
-      {/* <FormikInput /> */}
     </>
   );
 }

@@ -3,13 +3,11 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import parse from "autosuggest-highlight/parse";
 import match from "autosuggest-highlight/match";
-import { useRecoilState } from "recoil";
-import { productState } from "../../src/Recoil/atoms";
 import { Field } from "formik";
 
 export default function ProductInput(props) {
   const [data, setData] = useState("");
-  const [productValue, setProductValue] = useRecoilState(productState);
+  const [productValue, setProductValue] = useState();
   const names = "product";
 
   useEffect(() => {
@@ -20,6 +18,9 @@ export default function ProductInput(props) {
       })
       .catch((err) => console.log(err));
   }, []);
+
+  console.log("PRODUCTINPUT!!");
+
   const Placeholder = (forms) => (
     <Autocomplete
       size={props.size}
@@ -32,6 +33,7 @@ export default function ProductInput(props) {
       value={productValue}
       onChange={(e, newValue) => {
         setProductValue(newValue);
+        console.log(newValue);
         if (newValue) forms.setFieldValue("product", newValue.name);
         else forms.setFieldValue("product", "");
       }}
@@ -74,10 +76,9 @@ export default function ProductInput(props) {
   return (
     <>
       <Field name={names}>
-        {({ field, form: { touched, errors, setFieldValue } }) => {
+        {({ form: { touched, errors, setFieldValue } }) => {
           return (
             <Placeholder
-              field={field}
               touched={touched}
               errors={errors}
               setFieldValue={setFieldValue}

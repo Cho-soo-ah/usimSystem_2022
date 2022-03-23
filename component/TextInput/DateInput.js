@@ -37,6 +37,9 @@ export default function DateInput(props) {
           value={dateValue}
           onChange={(update) => {
             setDateValue(update);
+            if (update)
+              forms.setFieldValue("date", `${update[0]}, ${update[1]}`);
+            else forms.setFieldValue("date", "");
           }}
           selected={startDate}
           monthsShown={2}
@@ -75,10 +78,9 @@ export default function DateInput(props) {
   );
   return (
     <Field name={names}>
-      {({ field, form: { touched, errors, setFieldValue } }) => {
+      {({ form: { touched, errors, setFieldValue } }) => {
         return (
           <Placeholder
-            field={field}
             touched={touched}
             errors={errors}
             setFieldValue={setFieldValue}
