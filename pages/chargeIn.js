@@ -11,7 +11,7 @@ import ProductInput from "../component/TextInput/ProductInput";
 import { useRecoilValue } from "recoil";
 import { formikState } from "../src/Recoil/atoms";
 
-export default function ChargeIn(e) {
+export default function ChargeIn() {
   const formik = useRecoilValue(formikState);
   return (
     <>
@@ -35,12 +35,7 @@ export default function ChargeIn(e) {
             {({ handleSubmit, isSubmitting }) => {
               return (
                 <Form onSubmit={handleSubmit}>
-                  <StoreInput
-                    formik
-                    name="storeName"
-                    label="대리점 명"
-                    sx={{ mb: "16px" }}
-                  />
+                  <StoreInput label="대리점 명" />
                   <CustomInput
                     name="passport"
                     type="number"
@@ -56,8 +51,8 @@ export default function ChargeIn(e) {
                   >
                     여권 번호
                   </CustomInput>
-                  {/* <BarcodeInput name="barcode" placeholder />
-                  <ProductInput name="product" placeholder label="상품" /> */}
+                  <BarcodeInput />
+                  <ProductInput label="상품" />
                   <ImgUpload />
                   <CustomBtn
                     variant="contained"

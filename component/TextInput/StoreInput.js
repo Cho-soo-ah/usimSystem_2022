@@ -3,7 +3,6 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import parse from "autosuggest-highlight/parse";
 import match from "autosuggest-highlight/match";
-import TextInputWrap from "./TextInputWrap";
 import { useRecoilState } from "recoil";
 import { storeState } from "../../src/Recoil/atoms";
 import { Field } from "formik";
@@ -11,6 +10,7 @@ import { Field } from "formik";
 export default function StoreInput(props) {
   const [data, setData] = useState([]);
   const [storeValue, setStoreValue] = useRecoilState(storeState);
+  const names = "storeName";
 
   useEffect(() => {
     axios
@@ -22,36 +22,21 @@ export default function StoreInput(props) {
   }, []);
 
   const Placeholder = (forms) => {
-    let helperText;
-    let errorText;
-
-    if (props.formik) {
-      helperText = forms.touched[props.name] && forms.errors[props.name];
-      errorText =
-        forms.touched[props.name] && Boolean(forms.errors[props.name]);
-    } else {
-      helperText = null;
-      errorText = null;
-    }
-    console.log("storeValue", storeValue);
     return (
       <>
         <Autocomplete
-          name={props.name}
           size={props.size}
           options={data}
           fullWidth
           noOptionsText="검색 결과가 없습니다."
           sx={{
-            mb: props.formik ? props.sx : "12px",
+            mb: props.search ? "12px" : "16px",
           }}
           value={storeValue}
           onChange={(e, newValue) => {
             setStoreValue(newValue);
-            // props.wrap ? props.wrap(newValue) : null;
-            console.log("newVlaue", newValue);
-            if (newValue) forms.setFieldValue("storeName", newValue.name);
-            else forms.setFieldValue("storeName", "");
+            if (newValue) forms.setFieldValue(names, newValue.name);
+            else forms.setFieldValue(names, "");
           }}
           renderInput={(params) => (
             <TextField
@@ -60,8 +45,8 @@ export default function StoreInput(props) {
               variant={props.variant}
               sx={props.sx}
               InputLabelProps={props.InputLabelProps}
-              error={errorText}
-              helperText={helperText}
+              error={forms.touched[names] && Boolean(forms.errors[names])}
+              helperText={forms.touched[names] && forms.errors[names]}
               autoComplete="off"
             />
           )}
@@ -92,26 +77,17 @@ export default function StoreInput(props) {
     );
   };
   return (
-    <>
-      {props.formik || props.wrap ? (
-        <Field name={props.name}>
-          {({ field, form: { touched, errors, setFieldValue } }) => {
-            console.log(touched);
-            return (
-              <Placeholder
-                field={field}
-                touched={touched}
-                errors={errors}
-                setFieldValue={setFieldValue}
-              />
-            );
-          }}
-        </Field>
-      ) : (
-        <TextInputWrap text="대리점 명">
-          <Placeholder />
-        </TextInputWrap>
-      )}
-    </>
+    <Field name={names}>
+      {({ field, form: { touched, errors, setFieldValue } }) => {
+        return (
+          <Placeholder
+            field={field}
+            touched={touched}
+            errors={errors}
+            setFieldValue={setFieldValue}
+          />
+        );
+      }}
+    </Field>
   );
 }

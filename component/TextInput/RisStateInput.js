@@ -1,32 +1,36 @@
 import { useState } from "react";
-import { InputLabel, MenuItem, FormControl, Select } from "@mui/material";
-import TextInputWrap from "./TextInputWrap";
-import { useRecoilState } from "recoil";
-import { risState } from "../../src/Recoil/atoms";
+import { InputLabel, MenuItem, TextField } from "@mui/material";
+import { Field } from "formik";
 
 export default function RisStateInput(props) {
-  const [risValue, setRisValue] = useRecoilState(risState);
+  const [risValue, setRisValue] = useState("");
+  const names = "ris";
 
   return (
-    <TextInputWrap text="RIS 처리 여부">
-      <FormControl fullWidth variant={props.variant}>
-        <InputLabel id="risState"></InputLabel>
-        <Select
-          labelId="risState"
-          id="risState"
-          label={props.label}
-          value={risValue}
-          onChange={(e) => setRisValue(e.target.value)}
-          sx={{ mb: "12px" }}
-        >
-          <MenuItem value={10} sx={{ minHeight: "38px" }}>
-            완료
-          </MenuItem>
-          <MenuItem value={20} sx={{ minHeight: "38px" }}>
-            미완
-          </MenuItem>
-        </Select>
-      </FormControl>
-    </TextInputWrap>
+    <Field name={names}>
+      {({ values, handleChange }) => {
+        return (
+          <>
+            <InputLabel id={names}></InputLabel>
+            <TextField
+              fullWidth
+              select
+              id={names}
+              sx={{ mb: "12px" }}
+              value={values}
+              onChange={handleChange}
+              autoComplete="off"
+            >
+              <MenuItem value={10} key={1} InputLabel={1}>
+                완료
+              </MenuItem>
+              <MenuItem value={20} key={2} InputLabel={2}>
+                미완
+              </MenuItem>
+            </TextField>
+          </>
+        );
+      }}
+    </Field>
   );
 }

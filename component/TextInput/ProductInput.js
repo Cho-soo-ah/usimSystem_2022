@@ -3,7 +3,6 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import parse from "autosuggest-highlight/parse";
 import match from "autosuggest-highlight/match";
-import TextInputWrap from "./TextInputWrap";
 import { useRecoilState } from "recoil";
 import { productState } from "../../src/Recoil/atoms";
 import { Field } from "formik";
@@ -11,6 +10,7 @@ import { Field } from "formik";
 export default function ProductInput(props) {
   const [data, setData] = useState("");
   const [productValue, setProductValue] = useRecoilState(productState);
+  const names = "product";
 
   useEffect(() => {
     axios
@@ -22,16 +22,18 @@ export default function ProductInput(props) {
   }, []);
   const Placeholder = (forms) => (
     <Autocomplete
+      size={props.size}
       options={data}
       fullWidth
       noOptionsText="검색 결과가 없습니다."
       sx={{
-        mb: props.placeholder ? "16px" : "12px",
+        mb: props.search ? "12px" : "16px",
       }}
       value={productValue}
       onChange={(e, newValue) => {
         setProductValue(newValue);
-        props.placeholder && forms.setFieldValue(newValue);
+        if (newValue) forms.setFieldValue("product", newValue.name);
+        else forms.setFieldValue("product", "");
       }}
       renderInput={(params) => (
         <TextField
@@ -39,16 +41,8 @@ export default function ProductInput(props) {
           label={props.label}
           variant={props.variant}
           sx={props.sx}
-          error={
-            props.placeholder
-              ? forms.touched[props.name] && Boolean(forms.errors[props.name])
-              : null
-          }
-          helperText={
-            props.placeholder
-              ? forms.touched[props.name] && "상품명을 입력해주세요"
-              : null
-          }
+          error={forms.touched[names] && Boolean(forms.errors[names])}
+          helperText={forms.touched[names] && forms.errors[names]}
           autoComplete="off"
         />
       )}
@@ -79,25 +73,18 @@ export default function ProductInput(props) {
   );
   return (
     <>
-      {props.placeholder ? (
-        <Field name={props.name}>
-          {({ form: { touched, errors, setFieldValue } }) => {
-            return (
-              props.placeholder && (
-                <Placeholder
-                  touched={touched}
-                  errors={errors}
-                  setFieldValue={setFieldValue}
-                />
-              )
-            );
-          }}
-        </Field>
-      ) : (
-        <TextInputWrap text="상품">
-          <Placeholder />
-        </TextInputWrap>
-      )}
+      <Field name={names}>
+        {({ field, form: { touched, errors, setFieldValue } }) => {
+          return (
+            <Placeholder
+              field={field}
+              touched={touched}
+              errors={errors}
+              setFieldValue={setFieldValue}
+            />
+          );
+        }}
+      </Field>
     </>
   );
 }

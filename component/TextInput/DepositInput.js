@@ -1,23 +1,29 @@
 import * as React from "react";
 import { TextField } from "@mui/material";
-import TextInputWrap from "./TextInputWrap";
-import { useRecoilState } from "recoil";
-import { depositState } from "../../src/Recoil/atoms";
+import { useState } from "react";
+import { Field } from "formik";
 
 export default function DepositInput() {
-  const [depositValue, setDepositValue] = useRecoilState(depositState);
+  const [depositValue, setDepositValue] = useState("");
+  const names = "deposit";
 
   return (
-    <>
-      <TextInputWrap text="입금자 명">
-        <TextField
-          id="outlined-basic"
-          sx={{ mb: "16px" }}
-          onChange={(e) => setDepositValue(e.target.value)}
-          value={depositValue}
-          autoComplete="off"
-        />
-      </TextInputWrap>
-    </>
+    <Field name={names}>
+      {({ form: { setFieldValue } }) => {
+        return (
+          <TextField
+            id="outlined-basic"
+            fullWidth
+            sx={{ mb: "12px" }}
+            value={depositValue}
+            onChange={(e, newValue) => {
+              if (newValue) setFieldValue(names, newValue.name);
+              else setFieldValue(names, "");
+            }}
+            autoComplete="off"
+          />
+        );
+      }}
+    </Field>
   );
 }
