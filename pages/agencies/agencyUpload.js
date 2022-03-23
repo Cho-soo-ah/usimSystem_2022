@@ -12,6 +12,10 @@ import CustomBtn from "../../component/Buttons/CustomBtn";
 import axios from "axios";
 import { useState } from "react";
 import CustomAlert from "../../component/CustomAlert";
+
+import formikState from "../../src/Recoil/atoms";
+import { useRecoilState } from "recoil";
+
 const validationSchema = yup.object({
   companyNumber: yup
     .string("사업자등록번호을 입력하세요")
@@ -26,6 +30,8 @@ export default function AgencyUpload() {
   const [type, setType] = useState("");
   const [regNumber, setRegNumber] = useState("");
   const [open, setOpen] = useState(false);
+
+  const [formik, setFormik] = useRecoilState(formikState);
 
   const handleName = (e) => {
     setName(e.target.value);
