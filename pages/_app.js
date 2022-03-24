@@ -73,6 +73,7 @@ function App(props) {
             }
             body {
               overflow-x: hidden;
+              user-select: none;
             }
             body::-webkit-scrollbar::-webkit-scrollbar {
               width: 10px;

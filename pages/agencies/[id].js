@@ -6,6 +6,9 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { useRouter } from "next/router";
+import CustomAlert from "../../component/CustomAlert";
+import { alertOpen } from "../../src/Recoil/atoms";
+import { useRecoilState } from "recoil";
 export default function AgencyID() {
   const router = useRouter();
   const [loading, setLoading] = useState();
@@ -13,6 +16,7 @@ export default function AgencyID() {
   const [type, setType] = useState("");
   const [name, setName] = useState("");
   const [regNumber, setRegNumber] = useState(0);
+  const [alertOpens, setAlertOpens] = useRecoilState(alertOpen);
 
   const handleType = (e, newType) => {
     if (newType !== null) {
@@ -29,13 +33,14 @@ export default function AgencyID() {
   useEffect(() => {
     if (!router.isReady) return;
     axios
-      .get(`http://192.168.0.52:8080/agencies/${router.query.id}`)
+      .get(`http://192.168.0.52:8080/agencies/${router.query.id}?pages=2`)
       .then((res) => {
         setType(res.data.type);
         setName(res.data.name);
         setRegNumber(res.data.corporateRegistrationNumber);
       })
       .catch((err) => console.log(err));
+    router.back;
   }, [router.isReady]);
 
   function handleSave() {
@@ -48,12 +53,15 @@ export default function AgencyID() {
       })
       .then((res) => {
         console.log(res);
+        setAlertOpens(true);
+        setTimeout(() => {
+          setAlertOpens(false);
+          setLoading(false);
+          router.back();
+        }, 3000);
       })
       .catch((err) => {
         console.log(err);
-      })
-      .finally(() => {
-        setLoading(false);
       });
   }
   // ----- axios -----
@@ -130,6 +138,7 @@ export default function AgencyID() {
       >
         수정하기
       </LoadingButton>
+      <CustomAlert open={alertOpens} message="대리점이 수정되었습니다." />
     </div>
   );
 }
