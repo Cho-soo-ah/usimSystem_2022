@@ -175,7 +175,7 @@ export default function AgencyUpload() {
           }}
         </Formik>
       </Box>
-      <CustomAlert open={true} message="대리점이 등록되었습니다." />
+      <CustomAlert open={alertOpens} message="대리점이 등록되었습니다." />
     </div>
   );
 }
