@@ -44,7 +44,7 @@ export default function ChargeIn() {
             {({ handleSubmit, isSubmitting }) => {
               return (
                 <Form onSubmit={handleSubmit}>
-                  <StoreInput label="대리점 명" />
+                  <StoreInput label="대리점명" />
                   <CustomInput
                     name="passport"
                     type="number"

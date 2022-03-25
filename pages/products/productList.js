@@ -117,22 +117,23 @@ export default function ProductList() {
                   </TableRow>
                 );
               })}
-              {Array.from(Array(maxSize - data.length), (e, index) => {
-                return (
-                  <TableRow
-                    sx={{ "& .MuiTableCell-root": { height: 40 } }}
-                    key={index}
-                  >
-                    <TableCell></TableCell>
-                    <TableCell></TableCell>
-                    <TableCell></TableCell>
-                    <TableCell></TableCell>
-                    <TableCell></TableCell>
-                    <TableCell></TableCell>
-                    <TableCell></TableCell>
-                  </TableRow>
-                );
-              })}
+              {data &&
+                Array.from(Array(maxSize - data.length), (e, index) => {
+                  return (
+                    <TableRow
+                      sx={{ "& .MuiTableCell-root": { height: 40 } }}
+                      key={index}
+                    >
+                      <TableCell></TableCell>
+                      <TableCell></TableCell>
+                      <TableCell></TableCell>
+                      <TableCell></TableCell>
+                      <TableCell></TableCell>
+                      <TableCell></TableCell>
+                      <TableCell></TableCell>
+                    </TableRow>
+                  );
+                })}
             </TableBody>
           </Table>
         )}

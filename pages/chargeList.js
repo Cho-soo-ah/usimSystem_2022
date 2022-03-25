@@ -16,7 +16,7 @@ import SearchBtn from "../component/Buttons/SearchBtn";
 
 const tableHead = [
   "날짜",
-  "대리점 명",
+  "대리점명",
   "구분",
   "바코드 번호",
   "서비스 번호",

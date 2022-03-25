@@ -100,10 +100,13 @@ export default function FileUpload() {
 
   return (
     <>
-      <section className="container">
+      <section
+        className="container"
+        style={{ margin: "16px 0 ", cursor: "pointer" }}
+      >
         <div {...getRootProps({ className: "dropzone" })}>
           <input {...getInputProps()} />
-          <p style={{ marginTop: 16, cursor: "pointer" }}>
+          <p>
             <ErrorOutline
               color="error"
               fontSize="small"

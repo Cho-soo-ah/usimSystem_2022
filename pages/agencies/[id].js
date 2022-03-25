@@ -1,144 +1,125 @@
 import * as React from "react";
-import axios from "axios";
 import { useState, useEffect } from "react";
-import { Box, FormLabel, InputAdornment, TextField } from "@mui/material";
-import LoadingButton from "@mui/lab/LoadingButton";
-import ToggleButton from "@mui/material/ToggleButton";
-import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { useRouter } from "next/router";
+import axios from "axios";
+import { MenuItem } from "@mui/material";
+import { Form, Formik } from "formik";
+import CustomFormikInput from "../../component/CustomFormikInput";
+import { useSetRecoilState, useRecoilValue } from "recoil";
+import { formikSelector, pageType, alertOpen } from "../../src/Recoil/atoms";
 import CustomAlert from "../../component/CustomAlert";
-import { alertOpen } from "../../src/Recoil/atoms";
-import { useRecoilState } from "recoil";
-export default function AgencyID() {
-  const router = useRouter();
-  const [loading, setLoading] = useState();
-  // ----- axios -----
-  const [type, setType] = useState("");
-  const [name, setName] = useState("");
-  const [regNumber, setRegNumber] = useState(0);
-  const [alertOpens, setAlertOpens] = useRecoilState(alertOpen);
+import CustomFormikSelect from "../../component/CustomFormikSelect";
+import CustomBtn from "../../component/Buttons/CustomBtn";
 
-  const handleType = (e, newType) => {
-    if (newType !== null) {
-      setType(newType);
-    }
-  };
-  const handleName = (e) => {
-    setName(e.target.value);
-  };
-  const handleRegNumber = (e) => {
-    setRegNumber(e.target.value);
-  };
+export default function AgenciesID() {
+  const alertOpens = useRecoilValue(alertOpen);
+  const router = useRouter();
+
+  const selector = useRecoilValue(formikSelector);
+  const setPageTypes = useSetRecoilState(pageType);
+  setPageTypes("agencyUpload");
+
+  const [initialValues, setInitialValues] = useState({
+    storeType: "",
+    storeName: "",
+    registrationNumber: "",
+  });
+
+  const deleteRegex = /[^\d]/g;
+  const del = (value) => value.toString().replace(deleteRegex, "");
 
   useEffect(() => {
     if (!router.isReady) return;
     axios
-      .get(`http://192.168.0.52:8080/agencies/${router.query.id}?pages=2`)
+      .get(`http://192.168.0.52:8080/agencies/${router.query.id}`)
       .then((res) => {
-        setType(res.data.type);
-        setName(res.data.name);
-        setRegNumber(res.data.corporateRegistrationNumber);
+        setInitialValues({
+          storeType: res.data.type,
+          storeName: res.data.name,
+          registrationNumber: res.data.corporateRegistrationNumber,
+        });
       })
       .catch((err) => console.log(err));
-    router.back;
-  }, [router.isReady]);
+  });
 
-  function handleSave() {
-    setLoading(true);
-    axios
-      .patch(`http://192.168.0.52:8080/agencies/${router.query.id}`, {
-        type: type,
-        name: name,
-        corporateRegistrationNumber: regNumber,
-      })
-      .then((res) => {
-        console.log(res);
-        setAlertOpens(true);
-        setTimeout(() => {
-          setAlertOpens(false);
-          setLoading(false);
-          router.back();
-        }, 3000);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const loop = [];
+
+  for (let i = 0; i < 13; i++) {
+    loop.push(
+      <MenuItem key={i} value={i}>
+        {i}
+      </MenuItem>
+    );
   }
-  // ----- axios -----
 
   return (
     <div className="inner">
       <h2>대리점 수정</h2>
-      <Box sx={{ marginBottom: "16px" }}>
-        <FormLabel
-          id="demo-controlled-radio-buttons-group"
-          sx={{ fontSize: "13px", top: "-5px" }}
-        >
-          대리점 타입
-        </FormLabel>
-        <br />
-        <ToggleButtonGroup
-          exclusive
-          value={type}
-          onChange={handleType}
-          aria-label="text formatting"
-          sx={{
-            display: "flex",
-            "& .MuiButtonBase-root": {
-              width: "50%",
-              height: 56,
-              border: "1px solid #85858585",
-              fontSize: "16px",
-            },
-          }}
-        >
-          <ToggleButton value="GENERAL" aria-label="GENERAL">
-            일반
-          </ToggleButton>
-          <ToggleButton value="SPECIAL" aria-label="SPECIAL">
-            스페셜
-          </ToggleButton>
-        </ToggleButtonGroup>
-      </Box>
-
-      <TextField
-        id="productInput"
-        variant="outlined"
-        label=" 상품명"
-        value={name}
-        fullWidth
-        sx={{
-          marginBottom: "16px",
+      <Formik
+        validationSchema={selector}
+        enableReinitialize={true}
+        initialValues={initialValues}
+        onSubmit={(data, actions) => {
+          actions.setSubmitting(true);
+          actions.setSubmitting(false);
+          axios
+            .patch(`http://192.168.0.52:8080/agencies/${router.query.id}`, {
+              name: data.productName,
+              assignCost: del(data.assignCost),
+              rentalCost: del(data.rentalCost),
+              chargeCost: del(data.chargeCost),
+              freeChargeMonths: data.months,
+            })
+            .then((res) => {
+              setAlertOpens(true);
+            })
+            .catch((err) => console.log(err));
         }}
-        onChange={handleName}
-        autoComplete="off"
-      ></TextField>
-      <TextField
-        id="outlined-basic"
-        label="사업자등록번호"
-        value={regNumber}
-        variant="outlined"
-        fullWidth
-        sx={{
-          marginBottom: "16px",
-          "& .MuiOutlinedInput-root": { paddingLeft: "6px" },
-        }}
-        onChange={handleRegNumber}
-        InputProps={{
-          startAdornment: <InputAdornment position="start"></InputAdornment>,
-        }}
-        autoComplete="off"
-      ></TextField>
-      <LoadingButton
-        color="primary"
-        loading={loading}
-        onClick={handleSave}
-        sx={{ height: "56px", color: "#fff", fontSize: "16px" }}
-        fullWidth
       >
-        수정하기
-      </LoadingButton>
-      <CustomAlert open={alertOpens} message="대리점이 수정되었습니다." />
+        {(props) => {
+          return (
+            <>
+              <Form>
+                <CustomFormikSelect
+                  name="storeType"
+                  label="대리점 타입"
+                  formik={props}
+                >
+                  <MenuItem value="GENERAL" key="GENERAL">
+                    일반
+                  </MenuItem>
+                  <MenuItem value="SPECIAL" key="SPECIAL">
+                    스페셜
+                  </MenuItem>
+                </CustomFormikSelect>
+                <CustomFormikInput
+                  name="storeName"
+                  label="대리점명"
+                  formik={props}
+                />
+                <CustomFormikInput
+                  name="registrationNumber"
+                  label="사업자등록번호"
+                  formik={props}
+                />
+                <CustomBtn
+                  fullWidth
+                  color="primary"
+                  type="submit"
+                  sx={{ height: "56px", color: "#fff", fontSize: "16px" }}
+                >
+                  수정하기
+                </CustomBtn>
+              </Form>
+              <CustomAlert
+                open={alertOpens}
+                callback={props.resetForm}
+                message="대리점 정보가 수정되었습니다."
+              />
+            </>
+          );
+        }}
+      </Formik>
     </div>
   );
 }

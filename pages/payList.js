@@ -15,7 +15,7 @@ import {
 import ExcelDownloadBtn from "../component/Buttons/ExcelDownloadBtn";
 import SearchBtn from "../component/Buttons/SearchBtn";
 
-const tableHead = ["날짜", "대리점 명", "가상계좌", "입금", "입금자"];
+const tableHead = ["날짜", "대리점명", "가상계좌", "입금", "입금자"];
 
 export default function PayList() {
   const [data, setData] = useState([]);

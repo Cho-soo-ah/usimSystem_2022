@@ -21,7 +21,7 @@ export default function AgencyList() {
   const tableHead = [
     "대리점 타입",
     "사업자등록번호",
-    "대리점 명",
+    "대리점명",
     "은행",
     "가상계좌번호",
     "예치금",
