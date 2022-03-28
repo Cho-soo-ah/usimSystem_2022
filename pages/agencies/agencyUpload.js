@@ -17,8 +17,6 @@ export default function AgencyUpload() {
   const setPageTypes = useSetRecoilState(pageType);
   setPageTypes("agencyUpload");
 
-  const storeType = "storeType";
-
   return (
     <div className="inner">
       <Box>
@@ -72,12 +70,7 @@ export default function AgencyUpload() {
                     label="사업자등록번호"
                     formik={props}
                   />
-                  <CustomBtn
-                    fullWidth
-                    color="primary"
-                    variant="contained"
-                    type="submit"
-                  >
+                  <CustomBtn fullWidth color="primary" type="submit">
                     등록하기
                   </CustomBtn>
                 </Form>

@@ -39,7 +39,7 @@ export default function MemberList() {
   };
   useEffect(() => {
     axios
-      .get(`http://192.168.0.52:8080/sims?page=${page}&size=${maxSize}`)
+      .get(`http://192.168.0.52:8080/members?page=${page}&size=${maxSize}`)
       .then((res) => {
         setData(res.data.content);
         setTotalPages(res.data.totalPages);
@@ -89,31 +89,24 @@ export default function MemberList() {
               {data &&
                 data.map((obj, index) => {
                   return (
-                    <TableRow
-                      hover
-                      onClick={(e) => handleClick(e, index)}
-                      key={index}
-                      id={obj.id}
-                    >
+                    <TableRow hover key={index} id={obj.id}>
                       <TableCell align="center" sx={{ minWidth: "80px" }}>
-                        김떙떙
-                        {/* {obj.store} */}
+                        {obj.username}
                       </TableCell>
                       <TableCell align="center" sx={{ minWidth: "180px" }}>
-                        sample@email.com
-                        {/* {obj.barcodeNumber} */}
+                        {obj.email}
                       </TableCell>
                       <TableCell align="center" sx={{ minWidth: "120px" }}>
-                        {obj.serviceNumber}
+                        {obj.phoneNumber}
                       </TableCell>
                       <TableCell align="center" sx={{ minWidth: "80px" }}>
-                        {obj.usimNumber}
+                        {/* {obj.usimNumber} */}권한
                       </TableCell>
                       <TableCell align="center" sx={{ minWidth: "120px" }}>
-                        {obj.serviceNumber}
+                        {/* {obj.serviceNumber} */}대리점
                       </TableCell>
                       <TableCell align="center" sx={{ width: "130px" }}>
-                        <Link href={`/agencies/${obj.id}`} passhref="true">
+                        <Link href={`/members+/${obj.id}`} passhref="true">
                           <EditBtn />
                         </Link>
                         <DeleteBtn />
@@ -143,17 +136,14 @@ export default function MemberList() {
         <Box
           sx={{
             width: "100%",
+            height: "35px",
             display: "flex",
             justifyContent: "flex-end",
-            height: "35px",
+            mb: 1.5,
           }}
         >
           <ExcelDownloadBtn />
-          <Link
-            href="/members/memberUpload/"
-            passhref="true"
-            sx={{ height: "35px" }}
-          >
+          <Link href="/members/memberUpload/" passhref="true">
             <AddBtn />
           </Link>
         </Box>

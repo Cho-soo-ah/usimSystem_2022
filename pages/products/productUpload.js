@@ -1,6 +1,6 @@
 import * as React from "react";
 import axios from "axios";
-import { Checkbox, MenuItem } from "@mui/material";
+import { MenuItem } from "@mui/material";
 import CustomAlert from "../../component/CustomAlert";
 import PriceInput from "../../component/PriceInput";
 import CustomBtn from "../../component/Buttons/CustomBtn";
@@ -71,7 +71,6 @@ export default function ProductUpload() {
                   multiple
                 >
                   <MenuItem value="GENERAL" key="GENERAL">
-                    {/* <Checkbox checked="GENERAL" /> */}
                     일반
                   </MenuItem>
                   <MenuItem value="SPECIAL" key="SPECIAL">
@@ -105,12 +104,7 @@ export default function ProductUpload() {
                 >
                   {loop}
                 </CustomFormikSelect>
-                <CustomBtn
-                  fullWidth
-                  type="submit"
-                  color="primary"
-                  sx={{ height: "56px", color: "#fff", fontSize: "16px" }}
-                >
+                <CustomBtn fullWidth color="primary" type="submit">
                   추가하기
                 </CustomBtn>
               </Form>

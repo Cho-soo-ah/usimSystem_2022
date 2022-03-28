@@ -19,8 +19,6 @@ export default function ProductInput(props) {
       .catch((err) => console.log(err));
   }, []);
 
-  console.log("PRODUCTINPUT!!");
-
   const Placeholder = (forms) => (
     <Autocomplete
       size={props.size}
@@ -33,7 +31,6 @@ export default function ProductInput(props) {
       value={productValue}
       onChange={(e, newValue) => {
         setProductValue(newValue);
-        console.log(newValue);
         if (newValue) forms.setFieldValue("product", newValue.name);
         else forms.setFieldValue("product", "");
       }}

@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState, useEffect } from "react";
 import { Form, Formik } from "formik";
 
 import CustomBtn from "../../component/Buttons/CustomBtn";
@@ -9,13 +10,50 @@ import { pageType } from "../../src/Recoil/atoms";
 import { formikSelector, alertOpen } from "../../src/Recoil/atoms";
 import { useSetRecoilState, useRecoilValue, useRecoilState } from "recoil";
 import CustomFormikInput from "../../component/CustomFormikInput";
+import CustomFormikSelect from "../../component/CustomFormikSelect";
+import { MenuItem } from "@mui/material";
 
 export default function MemberUpload() {
-  const [alertOpens, setAlertOpens] = useRecoilState(alertOpen);
+  const [data, setData] = useState([]);
+  const [disabled, setDisabled] = useState(false);
+  const [multi, setMulti] = useState(false);
 
+  const [alertOpens, setAlertOpens] = useRecoilState(alertOpen);
   const selector = useRecoilValue(formikSelector);
   const setPageTypes = useSetRecoilState(pageType);
   setPageTypes("memberUpload");
+
+  useEffect(() => {
+    axios
+      .get("http://192.168.0.52:8080/agencies")
+      .then((res) => {
+        setData(res.data.content);
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  const handleId = (props) => {
+    console.log("uploaddddddd", props);
+    switch (props.formik.values.roleId) {
+      case "Administrator":
+      case "User":
+        setDisabled(true);
+        setMulti(false);
+        break;
+      case "Dealer":
+        console.log("ssssss", props);
+        props.formik.setFieldValue("agencyId", []);
+        setMulti(true);
+        setDisabled(false);
+        break;
+      default:
+        setDisabled(false);
+        setMulti(false);
+    }
+  };
 
   return (
     <div className="inner">
@@ -28,9 +66,10 @@ export default function MemberUpload() {
           password: "",
           phoneNumber: "",
           roleId: "",
-          agencyId: "",
+          agencyId: [],
         }}
         onSubmit={(data, actions) => {
+          console.log(data);
           actions.setSubmitting(true);
           actions.setSubmitting(false);
           axios
@@ -44,8 +83,8 @@ export default function MemberUpload() {
             })
             .then((res) => {
               setAlertOpens(true);
-            })
-            .catch((err) => console.log(err));
+            });
+          //   .catch((err) => console.log(err));
         }}
       >
         {(props) => {
@@ -60,6 +99,7 @@ export default function MemberUpload() {
                 <CustomFormikInput name="email" label="이메일" formik={props} />
                 <CustomFormikInput
                   name="password"
+                  type="password"
                   label="비밀번호"
                   formik={props}
                 />
@@ -68,12 +108,41 @@ export default function MemberUpload() {
                   label="핸드폰 번호"
                   formik={props}
                 />
-                {/* 
-                  
-                  권한 selector
-                  대리점 selector 추가
-                  
-                  */}
+                <CustomFormikSelect
+                  name="roleId"
+                  label="권한"
+                  formik={props}
+                  callback={handleId}
+                >
+                  <MenuItem value="Administrator" key="Administrator">
+                    관리자
+                  </MenuItem>
+                  <MenuItem value="Dealer" key="Dealer">
+                    딜러
+                  </MenuItem>
+                  <MenuItem value="Agent" key="Agent">
+                    대리점
+                  </MenuItem>
+                  <MenuItem value="User" key="User">
+                    회원
+                  </MenuItem>
+                </CustomFormikSelect>
+                <CustomFormikSelect
+                  name="agencyId"
+                  label="대리점"
+                  formik={props}
+                  multiple={multi}
+                  disabled={disabled}
+                >
+                  {data &&
+                    data.map((obj) => {
+                      return (
+                        <MenuItem value={obj.id} key={obj.id}>
+                          {obj.name}
+                        </MenuItem>
+                      );
+                    })}
+                </CustomFormikSelect>
                 <CustomBtn
                   fullWidth
                   color="primary"

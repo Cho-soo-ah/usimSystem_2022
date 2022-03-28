@@ -1,37 +1,26 @@
 import * as React from "react";
-import axios from "axios";
 import { useState, useEffect } from "react";
-import {
-  Box,
-  FormControl,
-  FormLabel,
-  InputLabel,
-  MenuItem,
-  Select,
-} from "@mui/material";
-import LoadingButton from "@mui/lab/LoadingButton";
-import ToggleButton from "@mui/material/ToggleButton";
-import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import axios from "axios";
 import { useRouter } from "next/router";
+import { MenuItem } from "@mui/material";
 import PriceInput from "../../component/PriceInput";
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import CustomFormikInput from "../../component/CustomFormikInput";
-import { useSetRecoilState, useRecoilValue } from "recoil";
+import { useSetRecoilState, useRecoilValue, useRecoilState } from "recoil";
 import { formikSelector, pageType, alertOpen } from "../../src/Recoil/atoms";
 import CustomAlert from "../../component/CustomAlert";
 import CustomBtn from "../../component/Buttons/CustomBtn";
+import CustomFormikSelect from "../../component/CustomFormikSelect";
 
 export default function ProductsID() {
-  const alertOpens = useRecoilValue(alertOpen);
   const router = useRouter();
-
+  const [alertOpens, setAlertOpens] = useRecoilState(alertOpen);
   const selector = useRecoilValue(formikSelector);
   const setPageTypes = useSetRecoilState(pageType);
   setPageTypes("productUpload");
 
-  const productType = "productType";
-  const months = "months";
   const [initialValues, setInitialValues] = useState({
+    storeType: [],
     productName: "",
     assignCost: "",
     rentalCost: "",
@@ -48,6 +37,7 @@ export default function ProductsID() {
       .get(`http://192.168.0.52:8080/products/${router.query.id}`)
       .then((res) => {
         setInitialValues({
+          storeType: [],
           productName: res.data.name,
           assignCost: res.data.assignCost,
           rentalCost: res.data.rentalCost,
@@ -56,7 +46,7 @@ export default function ProductsID() {
         });
       })
       .catch((err) => console.log(err));
-  });
+  }, []);
 
   const loop = [];
 
@@ -96,63 +86,19 @@ export default function ProductsID() {
           return (
             <>
               <Form>
-                <Box sx={{ marginBottom: "16px" }}>
-                  <FormLabel
-                    id="demo-controlled-radio-buttons-group"
-                    sx={{ fontSize: "13px", top: "-5px" }}
-                  >
-                    대리점 타입
-                  </FormLabel>
-                  <Field name={productType}>
-                    {({ form: { errors, touched, setFieldValue } }) => (
-                      <>
-                        <ToggleButtonGroup
-                          value={props.values.productType}
-                          onChange={(e) => {
-                            setFieldValue(productType, e.target.value);
-                            console.log(e.target.value);
-                          }}
-                          aria-label="text formatting"
-                          sx={{
-                            display: "flex",
-                            "& .MuiButtonBase-root": {
-                              width: "50%",
-                              height: 56,
-                              border: "1px solid #85858585",
-                              fontSize: "16px",
-                            },
-                          }}
-                          error={
-                            touched[productType] && Boolean(errors[productType])
-                          }
-                          helperText={
-                            touched[productType] && errors[productType]
-                          }
-                        >
-                          <ToggleButton value="GENERAL" aria-label="GENERAL">
-                            일반
-                          </ToggleButton>
-                          <ToggleButton value="SPECIAL" aria-label="SPECIAL">
-                            스페셜
-                          </ToggleButton>
-                        </ToggleButtonGroup>
-                        <ErrorMessage name={productType}>
-                          {(msg) => (
-                            <div
-                              style={{
-                                color: "#d32f2f",
-                                fontSize: "0.75rem",
-                                margin: "3px 14px",
-                              }}
-                            >
-                              {msg}
-                            </div>
-                          )}
-                        </ErrorMessage>
-                      </>
-                    )}
-                  </Field>
-                </Box>
+                <CustomFormikSelect
+                  name="storeType"
+                  label="대리점 타입"
+                  formik={props}
+                  multiple
+                >
+                  <MenuItem value="GENERAL" key="GENERAL">
+                    일반
+                  </MenuItem>
+                  <MenuItem value="SPECIAL" key="SPECIAL">
+                    스페셜
+                  </MenuItem>
+                </CustomFormikSelect>
                 <CustomFormikInput
                   name="productName"
                   label="상품명"
@@ -173,50 +119,20 @@ export default function ProductsID() {
                   label="충전 비용"
                   formik={props}
                 />
-                <Field name={months}>
-                  {({ form: { setFieldValue } }) => (
-                    <FormControl fullWidth sx={{ marginBottom: "16px" }}>
-                      <InputLabel id="demo-simple-select-label">
-                        무료 충전 개월 수
-                      </InputLabel>
-                      <Select
-                        label="무료 충전 개월 수"
-                        value={props.values.months}
-                        onChange={(e) => {
-                          setFieldValue(months, e.target.value);
-                        }}
-                      >
-                        {loop}
-                      </Select>
-
-                      <ErrorMessage name={months}>
-                        {(msg) => (
-                          <div
-                            style={{
-                              color: "#d32f2f",
-                              fontSize: "0.75rem",
-                              margin: "3px 14px",
-                            }}
-                          >
-                            {msg}
-                          </div>
-                        )}
-                      </ErrorMessage>
-                    </FormControl>
-                  )}
-                </Field>
-                <CustomBtn
-                  fullWidth
-                  color="primary"
-                  type="submit"
-                  sx={{ height: "56px", color: "#fff", fontSize: "16px" }}
+                <CustomFormikSelect
+                  name="months"
+                  label="무료 충전 개월 수"
+                  formik={props}
                 >
+                  {loop}
+                </CustomFormikSelect>
+                <CustomBtn fullWidth color="primary" type="submit">
                   수정하기
                 </CustomBtn>
               </Form>
               <CustomAlert
                 open={alertOpens}
-                callback={props.resetForm}
+                callback={router.back}
                 message="상품이 수정되었습니다."
               />
             </>

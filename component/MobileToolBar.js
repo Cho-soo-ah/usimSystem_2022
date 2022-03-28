@@ -1,14 +1,10 @@
 import * as React from "react";
-import { useState } from "react";
 import {
   AppBar,
   Box,
   Toolbar,
   Typography,
   IconButton,
-  Switch,
-  FormControlLabel,
-  FormGroup,
   Divider,
   Drawer,
   Button,
@@ -20,19 +16,14 @@ import {
 import Link from "./MuiNextLink";
 
 import MenuIcon from "@mui/icons-material/Menu";
-import AccountCircle from "@mui/icons-material/AccountCircle";
 
 import {
   Face,
   PhoneIphone,
   PaidOutlined,
   Store,
-  PersonAddAltOutlined,
   AddBusiness,
-  ListAltOutlined,
-  LockOutlined,
   MoveToInbox,
-  Logout,
 } from "@mui/icons-material";
 const menuObjTop = [
   {

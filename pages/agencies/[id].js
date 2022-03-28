@@ -5,14 +5,14 @@ import axios from "axios";
 import { MenuItem } from "@mui/material";
 import { Form, Formik } from "formik";
 import CustomFormikInput from "../../component/CustomFormikInput";
-import { useSetRecoilState, useRecoilValue } from "recoil";
+import { useSetRecoilState, useRecoilValue, useRecoilState } from "recoil";
 import { formikSelector, pageType, alertOpen } from "../../src/Recoil/atoms";
 import CustomAlert from "../../component/CustomAlert";
 import CustomFormikSelect from "../../component/CustomFormikSelect";
 import CustomBtn from "../../component/Buttons/CustomBtn";
 
 export default function AgenciesID() {
-  const alertOpens = useRecoilValue(alertOpen);
+  const [alertOpens, setAlertOpens] = useRecoilState(alertOpen);
   const router = useRouter();
 
   const selector = useRecoilValue(formikSelector);
@@ -24,9 +24,6 @@ export default function AgenciesID() {
     storeName: "",
     registrationNumber: "",
   });
-
-  const deleteRegex = /[^\d]/g;
-  const del = (value) => value.toString().replace(deleteRegex, "");
 
   useEffect(() => {
     if (!router.isReady) return;
@@ -64,11 +61,9 @@ export default function AgenciesID() {
           actions.setSubmitting(false);
           axios
             .patch(`http://192.168.0.52:8080/agencies/${router.query.id}`, {
-              name: data.productName,
-              assignCost: del(data.assignCost),
-              rentalCost: del(data.rentalCost),
-              chargeCost: del(data.chargeCost),
-              freeChargeMonths: data.months,
+              type: data.storeType,
+              name: data.storeName,
+              corporateRegistrationNumber: data.registrationNumber,
             })
             .then((res) => {
               setAlertOpens(true);
@@ -113,7 +108,7 @@ export default function AgenciesID() {
               </Form>
               <CustomAlert
                 open={alertOpens}
-                callback={props.resetForm}
+                callback={router.back}
                 message="대리점 정보가 수정되었습니다."
               />
             </>
