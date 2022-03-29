@@ -32,19 +32,14 @@ const theme = createTheme({
     MuiCssBaseline: {
       styleOverrides: {
         body: {
-          scrollbarColor: "#6b6b6b #0000000a",
+          scrollbarColor: "#d4d4d4",
           "&::-webkit-scrollbar, & *::-webkit-scrollbar": {
-            backgroundColor: "#0000000a",
+            backgroundColor: "#ededed",
+            width: 10,
           },
           "&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb": {
-            borderRadius: 8,
-            backgroundColor: "#6b6b6b",
-            width: 10,
+            backgroundColor: "#d4d4d4",
             minHeight: 32,
-            border: "3px solid #0000000a",
-          },
-          "&::-webkit-scrollbar-corner, & *::-webkit-scrollbar-corner": {
-            backgroundColor: "#0000000a",
           },
         },
       },
