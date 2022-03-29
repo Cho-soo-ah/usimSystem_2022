@@ -48,7 +48,7 @@ const menuObjTop = [
   {
     name: "대리점 개통 및 충전 현황",
     icon: <Store />,
-    link: "/agencies/agencyState",
+    link: "/agencyState",
   },
 ];
 const menuObjBot = [

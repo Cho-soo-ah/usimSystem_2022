@@ -12,9 +12,8 @@ import CustomFormikSelect from "../../component/CustomFormikSelect";
 import CustomBtn from "../../component/Buttons/CustomBtn";
 
 export default function AgenciesID() {
-  const [alertOpens, setAlertOpens] = useRecoilState(alertOpen);
   const router = useRouter();
-
+  const [alertOpens, setAlertOpens] = useRecoilState(alertOpen);
   const selector = useRecoilValue(formikSelector);
   const setPageTypes = useSetRecoilState(pageType);
   setPageTypes("agencyUpload");
@@ -37,7 +36,7 @@ export default function AgenciesID() {
         });
       })
       .catch((err) => console.log(err));
-  });
+  }, []);
 
   const loop = [];
 
@@ -97,12 +96,7 @@ export default function AgenciesID() {
                   label="사업자등록번호"
                   formik={props}
                 />
-                <CustomBtn
-                  fullWidth
-                  color="primary"
-                  type="submit"
-                  sx={{ height: "56px", color: "#fff", fontSize: "16px" }}
-                >
+                <CustomBtn fullWidth color="primary" type="submit">
                   수정하기
                 </CustomBtn>
               </Form>

@@ -80,6 +80,7 @@ export default function ProductsID() {
               setAlertOpens(true);
             })
             .catch((err) => console.log(err));
+          // console.log(data);
         }}
       >
         {(props) => {

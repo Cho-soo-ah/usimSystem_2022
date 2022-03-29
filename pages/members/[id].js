@@ -14,18 +14,20 @@ import CustomBtn from "../../component/Buttons/CustomBtn";
 export default function AgencyID() {
   const router = useRouter();
   const [data, setData] = useState([]);
+  const [multi, setMulti] = useState(false);
+  const [disabled, setDisabled] = useState(false);
   const [alertOpens, setAlertOpens] = useRecoilState(alertOpen);
   const selector = useRecoilValue(formikSelector);
   const setPageTypes = useSetRecoilState(pageType);
   setPageTypes("memberUpload");
-  const [disabled, setDisabled] = useState(false);
-  const [multi, setMulti] = useState(false);
   // ----- axios -----
   const [initialValues, setInitialValues] = useState({
     username: "",
     email: "",
     password: "",
     phoneNumber: "",
+    roleId: "",
+    agencyId: [],
   });
   useEffect(() => {
     if (!router.isReady) return;
@@ -38,25 +40,20 @@ export default function AgencyID() {
           password: res.data.password,
           phoneNumber: res.data.phoneNumber,
         });
-        console.log(res);
       })
       .catch((err) => console.log(err));
+
+    axios
+      .get("http://192.168.0.52:8080/agencies")
+      .then((res) => {
+        setData(res.data.content);
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, [router.isReady]);
 
-  const handleId = (props) => {
-    switch (props.values.roleId) {
-      case "Administrator":
-      case "User":
-        setDisabled(true);
-        break;
-      case "Dealer":
-        setMulti(true);
-        break;
-      default:
-        setDisabled(false);
-        setMulti(false);
-    }
-  };
   // ----- axios -----
   return (
     <div className="inner">
@@ -106,7 +103,26 @@ export default function AgencyID() {
                   name="roleId"
                   label="권한"
                   formik={props}
-                  onChange={handleId}
+                  onChange={(e) => {
+                    props.setFieldValue("roleId", e.target.value);
+                    switch (e.target.value) {
+                      case "Administrator":
+                      case "User":
+                        props.setFieldValue("agencyId", []);
+                        setDisabled(true);
+                        setMulti(false);
+                        break;
+                      case "Dealer":
+                        props.setFieldValue("agencyId", []);
+                        setMulti(true);
+                        setDisabled(false);
+                        break;
+                      default:
+                        props.setFieldValue("agencyId", []);
+                        setDisabled(false);
+                        setMulti(false);
+                    }
+                  }}
                 >
                   <MenuItem value="Administrator" key="Administrator">
                     관리자

@@ -15,9 +15,8 @@ import { MenuItem } from "@mui/material";
 
 export default function MemberUpload() {
   const [data, setData] = useState([]);
-  const [disabled, setDisabled] = useState(false);
   const [multi, setMulti] = useState(false);
-
+  const [disabled, setDisabled] = useState(false);
   const [alertOpens, setAlertOpens] = useRecoilState(alertOpen);
   const selector = useRecoilValue(formikSelector);
   const setPageTypes = useSetRecoilState(pageType);
@@ -34,26 +33,6 @@ export default function MemberUpload() {
         console.log(err);
       });
   }, []);
-
-  const handleId = (props) => {
-    console.log("uploaddddddd", props);
-    switch (props.formik.values.roleId) {
-      case "Administrator":
-      case "User":
-        setDisabled(true);
-        setMulti(false);
-        break;
-      case "Dealer":
-        console.log("ssssss", props);
-        props.formik.setFieldValue("agencyId", []);
-        setMulti(true);
-        setDisabled(false);
-        break;
-      default:
-        setDisabled(false);
-        setMulti(false);
-    }
-  };
 
   return (
     <div className="inner">
@@ -83,8 +62,8 @@ export default function MemberUpload() {
             })
             .then((res) => {
               setAlertOpens(true);
-            });
-          //   .catch((err) => console.log(err));
+            })
+            .catch((err) => console.log(err));
         }}
       >
         {(props) => {
@@ -112,7 +91,26 @@ export default function MemberUpload() {
                   name="roleId"
                   label="권한"
                   formik={props}
-                  callback={handleId}
+                  onChange={(e) => {
+                    props.setFieldValue("roleId", e.target.value);
+                    switch (e.target.value) {
+                      case "Administrator":
+                      case "User":
+                        props.setFieldValue("agencyId", []);
+                        setDisabled(true);
+                        setMulti(false);
+                        break;
+                      case "Dealer":
+                        props.setFieldValue("agencyId", []);
+                        setMulti(true);
+                        setDisabled(false);
+                        break;
+                      default:
+                        props.setFieldValue("agencyId", []);
+                        setDisabled(false);
+                        setMulti(false);
+                    }
+                  }}
                 >
                   <MenuItem value="Administrator" key="Administrator">
                     관리자

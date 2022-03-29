@@ -75,17 +75,6 @@ function App(props) {
               overflow-x: hidden;
               user-select: none;
             }
-            body::-webkit-scrollbar::-webkit-scrollbar {
-              width: 10px;
-            }
-            body::-webkit-scrollbar-thumb::-webkit-scrollbar-thumb {
-              background-color: #2f3542;
-              border-radius: 10px;
-            }
-            body::-webkit-scrollbar-track::-webkit-scrollbar-track {
-              background-color: #ddd;
-              border-radius: 10px;
-            }
 
             .tableInner {
               width: 100%;

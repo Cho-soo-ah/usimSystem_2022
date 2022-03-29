@@ -26,6 +26,14 @@ export default function BarcodeInput(props) {
         size={props.size}
         options={data}
         noOptionsText="검색 결과가 없습니다."
+        value={barcodeValue}
+        onChange={(e, newValue) => {
+          setBarcodeValue(newValue);
+          forms.setFieldValue(
+            names,
+            newValue && `${newValue.barcodeNumber} / ${newValue.serviceNumber}`
+          );
+        }}
         renderInput={(params) => (
           <TextField
             {...params}

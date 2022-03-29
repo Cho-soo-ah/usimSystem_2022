@@ -12,7 +12,6 @@ import CustomBtn from "../../component/Buttons/CustomBtn";
 
 export default function AgencyUpload() {
   const [alertOpens, setAlertOpens] = useRecoilState(alertOpen);
-
   const selector = useRecoilValue(formikSelector);
   const setPageTypes = useSetRecoilState(pageType);
   setPageTypes("agencyUpload");

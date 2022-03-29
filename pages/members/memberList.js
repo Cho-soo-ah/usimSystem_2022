@@ -106,7 +106,7 @@ export default function MemberList() {
                         {/* {obj.serviceNumber} */}대리점
                       </TableCell>
                       <TableCell align="center" sx={{ width: "130px" }}>
-                        <Link href={`/members+/${obj.id}`} passhref="true">
+                        <Link href={`/members/${obj.id}`} passhref="true">
                           <EditBtn />
                         </Link>
                         <DeleteBtn />
