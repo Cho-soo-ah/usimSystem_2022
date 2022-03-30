@@ -1,12 +1,12 @@
-import { Autocomplete, TextField } from "@mui/material";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { Autocomplete, TextField } from "@mui/material";
 import parse from "autosuggest-highlight/parse";
 import match from "autosuggest-highlight/match";
 import { Field } from "formik";
 
 export default function ProductInput(props) {
-  const [data, setData] = useState("");
+  const [data, setData] = useState([]);
   const [productValue, setProductValue] = useState();
   const names = "product";
 
@@ -31,8 +31,8 @@ export default function ProductInput(props) {
       value={productValue}
       onChange={(e, newValue) => {
         setProductValue(newValue);
-        if (newValue) forms.setFieldValue("product", newValue.name);
-        else forms.setFieldValue("product", "");
+        if (newValue) forms.setFieldValue(names, newValue.name);
+        else forms.setFieldValue(names, "");
       }}
       renderInput={(params) => (
         <TextField
@@ -46,13 +46,13 @@ export default function ProductInput(props) {
         />
       )}
       getOptionLabel={(option) => (option ? option.name : "")}
-      renderOption={(props, option, { inputValue }) => {
+      renderOption={(obj, option, { inputValue }) => {
         const matches = match(option.name, inputValue, {
           insideWords: true,
         });
         const parts = parse(option.name, matches);
         return (
-          <li {...props}>
+          <li {...obj}>
             <div>
               {parts.map((part, index) => (
                 <span

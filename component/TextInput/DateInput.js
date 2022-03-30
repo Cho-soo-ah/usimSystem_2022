@@ -8,6 +8,7 @@ import { Field } from "formik";
 export default function DateInput(props) {
   const [dateValue, setDateValue] = useState([null, null]);
   const [startDate, endDate] = dateValue;
+  const [isOpen, setIsOpen] = useState(false);
   const handleClear = () => {
     setDateValue([null, null]);
   };
@@ -31,21 +32,25 @@ export default function DateInput(props) {
       >
         <DatePicker
           dateFormat="yyyy-MM-dd"
-          selectsRange={true}
+          monthsShown={2}
           startDate={startDate}
           endDate={endDate}
+          selected={startDate}
+          selectsRange={true}
+          open={isOpen}
+          onInputClick={() => setIsOpen(true)}
+          closeOnScroll={true}
+          focusSelectedMonth={true}
           value={dateValue}
           onChange={(update) => {
             setDateValue(update);
             if (update)
               forms.setFieldValue("date", `${update[0]}, ${update[1]}`);
-            else forms.setFieldValue("date", "");
+            if (update[1]) {
+              setIsOpen(false);
+            }
           }}
-          selected={startDate}
-          monthsShown={2}
-          closeOnScroll={true}
           disabledKeyboardNavigation
-          focusSelectedMonth={true}
           customInput={
             <TextField
               id="standard-basic"

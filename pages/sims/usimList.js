@@ -32,6 +32,8 @@ export default function UsimList() {
   const handlePagination = (e, value) => {
     setPage(value);
   };
+  const [selectedArr, setSelectedArr] = useState([]);
+
   useEffect(() => {
     axios
       .get(`http://192.168.0.52:8080/sims?page=${page}&size=${maxSize}`)
@@ -42,8 +44,19 @@ export default function UsimList() {
       .catch((err) => console.log(err));
   }, [page]);
   // ----- axios -----
+  const handleSelecAll = (e) => {
+    if (e.target.checked) {
+      setSelectedArr(data.map((obj) => obj.id));
+      return;
+    }
+    setSelectedArr([]);
+  };
   const tableHead = [
-    <Checkbox key="usimCheckAll" color="primary"></Checkbox>,
+    <Checkbox
+      key="usimCheckAll"
+      color="primary"
+      onClick={handleSelecAll}
+    ></Checkbox>,
     "대리점명",
     "바코드 번호",
     "서비스 번호",
@@ -52,41 +65,39 @@ export default function UsimList() {
     "추가 기능",
   ];
   // ----- CLICK -----
-  const [selectedArr, setSelectedArr] = useState([]);
   const handleClick = (e, selectedId) => {
-    console.log(e, selectedId);
-    // if (e.ctrlKey) {
-    //   if (selectedArr.includes(selectedId)) {
-    //     let arr = selectedArr.filter((item) => {
-    //       return item !== selectedId;
-    //     });
-    //     setSelectedArr(arr);
-    //   } else {
-    //     setSelectedArr((arr) => [...arr, selectedId]);
-    //   }
-    // } else if (e.shiftKey) {
-    //   if (selectedId > selectedArr[selectedArr.length - 1]) {
-    //     for (
-    //       let i = selectedArr[selectedArr.length - 1];
-    //       i <= selectedId;
-    //       i++
-    //     ) {
-    //       if (selectedArr.includes(i)) continue;
-    //       setSelectedArr((arr) => [...arr, i]);
-    //     }
-    //   } else {
-    //     for (
-    //       let i = selectedArr[selectedArr.length - 1];
-    //       i >= selectedId;
-    //       i--
-    //     ) {
-    //       if (selectedArr.includes(i)) continue;
-    //       setSelectedArr((arr) => [...arr, i]);
-    //     }
-    //   }
-    // } else {
-    //   setSelectedArr(() => [selectedId]);
-    // }
+    if (e.ctrlKey) {
+      if (selectedArr.includes(selectedId)) {
+        let arr = selectedArr.filter((item) => {
+          return item !== selectedId;
+        });
+        setSelectedArr(arr);
+      } else {
+        setSelectedArr((arr) => [...arr, selectedId]);
+      }
+    } else if (e.shiftKey) {
+      if (selectedId > selectedArr[selectedArr.length - 1]) {
+        for (
+          let i = selectedArr[selectedArr.length - 1];
+          i <= selectedId;
+          i++
+        ) {
+          if (selectedArr.includes(i)) continue;
+          setSelectedArr((arr) => [...arr, i]);
+        }
+      } else {
+        for (
+          let i = selectedArr[selectedArr.length - 1];
+          i >= selectedId;
+          i--
+        ) {
+          if (selectedArr.includes(i)) continue;
+          setSelectedArr((arr) => [...arr, i]);
+        }
+      }
+    } else {
+      setSelectedArr(() => [selectedId]);
+    }
   };
   // ----- CLICK -----
   const isSelected = (id) =>
@@ -140,15 +151,14 @@ export default function UsimList() {
           </TableHead>
           <TableBody>
             {data &&
-              data.map((obj, index) => {
-                console.log("data", data);
+              data.map((obj) => {
                 return (
                   <TableRow
                     hover
-                    key={index}
+                    key={obj.id}
                     id={obj.id}
-                    selected={isSelected(index)}
-                    onClick={handleClick}
+                    selected={isSelected(obj.id)}
+                    onClick={(e) => handleClick(e, obj.id)}
                   >
                     <TableCell
                       align="center"
@@ -157,7 +167,7 @@ export default function UsimList() {
                       <Checkbox
                         color="primary"
                         id={obj.id}
-                        checked={isSelected(index)}
+                        checked={isSelected(obj.id)}
                         sx={{ p: 0 }}
                       />
                     </TableCell>

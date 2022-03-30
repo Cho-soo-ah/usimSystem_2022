@@ -56,7 +56,19 @@ export default function Deposit() {
         <Box
           sx={{ width: "100%", height: "35px", textAlign: "right", mb: 1.5 }}
         >
-          <SearchBtn items={["date", "barcode", "store", "reason"]} />
+          {/* <SearchBtn items={["date", "barcode", "store", "reason"]} /> */}
+          <SearchBtn
+            items={[
+              "date",
+              "barcode",
+              "store",
+              "reason",
+              "ris",
+              "usim",
+              "product",
+              "deposit",
+            ]}
+          />
         </Box>
         <TableContainer sx={{ mb: 1.5 }}>
           <Table

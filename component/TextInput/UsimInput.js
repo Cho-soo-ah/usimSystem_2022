@@ -4,11 +4,10 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import parse from "autosuggest-highlight/parse";
 import match from "autosuggest-highlight/match";
-
 import { Field } from "formik";
 
 export default function UsimInput(props) {
-  const [data, setData] = useState("");
+  const [data, setData] = useState([]);
   const [usimValue, setUsimValue] = useState("");
   const names = "usim";
 
@@ -35,7 +34,8 @@ export default function UsimInput(props) {
       value={usimValue}
       onChange={(e, newValue) => {
         setUsimValue(newValue);
-        forms.setFieldValue(names, newValue.usimNumber);
+        if (newValue) forms.setFieldValue(names, newValue.name);
+        else forms.setFieldValue(names, "");
       }}
       renderInput={(params) => (
         <TextField

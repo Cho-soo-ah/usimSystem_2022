@@ -6,10 +6,11 @@ import CustomBtn from "./Buttons/CustomBtn";
 export default function EscalationWrap() {
   const [disabled, setDisabled] = useState(true);
   const wrap = (value) => {
+    console.log(value);
     if (value) setDisabled(false);
     else setDisabled(true);
   };
-
+  console.log(disabled);
   return (
     <Box sx={{ display: "flex" }}>
       <StoreInput
@@ -28,7 +29,6 @@ export default function EscalationWrap() {
         }}
         wrap={wrap}
       />
-
       <CustomBtn
         disabled={disabled}
         sx={{
@@ -36,7 +36,7 @@ export default function EscalationWrap() {
           borderRadius: "0 4px 4px 0",
           height: "36px",
           fontSize: "13px",
-          background: disabled ? "#0000000a" : "primary",
+          "&.Mui-disabled": { bgcolor: "#0000000a" },
         }}
       >
         이관하기
