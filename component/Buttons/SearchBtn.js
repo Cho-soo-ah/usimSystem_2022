@@ -117,37 +117,25 @@ export default function SearchBtn(props) {
   };
   const handleClose = () => setOpen(false);
 
-  const handleReset = () => {
-    // setDateValue([null, null]);
-    // setBarcodeValue(null);
-    // setReasonValue(null);
-    // setDepositValue(null);
-    // setProductValue(null);
-    // setReasonValue(null);
-    // setRisValue(null);
-    // setStoreValue(null);
-    // setUsimValue(null);
+  const initialValues = {
+    barcode: "",
+    date: "",
+    storeName: "",
+    product: "",
+    usim: "",
+    deposit: "",
+    reason: "",
+    ris: "",
   };
-
   return (
     <Formik
-      initialValues={{
-        barcode: "",
-        date: "",
-        storeName: "",
-        product: "",
-        usim: "",
-        deposit: "",
-        reason: "",
-        ris: "",
-      }}
+      initialValues={initialValues}
       onSubmit={(data, { setSubmitting }) => {
-        console.log("data", data);
         setSubmitting(true);
         setSubmitting(false);
       }}
     >
-      {({ handleSubmit, isSubmitting }) => {
+      {({ handleSubmit, isSubmitting, resetForm }) => {
         return (
           <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
             {barcode && <BarcodeInput search />}
@@ -232,7 +220,8 @@ export default function SearchBtn(props) {
                 </DialogContent>
                 <DialogActions>
                   <Button
-                    onClick={handleReset}
+                    type="reset"
+                    onClick={resetForm}
                     sx={{
                       background: "none",
                       "&:hover": { background: "#efefef" },

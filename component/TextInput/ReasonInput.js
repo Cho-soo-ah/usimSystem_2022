@@ -1,14 +1,12 @@
-import { useState } from "react";
 import { InputLabel, MenuItem, TextField } from "@mui/material";
 import { Field } from "formik";
 
 export default function ReasonInput(props) {
-  const [reasonValue, setReasonValue] = useState("");
   const names = "reason";
 
   return (
     <Field name={names}>
-      {({ form: { setFieldValue } }) => {
+      {({ field, form: { setFieldValue } }) => {
         return (
           <>
             <InputLabel id={names}></InputLabel>
@@ -17,9 +15,8 @@ export default function ReasonInput(props) {
               select
               id={names}
               sx={{ mb: "12px" }}
-              value={reasonValue}
+              value={field.value}
               onChange={(e) => {
-                setReasonValue(e.target.value);
                 setFieldValue(names, e.target.value);
               }}
               autoComplete="off"

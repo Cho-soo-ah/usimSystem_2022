@@ -7,7 +7,6 @@ import { Field } from "formik";
 
 export default function StoreInput(props) {
   const [data, setData] = useState([]);
-  const [storeValue, setStoreValue] = useState();
   const names = "storeName";
 
   useEffect(() => {
@@ -28,15 +27,14 @@ export default function StoreInput(props) {
       sx={{
         mb: props.search ? "12px" : "16px",
       }}
-      value={storeValue}
+      value={forms.field.value ? forms.field.value : null}
       onChange={(e, newValue) => {
-        setStoreValue(newValue);
         if (props.wrap) {
           props.wrap(newValue);
         } else if (newValue) {
-          forms.setFieldValue(names, newValue.name);
+          forms.setFieldValue(names, newValue);
         } else {
-          forms.setFieldValue(names, "");
+          forms.setFieldValue(names, null);
         }
       }}
       renderInput={(params) => (
@@ -56,7 +54,7 @@ export default function StoreInput(props) {
           autoComplete="off"
         />
       )}
-      getOptionLabel={(option) => (option ? option.name : "")}
+      getOptionLabel={(option) => option.name}
       renderOption={(props, option, { inputValue }) => {
         const matches = match(option.name, inputValue, {
           insideWords: true,
@@ -85,9 +83,10 @@ export default function StoreInput(props) {
   return (
     <>
       <Field name={names}>
-        {({ form: { touched, errors, setFieldValue } }) => {
+        {({ field, form: { touched, errors, setFieldValue } }) => {
           return (
             <Placeholder
+              field={field}
               touched={touched}
               errors={errors}
               setFieldValue={setFieldValue}

@@ -8,7 +8,6 @@ import { Field } from "formik";
 
 export default function UsimInput(props) {
   const [data, setData] = useState([]);
-  const [usimValue, setUsimValue] = useState("");
   const names = "usim";
 
   useEffect(() => {
@@ -21,21 +20,21 @@ export default function UsimInput(props) {
         console.log(err);
       });
   }, []);
+
   const Placeholder = (forms) => (
     <Autocomplete
       disablePortal
-      id="combo-box-demo"
       options={data}
       fullWidth
       noOptionsText="검색 결과가 없습니다."
       sx={{
         mb: "12px",
       }}
-      value={usimValue}
+      value={forms.field.value ? forms.field.value : null}
       onChange={(e, newValue) => {
-        setUsimValue(newValue);
-        if (newValue) forms.setFieldValue(names, newValue.name);
-        else forms.setFieldValue(names, "");
+        console.log(newValue);
+        if (newValue) forms.setFieldValue(names, newValue);
+        else forms.setFieldValue(names, null);
       }}
       renderInput={(params) => (
         <TextField
@@ -45,7 +44,7 @@ export default function UsimInput(props) {
           autoComplete="off"
         />
       )}
-      getOptionLabel={(option) => (option.usimNumber ? option.usimNumber : "")}
+      getOptionLabel={(option) => option.usimNumber}
       renderOption={(obj, option, { inputValue }) => {
         const matches = match(option.usimNumber, inputValue, {
           insideWords: true,
@@ -73,8 +72,8 @@ export default function UsimInput(props) {
 
   return (
     <Field name={names}>
-      {({ form: { setFieldValue } }) => {
-        return <Placeholder setFieldValue={setFieldValue} />;
+      {({ field, form: { setFieldValue } }) => {
+        return <Placeholder field={field} setFieldValue={setFieldValue} />;
       }}
     </Field>
   );

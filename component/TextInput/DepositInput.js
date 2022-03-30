@@ -1,23 +1,20 @@
 import * as React from "react";
 import { TextField } from "@mui/material";
-import { useState } from "react";
 import { Field } from "formik";
 
 export default function DepositInput() {
-  const [depositValue, setDepositValue] = useState("");
   const names = "deposit";
 
   return (
     <Field name={names}>
-      {({ form: { setFieldValue } }) => {
+      {({ field, form: { setFieldValue } }) => {
         return (
           <TextField
             id="outlined-basic"
             fullWidth
             sx={{ mb: "12px" }}
-            value={depositValue}
+            value={field.value}
             onChange={(e) => {
-              setDepositValue(e.target.value);
               setFieldValue(names, e.target.value);
             }}
             autoComplete="off"

@@ -113,8 +113,8 @@ export default function FileUploadModal() {
               type="file"
               onChange={(e) => {
                 setFile(e.target.files[0]);
-                console.log(e);
               }}
+              sx={{ display: "none" }}
             ></UploadInput>
             <LoadingButton
               color="primary"

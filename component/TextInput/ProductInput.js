@@ -7,7 +7,6 @@ import { Field } from "formik";
 
 export default function ProductInput(props) {
   const [data, setData] = useState([]);
-  const [productValue, setProductValue] = useState();
   const names = "product";
 
   useEffect(() => {
@@ -28,11 +27,10 @@ export default function ProductInput(props) {
       sx={{
         mb: props.search ? "12px" : "16px",
       }}
-      value={productValue}
+      value={forms.field.value ? forms.field.value : null}
       onChange={(e, newValue) => {
-        setProductValue(newValue);
-        if (newValue) forms.setFieldValue(names, newValue.name);
-        else forms.setFieldValue(names, "");
+        if (newValue) forms.setFieldValue(names, newValue);
+        else forms.setFieldValue(names, null);
       }}
       renderInput={(params) => (
         <TextField
@@ -45,7 +43,7 @@ export default function ProductInput(props) {
           autoComplete="off"
         />
       )}
-      getOptionLabel={(option) => (option ? option.name : "")}
+      getOptionLabel={(option) => option.name}
       renderOption={(obj, option, { inputValue }) => {
         const matches = match(option.name, inputValue, {
           insideWords: true,
@@ -73,9 +71,10 @@ export default function ProductInput(props) {
   return (
     <>
       <Field name={names}>
-        {({ form: { touched, errors, setFieldValue } }) => {
+        {({ field, form: { touched, errors, setFieldValue } }) => {
           return (
             <Placeholder
+              field={field}
               touched={touched}
               errors={errors}
               setFieldValue={setFieldValue}

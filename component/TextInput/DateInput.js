@@ -4,14 +4,12 @@ import "react-datepicker/dist/react-datepicker.css";
 import { FormControl, IconButton, TextField } from "@mui/material";
 import { Clear } from "@mui/icons-material";
 import { Field } from "formik";
+import { format } from "date-fns";
 
 export default function DateInput(props) {
   const [dateValue, setDateValue] = useState([null, null]);
   const [startDate, endDate] = dateValue;
   const [isOpen, setIsOpen] = useState(false);
-  const handleClear = () => {
-    setDateValue([null, null]);
-  };
   const names = "date";
 
   const Placeholder = (forms) => (
@@ -39,13 +37,19 @@ export default function DateInput(props) {
           selectsRange={true}
           open={isOpen}
           onInputClick={() => setIsOpen(true)}
+          onClickOutside={() => setIsOpen(false)}
           closeOnScroll={true}
           focusSelectedMonth={true}
-          value={dateValue}
+          value={forms.field.value ? forms.field.value : ""}
           onChange={(update) => {
             setDateValue(update);
             if (update)
-              forms.setFieldValue("date", `${update[0]}, ${update[1]}`);
+              forms.setFieldValue(
+                "date",
+                `${format(update[0], "yyyy-MM-dd")} - ${
+                  update[1] ? format(update[1], "yyyy-MM-dd") : ""
+                }`
+              );
             if (update[1]) {
               setIsOpen(false);
             }
@@ -63,7 +67,10 @@ export default function DateInput(props) {
         {startDate && (
           <IconButton
             aria-label="delete"
-            onClick={handleClear}
+            onClick={() => {
+              forms.setFieldValue("date", "");
+              setDateValue([null, null]);
+            }}
             sx={{
               position: "absolute",
               right: 7,
@@ -83,9 +90,10 @@ export default function DateInput(props) {
   );
   return (
     <Field name={names}>
-      {({ form: { touched, errors, setFieldValue } }) => {
+      {({ field, form: { touched, errors, setFieldValue } }) => {
         return (
           <Placeholder
+            field={field}
             touched={touched}
             errors={errors}
             setFieldValue={setFieldValue}

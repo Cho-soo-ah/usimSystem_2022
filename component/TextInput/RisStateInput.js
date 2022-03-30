@@ -1,14 +1,12 @@
-import { useState } from "react";
 import { InputLabel, MenuItem, TextField } from "@mui/material";
 import { Field } from "formik";
 
 export default function RisStateInput() {
-  const [risValue, setRisValue] = useState("");
   const names = "ris";
 
   return (
     <Field name={names}>
-      {({ form: { setFieldValue } }) => {
+      {({ field, form: { setFieldValue } }) => {
         return (
           <>
             <InputLabel id={names}></InputLabel>
@@ -17,9 +15,8 @@ export default function RisStateInput() {
               select
               id={names}
               sx={{ mb: "12px" }}
-              value={risValue}
+              value={field.value}
               onChange={(e) => {
-                setRisValue(e.target.value);
                 setFieldValue(names, e.target.value);
               }}
               autoComplete="off"
