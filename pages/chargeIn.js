@@ -31,25 +31,26 @@ export default function ChargeIn() {
               registrationNumber: "",
               barcode: "",
               product: "",
+              imgFile: [],
             }}
             onSubmit={(data, actions) => {
               actions.setSubmitting(true);
               actions.setSubmitting(false);
               axios
                 .post("http://192.168.0.52:8080/agencies", {
-                  storeName: data.storeName,
+                  storeName: data.storeName.id,
                   registrationNumber: data.registrationNumber,
-                  barcode: data.barcode,
-                  product: data.product,
+                  barcode: data.barcode.id,
+                  product: data.product.id,
                 })
                 .then((res) => {
                   setAlertOpens(true);
                 })
                 .catch((err) => console.log(err));
-              console.log(data);
             }}
           >
             {(props) => {
+              console.log(props);
               return (
                 <>
                   <Form>
@@ -58,18 +59,26 @@ export default function ChargeIn() {
                       name="registrationNumber"
                       label="여권 번호"
                       formik={props}
+                      inputProps={{
+                        maxLength: 9,
+                      }}
                     />
                     <BarcodeInput />
                     <ProductInput label="상품" />
                     <ImgUpload />
-                    <CustomBtn fullWidth color="primary" type="submit">
+                    <CustomBtn
+                      fullWidth
+                      color="primary"
+                      type="submit"
+                      sx={{ mt: 1.5 }}
+                    >
                       개통 처리
                     </CustomBtn>
                   </Form>
                   <CustomAlert
                     open={alertOpens}
                     callback={() => {
-                      // router.push("/chargeList");
+                      router.push("/chargeList");
                     }}
                     message="개통 처리가 완료되었습니다."
                   />

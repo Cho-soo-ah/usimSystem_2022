@@ -68,6 +68,7 @@ export default function ProductInput(props) {
       }}
     />
   );
+
   return (
     <>
       <Field name={names}>

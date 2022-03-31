@@ -1,14 +1,13 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Autocomplete, TextField, CircularProgress } from "@mui/material";
+import { Autocomplete, TextField } from "@mui/material";
 import parse from "autosuggest-highlight/parse";
 import match from "autosuggest-highlight/match";
 import { Field } from "formik";
 
 export default function BarcodeInput(props) {
   const [data, setData] = useState([]);
-  const [barcodeValue, setBarcodeValue] = useState();
   const names = "barcode";
 
   useEffect(() => {
@@ -26,13 +25,13 @@ export default function BarcodeInput(props) {
         size={props.size}
         options={data}
         noOptionsText="검색 결과가 없습니다."
-        value={barcodeValue}
+        value={forms.field.value ? forms.field.value : null}
         onChange={(e, newValue) => {
-          setBarcodeValue(newValue);
-          forms.setFieldValue(
-            names,
-            newValue && `${newValue.barcodeNumber} / ${newValue.serviceNumber}`
-          );
+          if (newValue) {
+            forms.setFieldValue(names, newValue);
+          } else {
+            forms.setFieldValue(names, null);
+          }
         }}
         renderInput={(params) => (
           <TextField
@@ -99,9 +98,10 @@ export default function BarcodeInput(props) {
   return (
     <>
       <Field name={names}>
-        {({ form: { touched, errors, setFieldValue } }) => {
+        {({ field, form: { touched, errors, setFieldValue } }) => {
           return (
             <FormikInput
+              field={field}
               touched={touched}
               errors={errors}
               setFieldValue={setFieldValue}

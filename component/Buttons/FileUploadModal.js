@@ -4,14 +4,17 @@ import { styled } from "@mui/system";
 import { useState } from "react";
 import { UploadFile } from "@mui/icons-material";
 import { Box, Modal, Tooltip } from "@mui/material";
-import LoadingButton from "@mui/lab/LoadingButton";
+import { alertOpen } from "../../src/Recoil/atoms";
+import { useRecoilState } from "recoil";
+import CustomBtn from "./CustomBtn";
+import CustomAlert from "../CustomAlert";
 
 const UploadWrap = styled("div")({
   display: "flex",
   flexDirection: "column",
 });
 const UploadInput = styled("input")({
-  // display: "none",
+  display: "none",
 });
 const UploadLabel = styled("label")({
   height: "200px",
@@ -35,29 +38,28 @@ const modalStyle = {
   borderRadius: "4px",
   boxShadow: 24,
   p: 4,
+  outline: "none",
 };
 
-export default function FileUploadModal() {
+export default function FileUploadModal(props) {
+  const [alertOpens, setAlertOpens] = useRecoilState(alertOpen);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   // --------- file upload ---------
-  const [file, setFile] = useState();
-  const [loading, setLoading] = useState();
+  const [file, setFile] = useState("");
 
   function handleAxios() {
     const url = "http://192.168.0.52:8080/sims/upload";
     var formData = new FormData();
     formData.append("file", file);
-
-    setLoading(true);
     axios
       .post(url, formData, {
         "Content-Type": "multipart/form-data",
       })
       .then((res) => {
         console.log(res);
-        setLoading(false);
+        setAlertOpens(true);
       })
       .catch((err) => {
         console.log(err);
@@ -91,21 +93,22 @@ export default function FileUploadModal() {
       <Modal
         open={open}
         onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
+        sx={{ "&:focus": { outline: "none" } }}
       >
         <Box sx={modalStyle}>
           <UploadWrap>
-            <UploadLabel htmlfor="uploadInput">
+            <UploadLabel htmlFor="uploadInput">
               <UploadFile
                 sx={{
                   fontSize: "100px",
                   color: "#bf3434",
                   filter: " drop-shadow(2px 2px 2px gray)",
+                  mb: 0.5,
                 }}
               />
+
               <span style={{ fontSize: "13px" }}>
-                클릭하여 파일을 업로드하세요
+                {file ? file.name : "클릭하여 파일을 업로드하세요"}
               </span>
             </UploadLabel>
             <UploadInput
@@ -114,19 +117,22 @@ export default function FileUploadModal() {
               onChange={(e) => {
                 setFile(e.target.files[0]);
               }}
-              sx={{ display: "none" }}
             ></UploadInput>
-            <LoadingButton
+            <CustomBtn
               color="primary"
-              loading={loading}
               onClick={handleAxios}
-              sx={{ height: "35px", color: "#fff" }}
+              sx={{ height: "35px", color: "#fff", mt: 1.5 }}
             >
               업로드
-            </LoadingButton>
+            </CustomBtn>
           </UploadWrap>
         </Box>
       </Modal>
+      <CustomAlert
+        open={alertOpens}
+        callback={props.callback}
+        message="업로드가 완료되었습니다."
+      />
     </div>
   );
 }

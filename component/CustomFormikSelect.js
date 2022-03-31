@@ -6,6 +6,7 @@ export default function CustomFormikSelect(props) {
   return (
     <Field name={props.name}>
       {({ field, form: { errors, touched, setFieldValue } }) => {
+        console.log(touched);
         return (
           <FormControl
             fullWidth
@@ -28,8 +29,8 @@ export default function CustomFormikSelect(props) {
             >
               {props.children}
             </Select>
-            <FormHelperText sx={{ mt: 0, lineHeight: 2.2 }}>
-              {errors[props.name]}
+            <FormHelperText sx={{ lineHeight: 2.2, mt: 0 }}>
+              {touched[props.name] && errors[props.name]}
             </FormHelperText>
           </FormControl>
         );

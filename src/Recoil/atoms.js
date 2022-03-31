@@ -16,7 +16,7 @@ export const formikSelector = selector({
       case "agencyUpload":
         return yup.object({
           storeType: yup.string().required("대리점 타입을 선택하세요"),
-          storeName: yup.string().required("대리점명을 입력하세요").nullable(),
+          storeName: yup.object().required("대리점명을 입력하세요").nullable(),
           registrationNumber: yup
             .number()
             .typeError("사업자 번호를 입력하세요")
@@ -64,16 +64,21 @@ export const formikSelector = selector({
         });
       case "chargeIn":
         return yup.object({
-          storeName: yup.string().required("대리점명을 입력하세요").nullable(),
+          storeName: yup.object().required("대리점명을 입력하세요").nullable(),
           registrationNumber: yup
             .string()
             .required("여권 번호를 입력하세요")
             .nullable(),
           barcode: yup
-            .string()
+            .object()
             .required("바코드 번호 / 서비스 번호를 입력하세요")
             .nullable(),
-          product: yup.string().required("상품명을 입력하세요").nullable(),
+          product: yup.object().required("상품명을 입력하세요").nullable(),
+          imgFile: yup
+            .array()
+            .min(3, "이미지를 3장 이상 업로드하세요")
+            .required("이미지를 업로드하세요")
+            .nullable(),
         });
       case "usimUpload":
         return yup.object({
@@ -99,46 +104,6 @@ export const formikSelector = selector({
     }
   },
 });
-
-// export const formikState = atom({
-//   key: "formikState",
-//   default: yup.object({
-//     // 회원가입
-//     name: yup.string().required("이름을 입력하세요").nullable(),
-//     // 로그인
-//     email: yup
-//       .string()
-//       .email("유효한 이메일 주소를 입력해 주세요")
-//       .required("이메일을 입력하세요")
-//       .nullable(),
-//     password: yup.string().required("비밀번호를 입력하세요").nullable(),
-//     // 비밀번호 변경
-//     passwordCurrent: yup
-//       .string()
-//       .required("현재 비밀번호를 입력하세요")
-//       .nullable(),
-//     password: yup.string().required("변경할 비밀번호를 입력하세요").nullable(),
-//     passwordValid: yup
-//       .string()
-//       .required("변경할 비밀번호를 한번 더 입력하세요")
-//       .nullable(),
-//     // 휴대폰 인증번호 발송
-//     phoneNumber: yup.string().required("서비스 번호를 입력하세요").nullable(),
-//     code: yup
-//       .string()
-//       .typeError("6자리 인증 코드를 입력하세요")
-//       .required("인증 코드를 입력하세요")
-//       .nullable(),
-
-//     // 대리점 등록
-//     companyNumber: yup
-//       .string()
-//       .required("사업자등록번호를 입력하세요")
-//       .nullable(),
-//     // 검색
-//     reason: yup.string().required("aaa").nullable(),
-//   }),
-// });
 // ----- formik -----
 // ----- Alert Dialog -----
 export const alertOpen = atom({

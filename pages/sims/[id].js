@@ -29,7 +29,6 @@ export default function ProductID() {
     axios
       .get(`http://192.168.0.52:8080/sims/${router.query.id}`)
       .then((res) => {
-        console.log(res);
         setInitialValues({
           barcodeNumber: res.data.barcodeNumber,
           serviceNumber: res.data.serviceNumber,

@@ -130,9 +130,24 @@ export default function SearchBtn(props) {
   return (
     <Formik
       initialValues={initialValues}
-      onSubmit={(data, { setSubmitting }) => {
-        setSubmitting(true);
-        setSubmitting(false);
+      onSubmit={(data, actions) => {
+        actions.setSubmitting(true);
+        actions.setSubmitting(false);
+        axios
+          .post("http://192.168.0.52:8080/agencies", {
+            barcode: data.barcode.id,
+            date: data.storeName.id,
+            storeName: data.storeName.id,
+            propuctName: data.propuctName.id,
+            usim: data.usim.id,
+            deposit: data.deposit,
+            reason: data.reason,
+            ris: data.ris,
+          })
+          .then((res) => {
+            setAlertOpens(true);
+          })
+          .catch((err) => console.log(err));
       }}
     >
       {({ handleSubmit, isSubmitting, resetForm }) => {

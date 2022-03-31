@@ -34,7 +34,7 @@ export default function UsimList() {
   };
   const [selectedArr, setSelectedArr] = useState([]);
 
-  useEffect(() => {
+  function callData() {
     axios
       .get(`http://192.168.0.52:8080/sims?page=${page}&size=${maxSize}`)
       .then((res) => {
@@ -42,6 +42,9 @@ export default function UsimList() {
         setTotalPages(res.data.totalPages);
       })
       .catch((err) => console.log(err));
+  }
+  useEffect(() => {
+    callData();
   }, [page]);
   // ----- axios -----
   const handleSelecAll = (e) => {
@@ -224,7 +227,7 @@ export default function UsimList() {
           mt: 1.5,
         }}
       >
-        <FileUploadModal />
+        <FileUploadModal callback={callData} />
         <ExcelDownloadBtn />
         <Link href="/sims/usimUpload" passhref="true">
           <AddBtn />

@@ -1,8 +1,8 @@
 import Image from "next/image";
-import React, { useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { IconButton, Link } from "@mui/material";
+import { Box, FormHelperText, IconButton } from "@mui/material";
 import { HighlightOff, ErrorOutline } from "@mui/icons-material";
+import { Field } from "formik";
 
 const thumbsContainer = {
   display: "flex",
@@ -42,9 +42,8 @@ const buttonStyle = {
   background: "#00000047",
   padding: 1,
 };
-
-export default function FileUpload() {
-  const [files, setFiles] = useState([]);
+const names = "imgFile";
+const DropZone = (props) => {
   const { getRootProps, getInputProps } = useDropzone({
     accept: "image/*",
     onDrop: (acceptedFiles) => {
@@ -53,46 +52,40 @@ export default function FileUpload() {
           preview: URL.createObjectURL(file),
         })
       );
-      setFiles(files.concat(newFiles));
+      props.setFieldValue(names, props.value.concat(newFiles));
     },
   });
 
-  const handleClick = (i) => {
-    const newFiles = [...files];
+  const handleDelete = (i) => {
+    const newFiles = props.value;
     const target = newFiles.splice(i, 1);
     URL.revokeObjectURL(target.preview);
-    setFiles(newFiles);
+    props.setFieldValue(names, newFiles);
   };
-
-  const [imgSrc, setImgSrc] = useState();
   const handleOpen = (e) => {
-    setImgSrc(e.target.src);
+    window.open(e.target.src, "_blank");
   };
 
-  const thumbs = files.map((file, i) => {
+  const thumbs = props.value.map((file, i) => {
     return (
       <div style={thumb} key={file.name}>
         <IconButton
           aria-label="delete"
           size="small"
           style={buttonStyle}
-          onClick={() => {
-            handleClick(i);
-          }}
+          onClick={() => handleDelete(i)}
         >
           <HighlightOff fontSize="small" />
         </IconButton>
         <div style={thumbInner}>
-          <Link href={imgSrc} target="_blank">
-            <Image
-              width="105"
-              height="105"
-              src={file.preview}
-              sx={img}
-              alt="#"
-              onClick={handleOpen}
-            />
-          </Link>
+          <Image
+            width="98"
+            height="98"
+            src={file.preview}
+            sx={img}
+            alt="#"
+            onClick={handleOpen}
+          />
         </div>
       </div>
     );
@@ -100,32 +93,56 @@ export default function FileUpload() {
 
   return (
     <>
-      <section
-        className="container"
-        style={{ margin: "16px 0 ", cursor: "pointer" }}
-      >
-        <div {...getRootProps({ className: "dropzone" })}>
-          <input {...getInputProps()} />
-          <p>
-            <ErrorOutline
-              color="error"
-              fontSize="small"
-              sx={{
-                marginTop: "4px",
-                marginRight: "2px",
-                display: "block",
-                float: "left",
-              }}
-            />
-            이곳을 클릭하거나 드래그하여 이미지를 업로드 하세요.
-            <br />
-            <span style={{ fontSize: 14, color: "#a3a3a3", marginLeft: 20 }}>
-              (필수 : 신분증, 페이스샷, USIM / 선택 : 가입신청서)
-            </span>
-          </p>
-        </div>
-        {thumbs.length > 0 && <aside style={thumbsContainer}>{thumbs}</aside>}
-      </section>
+      <Box {...getRootProps({ className: "dropzone" })}>
+        <input {...getInputProps()} />
+        <p>
+          <ErrorOutline
+            color="error"
+            fontSize="small"
+            sx={{
+              marginTop: "4px",
+              marginRight: "2px",
+              display: "block",
+              float: "left",
+            }}
+          />
+          이곳을 클릭하거나 드래그하여 이미지를 업로드 하세요.
+          <br />
+          <span style={{ fontSize: 14, color: "#a3a3a3", marginLeft: 20 }}>
+            (필수 : 신분증, 페이스샷, USIM / 선택 : 가입신청서)
+          </span>
+        </p>
+      </Box>
+      {thumbs.length > 0 && <aside style={thumbsContainer}>{thumbs}</aside>}
     </>
+  );
+};
+export default function FileUpload() {
+  return (
+    <Field name={names}>
+      {({ field, form: { touched, errors, setFieldValue } }) => {
+        return (
+          <>
+            <Box
+              className="imgFile"
+              style={{
+                cursor: "pointer",
+                border:
+                  touched[names] && errors[names]
+                    ? "1px solid #bf3434"
+                    : "1px solid #c3c3c3",
+                borderRadius: "4px",
+                padding: "12px",
+              }}
+            >
+              <DropZone value={field.value} setFieldValue={setFieldValue} />
+            </Box>
+            <FormHelperText sx={{ ml: "14px" }} error>
+              {touched[names] && errors[names]}
+            </FormHelperText>
+          </>
+        );
+      }}
+    </Field>
   );
 }
