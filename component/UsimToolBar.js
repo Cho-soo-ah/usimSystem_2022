@@ -141,7 +141,7 @@ const UsimToolBar = () => {
             transformOrigin={{ horizontal: "right", vertical: "top" }}
             anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
           >
-            <Link href="/mypage" underline="none" color="#000">
+            <Link href="/mypage/mypage" underline="none" color="#000">
               <MenuItem>
                 <AccountCircle
                   fontSize="medium"
@@ -155,7 +155,7 @@ const UsimToolBar = () => {
               </MenuItem>
             </Link>
             <Divider sx={{ margin: "4px 0" }} />
-            <Link href="/myUsimList" underline="none" color="#000">
+            <Link href="/mypage/myUsimList" underline="none" color="#000">
               <MenuItem>
                 <SimCard
                   fontSize="medium"
@@ -164,7 +164,7 @@ const UsimToolBar = () => {
                 내 유심리스트
               </MenuItem>
             </Link>
-            <Link href="/myStoreInfo" underline="none" color="#000">
+            <Link href="/mypage/myStoreInfo" underline="none" color="#000">
               <MenuItem>
                 <Store
                   fontSize="medium"

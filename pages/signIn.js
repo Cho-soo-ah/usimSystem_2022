@@ -1,20 +1,24 @@
-import * as React from "react";
 import Box from "@mui/material/Box";
 import { Form, Formik } from "formik";
+import { formikSelector, alertOpen, pageType } from "../src/Recoil/atoms";
+import { useSetRecoilState, useRecoilValue, useRecoilState } from "recoil";
+import CustomAlert from "../component/CustomAlert";
 import CustomBtn from "../component/Buttons/CustomBtn";
-import CustomInput from "../component/CustomInput";
 import PhoneCertify from "../component/PhoneCertify";
-import { useRecoilValue } from "recoil";
-import { formikState } from "../src/Recoil/atoms";
+import CustomFormikInput from "../component/CustomFormikInput";
 
-export default function Login() {
-  const formik = useRecoilValue(formikState);
+export default function SignIn() {
+  const [alertOpens, setAlertOpens] = useRecoilState(alertOpen);
+  const selector = useRecoilValue(formikSelector);
+  const setPageTypes = useSetRecoilState(pageType);
+  setPageTypes("signIn");
+
   return (
     <div className="inner">
       <Box>
         <h2>회원가입</h2>
         <Formik
-          validationSchema={formik}
+          validationSchema={selector}
           initialValues={{
             name: "",
             email: "",
@@ -23,53 +27,51 @@ export default function Login() {
             phoneNumber: "",
             code: "",
           }}
-          onSubmit={(data, { setSubmitting }) => {
-            setSubmitting(true);
-            setSubmitting(false);
+          onSubmit={(data, actions) => {
+            actions.setSubmitting(true);
+            actions.setSubmitting(false);
+            axios
+              .post("http://192.168.0.52:8080/agencies", {
+                name: data.name.id,
+                email: data.email,
+                password: data.password.id,
+                passwordValid: data.passwordValid.id,
+                phoneNumber: data.phoneNumber,
+                code: data.code.id,
+              })
+              .then((res) => {
+                setAlertOpens(true);
+              })
+              .catch((err) => console.log(err));
           }}
         >
-          {({ handleSubmit, isSubmitting }) => (
-            <Form onSubmit={handleSubmit}>
-              <CustomInput
-                name="name"
-                sx={{ mb: 1.5 }}
-                helperText="이름을 입력하세요"
-              >
-                이름
-              </CustomInput>
-              <CustomInput
-                name="email"
-                sx={{ mb: 1.5 }}
-                helperText="이메일을 입력하세요"
-              >
-                이메일
-              </CustomInput>
-              <CustomInput
-                name="password"
-                type="password"
-                sx={{ mb: 1.5 }}
-                helperText="비밀번호를 입력하세요"
-              >
-                비밀번호
-              </CustomInput>
-              <CustomInput
-                name="passwordValid"
-                type="password"
-                helperText="비밀번호를 입력하세요"
-              >
-                비밀번호 확인
-              </CustomInput>
-              <PhoneCertify />
-              <CustomBtn
-                color="primary"
-                variant="contained"
-                fullWidth
-                type="submit"
-                disabled={isSubmitting}
-              >
-                로그인
-              </CustomBtn>
-            </Form>
+          {(props) => (
+            <>
+              <Form>
+                <CustomFormikInput name="name" label="이름" formik={props} />
+                <CustomFormikInput name="email" label="이메일" formik={props} />
+                <CustomFormikInput
+                  name="password"
+                  label="비밀번호"
+                  formik={props}
+                />
+                <CustomFormikInput
+                  name="passwordValid"
+                  label="비밀번호 확인"
+                  formik={props}
+                />
+                <PhoneCertify props={props} />
+                <CustomBtn fullWidth color="primary" type="submit">
+                  로그인
+                </CustomBtn>
+              </Form>
+              <CustomAlert
+                open={alertOpens}
+                callback={props.resetForm}
+                message="대리점 정보가 수정되었습니다."
+                // error, success, check,
+              />
+            </>
           )}
         </Formik>
       </Box>

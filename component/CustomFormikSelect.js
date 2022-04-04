@@ -6,7 +6,6 @@ export default function CustomFormikSelect(props) {
   return (
     <Field name={props.name}>
       {({ field, form: { errors, touched, setFieldValue } }) => {
-        console.log(touched);
         return (
           <FormControl
             fullWidth

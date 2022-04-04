@@ -12,7 +12,7 @@ export default function CustomAlert(props) {
   const setAlertOpens = useSetRecoilState(alertOpen);
   const handleClose = () => {
     setAlertOpens(false);
-    props.callback();
+    props.callback && props.callback();
   };
 
   return (
@@ -20,9 +20,11 @@ export default function CustomAlert(props) {
       <Dialog
         open={props.open}
         PaperProps={{ style: { boxShadow: "none", minWidth: "380px" } }}
+        onClose={props.onClose}
       >
         <DialogContent sx={{ textAlign: "left" }}>알림</DialogContent>
         <IconButton
+          onClick={setAlertOpens(false)}
           sx={{
             position: "absolute",
             right: 8,
@@ -30,7 +32,7 @@ export default function CustomAlert(props) {
             color: (theme) => theme.palette.grey[500],
           }}
         >
-          <Close onClick={handleClose} />
+          <Close />
         </IconButton>
         <DialogContent
           dividers
@@ -38,16 +40,20 @@ export default function CustomAlert(props) {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            color: "green",
+            color: props.color ? props.color : "green",
           }}
         >
-          <CheckRounded
-            color="success"
-            sx={{
-              fontSize: "40px",
-              mr: 0.5,
-            }}
-          />
+          {props.icon ? (
+            props.icon
+          ) : (
+            <CheckRounded
+              color="success"
+              sx={{
+                fontSize: "40px",
+                mr: 0.5,
+              }}
+            />
+          )}
           {props.message}
         </DialogContent>
         <DialogActions>
@@ -60,7 +66,7 @@ export default function CustomAlert(props) {
               "&:hover": { bgcolor: "#efefef" },
             }}
           >
-            닫기
+            {props.buttonText ? "삭제" : "닫기"}
           </Button>
         </DialogActions>
       </Dialog>

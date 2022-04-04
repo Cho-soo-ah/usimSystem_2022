@@ -1,12 +1,11 @@
 import * as React from "react";
 import { useState } from "react";
 import { Box } from "@mui/material";
-import TextField from "@mui/material/TextField";
 import CustomBtn from "./Buttons/CustomBtn";
 import CustomInput from "./CustomInput";
-import { Field } from "formik";
+import CustomFormikInput from "./CustomFormikInput";
 
-export default function PhoneCertify() {
+export default function PhoneCertify(props) {
   const [click, setClick] = useState(false);
   const handleClick = () => {
     setClick(true);
@@ -20,33 +19,17 @@ export default function PhoneCertify() {
           width: "100%",
         }}
       >
-        <Field name="phoneNumber">
-          {({ field, form: { touched, errors } }) => {
-            return (
-              <TextField
-                fullWidth
-                color="primary"
-                id="phoneNumber"
-                name="phoneNumber"
-                label="서비스 번호"
-                type="text"
-                value={field.value}
-                onChange={field.onChange}
-                error={touched.phoneNumber && Boolean(errors.phoneNumber)}
-                helperText={touched.phoneNumber && errors.phoneNumber}
-                sx={{
-                  mt: 1.5,
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: "4px 0 0 4px",
-                  },
-                }}
-                autoComplete="off"
-              >
-                서비스 번호
-              </TextField>
-            );
+        <CustomFormikInput
+          name="phoneNumber"
+          label="핸드폰 번호"
+          formik={props.props}
+          sx={{
+            mb: "16px",
+            "& .MuiOutlinedInput-root": {
+              borderRadius: "4px 0 0 4px",
+            },
           }}
-        </Field>
+        />
         <CustomBtn
           sx={{
             fontSize: "16px",
@@ -62,7 +45,7 @@ export default function PhoneCertify() {
         <CustomInput
           name="code"
           helperText="인증 코드를 입력하세요"
-          sx={{ mt: 1.5 }}
+          sx={{ mb: 1.5 }}
         >
           인증 코드
         </CustomInput>

@@ -59,8 +59,8 @@ export const formikSelector = selector({
             .typeError("핸드폰 번호를 입력하세요")
             .required("핸드폰 번호를 입력하세요")
             .nullable(),
-          roleId: yup.string().nullable(),
-          agencyId: yup.array().nullable(),
+          roleId: yup.string().required("회원 권한을 선택하세요").nullable(),
+          agencyId: yup.array().min(1, "대리점 권한을 입력하세요").nullable(),
         });
       case "chargeIn":
         return yup.object({
@@ -99,6 +99,56 @@ export const formikSelector = selector({
           serialNumber: yup
             .string()
             .required("시리얼 번호를 입력하세요")
+            .nullable(),
+        });
+      case "signIn":
+        return yup.object({
+          name: yup.string().required("이름을 입력하세요").nullable(),
+          email: yup
+            .string()
+            .email("유효한 이메일을 입력하세요")
+            .required("유효한 이메일을 입력하세요")
+            .nullable(),
+          password: yup.string().required("비밀번호를 입력하세요").nullable(),
+          passwordValid: yup
+            .string()
+            .required("비밀번호를 한번 더 입력하세요")
+            .nullable(),
+          phoneNumber: yup
+            .number()
+            .typeError("휴대폰 번호를 입력하세요")
+            .required("휴대폰 번호를 입력하세요")
+            .nullable(),
+          code: yup
+            .number()
+            .typeError("인증코드를 입력하세요")
+            .required("인증코드를 입력하세요")
+            .nullable(),
+        });
+      case "myPage":
+        return yup.object({
+          name: yup.string().required("이름을 입력하세요").nullable(),
+          email: yup
+            .string()
+            .email("유효한 이메일을 입력하세요")
+            .required("유효한 이메일을 입력하세요")
+            .nullable(),
+          currentPassword: yup
+            .string()
+            .required("현재 비밀번호를 입력하세요")
+            .nullable(),
+          changePassword: yup
+            .string()
+            .required("변경할 비밀번호를 입력하세요")
+            .nullable(),
+          passwordValid: yup
+            .string()
+            .required("변경할 비밀번호를 한번 더 입력하세요")
+            .nullable(),
+          phoneNumber: yup
+            .number()
+            .typeError("휴대폰 번호를 입력하세요")
+            .required("휴대폰 번호를 입력하세요")
             .nullable(),
         });
     }

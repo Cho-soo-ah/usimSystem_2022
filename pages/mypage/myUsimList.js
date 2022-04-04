@@ -1,4 +1,3 @@
-import * as React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import {
@@ -12,21 +11,15 @@ import {
   TableRow,
   Pagination,
   Stack,
-  Link,
 } from "@mui/material";
-import UsimListHeader from "./UsimListHeader";
 import EscalationWrap from "../../component/EscalationWrap";
-import ExcelDownloadBtn from "../../component/Buttons/ExcelDownloadBtn";
-import FileUploadModal from "../../component/Buttons/FileUploadModal";
 import SearchBtn from "../../component/Buttons/SearchBtn";
-import AddBtn from "../../component/Buttons/AddBtn";
-import DeleteBtn from "../../component/Buttons/DeleteBtn";
-import EditBtn from "../../component/Buttons/EditBtn";
 import { alertOpen } from "../../src/Recoil/atoms";
 import { useRecoilState } from "recoil";
 import CustomAlert from "../../component/CustomAlert";
+import Chips from "../../component/Chips";
 
-export default function UsimList() {
+export default function MyUsimList() {
   const [alertOpens, setAlertOpens] = useRecoilState(alertOpen);
   // ----- axios -----
   const [data, setData] = useState("");
@@ -44,6 +37,7 @@ export default function UsimList() {
       .then((res) => {
         setData(res.data.content);
         setTotalPages(res.data.totalPages);
+        console.log(data);
       })
       .catch((err) => console.log(err));
   };
@@ -75,8 +69,8 @@ export default function UsimList() {
     "바코드 번호",
     "서비스 번호",
     "유심 번호",
-    "적용일",
-    "추가 기능",
+    "시리얼 번호",
+    "현재 유심 상태",
   ];
   // ----- CLICK -----
   const handleClick = (e, selectedId) => {
@@ -125,13 +119,13 @@ export default function UsimList() {
     });
   return (
     <div className="tableInner">
-      <h2>유심 관리</h2>
+      <h2>내 유심리스트</h2>
       <Box
         sx={{
           width: "100%",
           height: "35px",
-          mb: 1.5,
           display: "flex",
+          mt: 3,
           justifyContent:
             selectedArr.length === 0 ? "flex-end" : "space-between",
         }}
@@ -139,10 +133,11 @@ export default function UsimList() {
         {selectedArr.length === 0 ? null : <EscalationWrap />}
         <SearchBtn items={["barcode", "store", "usim"]} />
       </Box>
-      <UsimListHeader />
       <TableContainer>
         <Table
           sx={{
+            mb: 1.5,
+            mt: 1.5,
             borderRadius: "5px",
             overflow: "hidden",
             "& .MuiTableHead-root": {
@@ -191,7 +186,7 @@ export default function UsimList() {
                       />
                     </TableCell>
                     <TableCell align="center" sx={{ minWidth: "140px" }}>
-                      {obj.store}
+                      {obj.id}
                     </TableCell>
                     <TableCell align="center" sx={{ minWidth: "120px" }}>
                       {obj.barcodeNumber}
@@ -203,13 +198,10 @@ export default function UsimList() {
                       {obj.usimNumber}
                     </TableCell>
                     <TableCell align="center" sx={{ minWidth: "130px" }}>
-                      {obj.createDate}
+                      {obj.serialNumber}
                     </TableCell>
                     <TableCell align="center" sx={{ width: "130px" }}>
-                      <Link href={`/sims/${obj.id}`} passhref="true">
-                        <EditBtn />
-                      </Link>
-                      <DeleteBtn open />
+                      <Chips>개통</Chips>
                     </TableCell>
                   </TableRow>
                 );
@@ -235,20 +227,6 @@ export default function UsimList() {
           </TableBody>
         </Table>
       </TableContainer>
-      <Box
-        sx={{
-          display: "flex",
-          width: "100%",
-          justifyContent: "flex-end",
-          mt: 1.5,
-        }}
-      >
-        <FileUploadModal callback={callData} />
-        <ExcelDownloadBtn />
-        <Link href="/sims/usimUpload" passhref="true">
-          <AddBtn />
-        </Link>
-      </Box>
       <Stack spacing={2}>
         <Pagination
           count={totalPages}

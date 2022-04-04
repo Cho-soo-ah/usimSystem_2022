@@ -1,27 +1,21 @@
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  IconButton,
-  Tooltip,
-} from "@mui/material";
-import { Close, Delete, PriorityHighRounded } from "@mui/icons-material";
+import { useState } from "react";
+import { IconButton, Tooltip } from "@mui/material";
+import { Close, Delete } from "@mui/icons-material";
 import { useRecoilState } from "recoil";
 import { alertOpen } from "../../src/Recoil/atoms";
-import { useState } from "react";
+import CustomAlert from "../CustomAlert";
 
-export default function DeleteBtn() {
-  const [deleteOpen, setDeleteOpen] = useState(false);
+export default function DeleteBtn(props) {
+  const [alertOpens, setAlertOpens] = useRecoilState(alertOpen);
+  const [fieldOpen, setFieldOpen] = useState(false);
+
   const handleOpen = () => {
-    setDeleteOpen(true);
+    setFieldOpen(true);
   };
-  const handleClose = () => {
-    setDeleteOpen(false);
+  const handleClose = (e) => {
+    setAlertOpens(false);
   };
-  const handleDelete = (e) => {
-    // deleteData;
-  };
+  console.log("alertOpens", alertOpens);
   return (
     <>
       <IconButton aria-label="Example" sx={{ p: 0.5 }}>
@@ -36,64 +30,22 @@ export default function DeleteBtn() {
           />
         </Tooltip>
       </IconButton>
-      <Dialog
-        open={deleteOpen}
-        PaperProps={{ style: { boxShadow: "none", minWidth: "380px" } }}
-      >
-        <DialogContent sx={{ textAlign: "left" }}>알림</DialogContent>
-        <IconButton
-          sx={{
-            position: "absolute",
-            right: 8,
-            top: 13,
-            color: (theme) => theme.palette.grey[500],
-          }}
-        >
-          <Close onClick={handleClose} />
-        </IconButton>
-        <DialogContent
-          dividers
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            color: "#d32f2f",
-          }}
-        >
-          <PriorityHighRounded
+      <CustomAlert
+        onClose={handleClose}
+        open={fieldOpen}
+        message="삭제하시겠습니까?"
+        buttonText="삭제"
+        color="#bf3434"
+        icon={
+          <Close
             color="error"
             sx={{
               fontSize: "40px",
               mr: 0.5,
             }}
           />
-          삭제하시겠습니까?
-        </DialogContent>
-        <DialogActions>
-          <Button
-            autoFocus
-            color="error"
-            onClick={handleClose}
-            sx={{
-              bgcolor: "transparent",
-              "&:hover": { bgcolor: "#efefef" },
-            }}
-          >
-            삭제
-          </Button>
-          <Button
-            autoFocus
-            color="inherit"
-            onClick={handleClose}
-            sx={{
-              bgcolor: "transparent",
-              "&:hover": { bgcolor: "#efefef" },
-            }}
-          >
-            닫기
-          </Button>
-        </DialogActions>
-      </Dialog>
+        }
+      />
     </>
   );
 }

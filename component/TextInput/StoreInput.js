@@ -43,6 +43,7 @@ export default function StoreInput(props) {
           label={props.label}
           variant={props.variant}
           sx={props.sx}
+          InputLabelProps={props.InputLabelProps}
           error={
             props.wrap
               ? null

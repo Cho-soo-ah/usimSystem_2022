@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useRouter } from "next/router";
-import { Form, Formik } from "formik";
 import { Box } from "@mui/material";
+import { Form, Formik } from "formik";
 import { pageType } from "../src/Recoil/atoms";
 import { formikSelector, alertOpen } from "../src/Recoil/atoms";
 import { useSetRecoilState, useRecoilValue, useRecoilState } from "recoil";
@@ -50,7 +50,6 @@ export default function ChargeIn() {
             }}
           >
             {(props) => {
-              console.log(props);
               return (
                 <>
                   <Form>

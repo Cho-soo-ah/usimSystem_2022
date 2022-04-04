@@ -48,7 +48,6 @@ export default function MemberUpload() {
           agencyId: [],
         }}
         onSubmit={(data, actions) => {
-          console.log(data);
           actions.setSubmitting(true);
           actions.setSubmitting(false);
           axios
@@ -96,7 +95,7 @@ export default function MemberUpload() {
                     switch (e.target.value) {
                       case "Administrator":
                       case "User":
-                        props.setFieldValue("agencyId", []);
+                        props.setFieldValue("agencyId", [""]);
                         setDisabled(true);
                         setMulti(false);
                         break;
@@ -127,7 +126,7 @@ export default function MemberUpload() {
                 </CustomFormikSelect>
                 <CustomFormikSelect
                   name="agencyId"
-                  label="대리점"
+                  label="대리점 권한"
                   formik={props}
                   multiple={multi}
                   disabled={disabled}

@@ -237,6 +237,7 @@ export default function SearchBtn(props) {
                   <Button
                     type="reset"
                     onClick={resetForm}
+                    color="inherit"
                     sx={{
                       background: "none",
                       "&:hover": { background: "#efefef" },
@@ -245,11 +246,12 @@ export default function SearchBtn(props) {
                     초기화
                   </Button>
                   <Button
+                    type="submit"
+                    color="inherit"
                     sx={{
                       background: "none",
                       "&:hover": { background: "#efefef" },
                     }}
-                    type="submit"
                     disabled={isSubmitting}
                   >
                     검색

@@ -15,7 +15,7 @@ export default function CustomFormikInput(props) {
             value={props.formik.values[props.name]}
             onChange={(e) => setFieldValue(props.name, e.target.value)}
             inputProps={props.inputProps}
-            sx={{ marginBottom: "16px" }}
+            sx={props.sx ? props.sx : { marginBottom: "16px" }}
             error={touched[props.name] && Boolean(errors[props.name])}
             helperText={touched[props.name] && errors[props.name]}
           />

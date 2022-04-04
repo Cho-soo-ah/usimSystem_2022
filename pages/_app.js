@@ -47,7 +47,7 @@ function App(props) {
       </Head>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        {mobileQuery ? (
+        {/* {mobileQuery ? (
           <>
             <MobileToolBar />
             <MobileInner>
@@ -63,7 +63,15 @@ function App(props) {
               </RecoilRoot>
             </PcInner>
           </>
-        )}
+        )} */}
+        <>
+          <UsimToolBar />
+          <PcInner>
+            <RecoilRoot>
+              <Component {...pageProps} />
+            </RecoilRoot>
+          </PcInner>
+        </>
         <style global jsx>
           {`
             * {
