@@ -1,17 +1,9 @@
 #usimSystem_2022
 start : 2022-02-14
 
-[Used]
-react.js / next.js / recoil / Mui / Formik / Yup / react datepicker / axois 
 
-# Usim System
-
----
-
-<aside>
 💡 리뉴얼 방향 : 기존의 기능들을 구체화시키고 편리한 ux를 위한 방향으로 개선
 
-</aside>
 
 - 사용기술
     - Spring Boot
@@ -23,7 +15,6 @@ react.js / next.js / recoil / Mui / Formik / Yup / react datepicker / axois
     - formik, yup
     - react datepicker
 
----
 
 ### 기능
 
@@ -81,30 +72,31 @@ react.js / next.js / recoil / Mui / Formik / Yup / react datepicker / axois
 ### 화면 구현
 
 - 마이페이지
+![마이페이지_유효성 검사](https://user-images.githubusercontent.com/83620662/170182380-62bdfe2c-76d2-4f1b-846a-1e801ab028d2.PNG)
 
-![마이페이지_유효성 검사.PNG](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f7b677d1-99e7-4d78-95bb-df4998f484db/마이페이지_유효성_검사.png)
 
 - 개통 및 충전 처리
-    
-    ![개통및충전처리_유효성검사_이미지드랍앤업로드.PNG](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ca07d64f-e590-475e-b8ef-4035e5a55c77/개통및충전처리_유효성검사_이미지드랍앤업로드.png)
-    
+![개통및충전처리_유효성검사_이미지드랍앤업로드](https://user-images.githubusercontent.com/83620662/170182344-18e9fc00-598b-47b6-a58c-38d033a39cb3.PNG)
+
 
 - 내 유심리스트
-    
-    ![내유심리스트.PNG](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/dc7a7342-7dc8-472b-9dbd-6c13bc5d1232/내유심리스트.png)
-    
+![내유심리스트](https://user-images.githubusercontent.com/83620662/170182424-18e60a87-f031-47ea-b072-4f1733bf1bba.PNG)
+
+
     - 테이블 선택
-    
-    ![내유심리스트_테이블선택.PNG](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ab3142ec-b663-4699-99d5-305d646ec1db/내유심리스트_테이블선택.png)
-    
+ ![내유심리스트_테이블선택](https://user-images.githubusercontent.com/83620662/170182437-ac142460-4c2d-480f-b51b-7e02e2f5aeb9.PNG)
+
 
 - 유심 관리
-    
-    ![유심관리.PNG](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f1c9365a-cb0d-42f5-a669-3c17a1b8f843/유심관리.png)
-    
+![유심관리](https://user-images.githubusercontent.com/83620662/170182501-a50450bf-e4b3-4bb9-b0e7-a6e087fa3587.PNG)
+
+
     - 검색필터
-    
-    ![검색화면.PNG](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/374f3eeb-2bcb-47f7-a315-c4d4fd26db68/검색화면.png)
-    
+ ![검색화면](https://user-images.githubusercontent.com/83620662/170182520-cdd117b5-e94c-4e8b-b89f-575520ee834f.PNG)
+
 
 - 회원 등록
+![17_회원등록](https://user-images.githubusercontent.com/83620662/170182568-bbbf8a65-419f-4def-93fc-823a4bde58fb.png)
+
+
+
