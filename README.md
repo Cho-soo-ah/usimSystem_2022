@@ -5,6 +5,7 @@ start : 2022-02-14
 💡 리뉴얼 방향 : 기존의 기능들을 구체화시키고 편리한 ux를 위한 방향으로 개선
 
 
+
 - 사용기술
     - Spring Boot
     - MS SQL
@@ -15,7 +16,7 @@ start : 2022-02-14
     - formik, yup
     - react datepicker
 
-
+---
 ### 기능
 
 - 메인 페이지
