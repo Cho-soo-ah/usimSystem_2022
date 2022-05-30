@@ -91,7 +91,7 @@
 
 
     
-    - 테이블 선택
+- 테이블 선택
     
     
 ![내유심리스트_테이블선택](https://user-images.githubusercontent.com/83620662/170926634-7aa8978d-4147-4198-8175-8508aaf4f4ef.PNG)
