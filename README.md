@@ -1,34 +1,104 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Usim System
 
-## Getting Started
+---
 
-First, run the development server:
+<aside>
+💡 리뉴얼 방향 : 기존의 기능들을 구체화시키고 편리한 ux를 위한 방향으로 개선
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+</aside>
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- 사용기술
+    - Spring Boot
+    - MS SQL
+    - React / Next.js
+    - MUI
+    - recoil
+    - axios
+    - formik, yup
+    - react datepicker
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+---
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+### 기능
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+- 메인 페이지
+    - 가장 많이 사용하는 퀵메뉴로 구성
+- 로그인/회원가입 페이지
+    - 유효성 검사
+- 마이페이지
+    - 내정보 : 회원가입 시 입력한 계정 정보를 보여주고 수정, 저장
+    - 내유심리스트 : 로그인 한 계정에 등록된 유심 리스트
+    - 대리점 정보 : 로그인 한 계정에 등록된 대리점 정보 리스트
+- 예치금 내역
+    - 고객이 입금했던 예치금 내역 리스트 페이지
+    - 엑셀 파일로 다운로드 버튼
+    - 검색필터 : 바코드/서비스 번호, 날짜, 대리점명, 사유
+- 개통 및 충전 처리
+    - 새로운 유심 개통 처리 페이지
+    - 유효성 검사
+    - 드래그 앤 드랍으로 이미지 업로드
+- 개통 및 충전 내역
+    - 개통된 유심 내역 리스트
+    - 검색필터 : 바코드/서비스 번호, 날짜, 대리점명, 상품명, RIS 상태
+- 대리점 개통 및 충전 현황
+    - 등록된 대리점 내역 리스트
+    - 검색필터 : 바코드/서비스 번호, 날짜, 대리점명, 상품명, RIS 상태
+- 입금 내역
+    - 입금 전체내역 리스트
+    - 엑셀 파일로 다운로드 버튼
+    - 검색필터 : 날짜, 대리점명, 입금자명
+- 유심 관리
+    - 등록된 유심 리스트
+    - 클릭, 컨트롤 + 클릭, 쉬프트 + 클릭 기능
+    - 엑셀 파일로 업로드 버튼
+    - 엑셀 파일로 다운로드 버튼
+    - 검색필터 : 바코드/서비스 번호, 대리점명, 유심 번호
+    - 유심 수정 페이지 : 등록된 유심 정보 수정, 저장 기능
+    - 유심 등록 페이지 : 유심 개별 업로드 기능, 유효성 검사
+- 상품 관리
+    - 유심 정보 상세 리스트
+    - 상품 수정 페이지 : 등록된 상품 정보 수정, 저장 기능
+    - 상품 등록 페이지 : 상품 개별 업로드 기능, 유효성 검사
+- 회원 관리
+    - 가입한 회원 리스트
+    - 엑셀 파일로 다운로드 버튼
+    - 검색필터 : 바코드/서비스 번호, 대리점명, 유심 번호
+    - 회원 수정 페이지 : 등록된 회원 정보 수정, 저장 기능
+    - 회원 등록 페이지 : 회원 개별 업로드 기능, 유효성 검사(관리자 권한에 따른 대리점 선택)
+- 대리점 관리
+    - 등록된 대리점 상세 리스트
+    - 대리점 수정 페이지 : 등록된 대리점 정보 수정, 저장 기능
+    - 대리점 등록 페이지 : 대리점 개별 업로드 기능, 유효성 검사
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+### 화면 구현
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- 마이페이지
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+![마이페이지_유효성 검사.PNG](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f7b677d1-99e7-4d78-95bb-df4998f484db/마이페이지_유효성_검사.png)
 
-## Deploy on Vercel
+- 개통 및 충전 처리
+    
+    ![개통및충전처리_유효성검사_이미지드랍앤업로드.PNG](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ca07d64f-e590-475e-b8ef-4035e5a55c77/개통및충전처리_유효성검사_이미지드랍앤업로드.png)
+    
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- 내 유심리스트
+    
+    ![내유심리스트.PNG](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/dc7a7342-7dc8-472b-9dbd-6c13bc5d1232/내유심리스트.png)
+    
+    - 테이블 선택
+    
+    ![내유심리스트_테이블선택.PNG](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ab3142ec-b663-4699-99d5-305d646ec1db/내유심리스트_테이블선택.png)
+    
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- 유심 관리
+    
+    ![유심관리.PNG](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f1c9365a-cb0d-42f5-a669-3c17a1b8f843/유심관리.png)
+    
+    - 검색필터
+    
+    ![검색화면.PNG](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/374f3eeb-2bcb-47f7-a315-c4d4fd26db68/검색화면.png)
+    
+
+- 회원 등록
