@@ -76,29 +76,39 @@
 
 - 마이페이지
 
-![마이페이지_유효성 검사.PNG](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f7b677d1-99e7-4d78-95bb-df4998f484db/마이페이지_유효성_검사.png)
+![마이페이지_유효성 검사](https://user-images.githubusercontent.com/83620662/170926518-b0a17d45-4b69-4d82-9954-8dab19e8189e.PNG)
+
 
 - 개통 및 충전 처리
     
-    ![개통및충전처리_유효성검사_이미지드랍앤업로드.PNG](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ca07d64f-e590-475e-b8ef-4035e5a55c77/개통및충전처리_유효성검사_이미지드랍앤업로드.png)
+![개통및충전처리_유효성검사_이미지드랍앤업로드](https://user-images.githubusercontent.com/83620662/170926541-5a3bdb24-52dc-4443-8f10-841d14834331.PNG)
+
     
 
 - 내 유심리스트
     
-    ![내유심리스트.PNG](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/dc7a7342-7dc8-472b-9dbd-6c13bc5d1232/내유심리스트.png)
+![내유심리스트](https://user-images.githubusercontent.com/83620662/170926435-7628c1b7-9c95-43cf-aed2-56ffd7bc7c13.PNG)
+
+
     
     - 테이블 선택
     
-    ![내유심리스트_테이블선택.PNG](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ab3142ec-b663-4699-99d5-305d646ec1db/내유심리스트_테이블선택.png)
+    ![내유심리스트_테이블선택](https://user-images.githubusercontent.com/83620662/170926439-8f1deee1-5a96-43be-b2a2-090cbd4c5fd8.PNG)
+
     
 
 - 유심 관리
     
-    ![유심관리.PNG](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f1c9365a-cb0d-42f5-a669-3c17a1b8f843/유심관리.png)
+    ![유심관리](https://user-images.githubusercontent.com/83620662/170926454-8262a833-0c83-413e-af3b-e8d5c842b2dd.PNG)
+
     
     - 검색필터
     
-    ![검색화면.PNG](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/374f3eeb-2bcb-47f7-a315-c4d4fd26db68/검색화면.png)
+    ![검색화면](https://user-images.githubusercontent.com/83620662/170926466-6f18d48b-13cc-47e3-8a62-0595d8ba5751.PNG)
+
     
 
 - 회원 등록
+
+![17_회원등록](https://user-images.githubusercontent.com/83620662/170926584-36c8c6b8-3518-4ca0-92f9-b984c771ca91.png)
+
