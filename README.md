@@ -1,101 +1,34 @@
-# Usim System
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-💡 리뉴얼 방향 : 기존의 기능들을 구체화시키고 편리한 ux를 위한 방향으로 개선
+## Getting Started
 
+First, run the development server:
 
+```bash
+npm run dev
+# or
+yarn dev
+```
 
-- 사용기술
-    - Spring Boot
-    - MS SQL
-    - React / Next.js
-    - MUI
-    - recoil
-    - axios
-    - formik, yup
-    - react datepicker
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
----
-### 기능
+You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
 
-- 메인 페이지
-    - 가장 많이 사용하는 퀵메뉴로 구성
-- 로그인/회원가입 페이지
-    - 유효성 검사
-- 마이페이지
-    - 내정보 : 회원가입 시 입력한 계정 정보를 보여주고 수정, 저장
-    - 내유심리스트 : 로그인 한 계정에 등록된 유심 리스트
-    - 대리점 정보 : 로그인 한 계정에 등록된 대리점 정보 리스트
-- 예치금 내역
-    - 고객이 입금했던 예치금 내역 리스트 페이지
-    - 엑셀 파일로 다운로드 버튼
-    - 검색필터 : 바코드/서비스 번호, 날짜, 대리점명, 사유
-- 개통 및 충전 처리
-    - 새로운 유심 개통 처리 페이지
-    - 유효성 검사
-    - 드래그 앤 드랍으로 이미지 업로드
-- 개통 및 충전 내역
-    - 개통된 유심 내역 리스트
-    - 검색필터 : 바코드/서비스 번호, 날짜, 대리점명, 상품명, RIS 상태
-- 대리점 개통 및 충전 현황
-    - 등록된 대리점 내역 리스트
-    - 검색필터 : 바코드/서비스 번호, 날짜, 대리점명, 상품명, RIS 상태
-- 입금 내역
-    - 입금 전체내역 리스트
-    - 엑셀 파일로 다운로드 버튼
-    - 검색필터 : 날짜, 대리점명, 입금자명
-- 유심 관리
-    - 등록된 유심 리스트
-    - 클릭, 컨트롤 + 클릭, 쉬프트 + 클릭 기능
-    - 엑셀 파일로 업로드 버튼
-    - 엑셀 파일로 다운로드 버튼
-    - 검색필터 : 바코드/서비스 번호, 대리점명, 유심 번호
-    - 유심 수정 페이지 : 등록된 유심 정보 수정, 저장 기능
-    - 유심 등록 페이지 : 유심 개별 업로드 기능, 유효성 검사
-- 상품 관리
-    - 유심 정보 상세 리스트
-    - 상품 수정 페이지 : 등록된 상품 정보 수정, 저장 기능
-    - 상품 등록 페이지 : 상품 개별 업로드 기능, 유효성 검사
-- 회원 관리
-    - 가입한 회원 리스트
-    - 엑셀 파일로 다운로드 버튼
-    - 검색필터 : 바코드/서비스 번호, 대리점명, 유심 번호
-    - 회원 수정 페이지 : 등록된 회원 정보 수정, 저장 기능
-    - 회원 등록 페이지 : 회원 개별 업로드 기능, 유효성 검사(관리자 권한에 따른 대리점 선택)
-- 대리점 관리
-    - 등록된 대리점 상세 리스트
-    - 대리점 수정 페이지 : 등록된 대리점 정보 수정, 저장 기능
-    - 대리점 등록 페이지 : 대리점 개별 업로드 기능, 유효성 검사
+[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
 
----
+The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
-### 화면 구현
+## Learn More
 
-- 마이페이지
-![마이페이지_유효성 검사](https://user-images.githubusercontent.com/83620662/170182380-62bdfe2c-76d2-4f1b-846a-1e801ab028d2.PNG)
+To learn more about Next.js, take a look at the following resources:
 
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-- 개통 및 충전 처리
-![개통및충전처리_유효성검사_이미지드랍앤업로드](https://user-images.githubusercontent.com/83620662/170182344-18e9fc00-598b-47b6-a58c-38d033a39cb3.PNG)
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
+## Deploy on Vercel
 
-- 내 유심리스트
-![내유심리스트](https://user-images.githubusercontent.com/83620662/170182424-18e60a87-f031-47ea-b072-4f1733bf1bba.PNG)
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-
-    - 테이블 선택
- ![내유심리스트_테이블선택](https://user-images.githubusercontent.com/83620662/170182437-ac142460-4c2d-480f-b51b-7e02e2f5aeb9.PNG)
-
-
-- 유심 관리
-![유심관리](https://user-images.githubusercontent.com/83620662/170182501-a50450bf-e4b3-4bb9-b0e7-a6e087fa3587.PNG)
-
-
-    - 검색필터
- ![검색화면](https://user-images.githubusercontent.com/83620662/170182520-cdd117b5-e94c-4e8b-b89f-575520ee834f.PNG)
-
-
-- 회원 등록
-![17_회원등록](https://user-images.githubusercontent.com/83620662/170182568-bbbf8a65-419f-4def-93fc-823a4bde58fb.png)
-
-
-
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
